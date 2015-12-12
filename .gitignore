@@ -1,0 +1,11 @@
+.svn/
+.vs/
+artifacts/
+src/WebApplication/wwwroot/css
+src/WebApplication/wwwroot/js
+src/WebApplication/wwwroot/lib
+src/WebApplication/bower_components/
+src/WebApplication/node_modules/
+src/WebApplication/config.json
+*.xproj.user
+*.lock.json
