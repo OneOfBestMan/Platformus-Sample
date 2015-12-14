@@ -8,5 +8,5 @@ the best and the most modern tools and languages (Visual Studio 2015, C#, TypeSc
 Join our team!
 
 You can also download our [ready to use sample project](http://platformus.net/files/Platformus-Sample-1.0.0-alpha1.zip).
-It contains everything you need to run Platformus from Visual Studio 2015, including SQLite
+It contains everything you need to run Platformus-based web application from Visual Studio 2015, including SQLite
 database with the test data.

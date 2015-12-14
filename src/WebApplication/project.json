@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "EntityFramework.Sqlite": "7.0.0-rc1-final",
-    "ExtCore.WebApplication": "1.0.0-alpha1",
+    "ExtCore.WebApplication": "1.0.0-alpha2",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-rc1-final",
@@ -33,6 +33,6 @@
     "**.xproj",
     "**.user"
   ],
-  "version": "1.0.0-alpha1",
+  "version": "1.0.0-*",
   "webroot": "wwwroot"
 }
