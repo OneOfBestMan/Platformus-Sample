@@ -1,4 +1,4 @@
-# Platformus 1.0.0-alpha1 Sample
+# Platformus 1.0.0-alpha3 Sample
 
 ## Introduction
 
@@ -7,6 +7,6 @@ based on ASP.NET 5 and [ExtCore framework](https://github.com/ExtCore/ExtCore). 
 the best and the most modern tools and languages (Visual Studio 2015, C#, TypeScript, SCSS etc).
 Join our team!
 
-You can also download our [ready to use sample project](http://platformus.net/files/Platformus-Sample-1.0.0-alpha1.zip).
+You can also download our [ready to use sample project](http://platformus.net/files/Platformus-Sample-1.0.0-alpha3.zip).
 It contains everything you need to run Platformus-based web application from Visual Studio 2015, including SQLite
 database with the test data.

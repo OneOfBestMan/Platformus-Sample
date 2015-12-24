@@ -66,10 +66,10 @@ CREATE TABLE "Relations" (
 INSERT INTO `Relations` VALUES (81,5,24,4);
 INSERT INTO `Relations` VALUES (82,6,24,4);
 INSERT INTO `Relations` VALUES (84,7,24,4);
-INSERT INTO `Relations` VALUES (89,2,25,11);
-INSERT INTO `Relations` VALUES (90,2,25,10);
-INSERT INTO `Relations` VALUES (91,2,25,9);
-INSERT INTO `Relations` VALUES (92,2,25,8);
+INSERT INTO `Relations` VALUES (93,2,25,8);
+INSERT INTO `Relations` VALUES (94,2,25,9);
+INSERT INTO `Relations` VALUES (95,2,25,10);
+INSERT INTO `Relations` VALUES (96,2,25,11);
 CREATE TABLE "Properties" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_Property" PRIMARY KEY AUTOINCREMENT,
     "HtmlId" INTEGER NOT NULL,
@@ -98,8 +98,6 @@ INSERT INTO `Properties` VALUES (37,37,20,7);
 INSERT INTO `Properties` VALUES (38,38,21,7);
 INSERT INTO `Properties` VALUES (39,39,22,7);
 INSERT INTO `Properties` VALUES (40,40,23,7);
-INSERT INTO `Properties` VALUES (41,41,13,8);
-INSERT INTO `Properties` VALUES (42,42,14,8);
 INSERT INTO `Properties` VALUES (43,43,13,9);
 INSERT INTO `Properties` VALUES (44,44,14,9);
 INSERT INTO `Properties` VALUES (45,45,13,10);
@@ -110,14 +108,16 @@ INSERT INTO `Properties` VALUES (53,62,15,4);
 INSERT INTO `Properties` VALUES (54,63,16,4);
 INSERT INTO `Properties` VALUES (55,64,17,4);
 INSERT INTO `Properties` VALUES (56,65,18,4);
-INSERT INTO `Properties` VALUES (57,66,5,2);
-INSERT INTO `Properties` VALUES (58,67,6,2);
-INSERT INTO `Properties` VALUES (59,68,7,2);
-INSERT INTO `Properties` VALUES (60,69,8,2);
 INSERT INTO `Properties` VALUES (61,70,1,1);
 INSERT INTO `Properties` VALUES (62,71,2,1);
 INSERT INTO `Properties` VALUES (63,72,3,1);
 INSERT INTO `Properties` VALUES (64,73,4,1);
+INSERT INTO `Properties` VALUES (69,78,13,8);
+INSERT INTO `Properties` VALUES (70,79,14,8);
+INSERT INTO `Properties` VALUES (71,80,5,2);
+INSERT INTO `Properties` VALUES (72,81,6,2);
+INSERT INTO `Properties` VALUES (73,82,7,2);
+INSERT INTO `Properties` VALUES (74,83,8,2);
 CREATE TABLE "Permissions" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_Permission" PRIMARY KEY AUTOINCREMENT,
     "Code" TEXT,
@@ -253,10 +253,6 @@ INSERT INTO `Localizations` VALUES (77,2,39,'');
 INSERT INTO `Localizations` VALUES (78,1,39,'');
 INSERT INTO `Localizations` VALUES (79,1,40,'');
 INSERT INTO `Localizations` VALUES (80,2,40,'');
-INSERT INTO `Localizations` VALUES (81,2,41,'Модульна структура');
-INSERT INTO `Localizations` VALUES (82,1,41,'Modular structure');
-INSERT INTO `Localizations` VALUES (83,1,42,'no');
-INSERT INTO `Localizations` VALUES (84,2,42,'ні');
 INSERT INTO `Localizations` VALUES (85,2,43,'Локалізація інтерфейсу користувача');
 INSERT INTO `Localizations` VALUES (86,1,43,'User interface localization');
 INSERT INTO `Localizations` VALUES (87,1,44,'no');
@@ -297,14 +293,6 @@ INSERT INTO `Localizations` VALUES (127,2,64,'');
 INSERT INTO `Localizations` VALUES (128,1,64,'');
 INSERT INTO `Localizations` VALUES (129,1,65,'');
 INSERT INTO `Localizations` VALUES (130,2,65,'');
-INSERT INTO `Localizations` VALUES (131,2,66,'<p>Основні особливості CMS Platformus:</p>');
-INSERT INTO `Localizations` VALUES (132,1,66,'<p>The main features of the Platformus CMS:</p>');
-INSERT INTO `Localizations` VALUES (133,2,67,'Особливості');
-INSERT INTO `Localizations` VALUES (134,1,67,'Features');
-INSERT INTO `Localizations` VALUES (135,2,68,'');
-INSERT INTO `Localizations` VALUES (136,1,68,'');
-INSERT INTO `Localizations` VALUES (137,1,69,'');
-INSERT INTO `Localizations` VALUES (138,2,69,'');
 INSERT INTO `Localizations` VALUES (139,2,70,'<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>
 <p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href="/backend/">бекенду</a>.</p>
 <p>Електронна пошта: <a href="mailto:admin@platformus.net">admin@platformus.net</a></p>
@@ -319,6 +307,18 @@ INSERT INTO `Localizations` VALUES (143,2,72,'CMS, Platformus');
 INSERT INTO `Localizations` VALUES (144,1,72,'CMS, Platformus');
 INSERT INTO `Localizations` VALUES (145,1,73,'This is a demo website running on Platformus CMS.');
 INSERT INTO `Localizations` VALUES (146,2,73,'Це демонстраційний веб-сайт, що працює на CMS Platformus.');
+INSERT INTO `Localizations` VALUES (155,2,78,'Модульна структура');
+INSERT INTO `Localizations` VALUES (156,1,78,'Modular structure');
+INSERT INTO `Localizations` VALUES (157,1,79,'yes');
+INSERT INTO `Localizations` VALUES (158,2,79,'так');
+INSERT INTO `Localizations` VALUES (159,2,80,'<p>Основні особливості CMS Platformus:</p>');
+INSERT INTO `Localizations` VALUES (160,1,80,'<p>The main features of the Platformus CMS:</p>');
+INSERT INTO `Localizations` VALUES (161,2,81,'Особливості');
+INSERT INTO `Localizations` VALUES (162,1,81,'Features');
+INSERT INTO `Localizations` VALUES (163,2,82,'');
+INSERT INTO `Localizations` VALUES (164,1,82,'');
+INSERT INTO `Localizations` VALUES (165,1,83,'');
+INSERT INTO `Localizations` VALUES (166,2,83,'');
 CREATE TABLE "Forms" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_Form" PRIMARY KEY AUTOINCREMENT,
     "Code" TEXT,
@@ -384,8 +384,6 @@ INSERT INTO `Dictionaries` VALUES (37);
 INSERT INTO `Dictionaries` VALUES (38);
 INSERT INTO `Dictionaries` VALUES (39);
 INSERT INTO `Dictionaries` VALUES (40);
-INSERT INTO `Dictionaries` VALUES (41);
-INSERT INTO `Dictionaries` VALUES (42);
 INSERT INTO `Dictionaries` VALUES (43);
 INSERT INTO `Dictionaries` VALUES (44);
 INSERT INTO `Dictionaries` VALUES (45);
@@ -405,14 +403,16 @@ INSERT INTO `Dictionaries` VALUES (62);
 INSERT INTO `Dictionaries` VALUES (63);
 INSERT INTO `Dictionaries` VALUES (64);
 INSERT INTO `Dictionaries` VALUES (65);
-INSERT INTO `Dictionaries` VALUES (66);
-INSERT INTO `Dictionaries` VALUES (67);
-INSERT INTO `Dictionaries` VALUES (68);
-INSERT INTO `Dictionaries` VALUES (69);
 INSERT INTO `Dictionaries` VALUES (70);
 INSERT INTO `Dictionaries` VALUES (71);
 INSERT INTO `Dictionaries` VALUES (72);
 INSERT INTO `Dictionaries` VALUES (73);
+INSERT INTO `Dictionaries` VALUES (78);
+INSERT INTO `Dictionaries` VALUES (79);
+INSERT INTO `Dictionaries` VALUES (80);
+INSERT INTO `Dictionaries` VALUES (81);
+INSERT INTO `Dictionaries` VALUES (82);
+INSERT INTO `Dictionaries` VALUES (83);
 CREATE TABLE "DataTypes" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_DataType" PRIMARY KEY AUTOINCREMENT,
     "JavaScriptEditorClassName" TEXT,
@@ -482,23 +482,23 @@ CREATE TABLE "CachedObjects" (
     CONSTRAINT "FK_CachedObject_Object_ObjectId" FOREIGN KEY ("ObjectId") REFERENCES "Objects" ("Id")
 );
 INSERT INTO `CachedObjects` VALUES (1,1,NULL,'[{"PropertyId":65,"MemberCode":"Content","Html":"<p>This is a demo website running on Platformus CMS.</p>\r\n<p>You can manage it using the <a href=\"/backend/\">backend</a>.</p>\r\n<p>Email: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Password: admin</p>"},{"PropertyId":66,"MemberCode":"Title","Html":"Platformus CMS demo website"},{"PropertyId":67,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"},{"PropertyId":68,"MemberCode":"MetaDescription","Html":"This is a demo website running on Platformus CMS."}]',1,'Index','/');
-INSERT INTO `CachedObjects` VALUES (1,2,'[{"DataSourceId":7,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":69,"MemberCode":"Content","Html":"<p>The main features of the Platformus CMS:</p>"},{"PropertyId":70,"MemberCode":"Title","Html":"Features"},{"PropertyId":71,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":72,"MemberCode":"MetaDescription","Html":""}]',2,'Features','/features');
+INSERT INTO `CachedObjects` VALUES (1,2,'[{"DataSourceId":7,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":71,"MemberCode":"Content","Html":"<p>The main features of the Platformus CMS:</p>"},{"PropertyId":72,"MemberCode":"Title","Html":"Features"},{"PropertyId":73,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":74,"MemberCode":"MetaDescription","Html":""}]',2,'Features','/features');
 INSERT INTO `CachedObjects` VALUES (1,3,NULL,'[{"PropertyId":13,"MemberCode":"Content","Html":"<p>Contacts</p>\r\n<p>Website: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":14,"MemberCode":"Title","Html":"Contacts"},{"PropertyId":15,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":16,"MemberCode":"MetaDescription","Html":""}]',3,'Contacts','/contacts');
 INSERT INTO `CachedObjects` VALUES (1,4,'[{"DataSourceId":8,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":53,"MemberCode":"Content","Html":"<p>Blog</p>\r\n<p>Only related objects demo.</p>"},{"PropertyId":54,"MemberCode":"Title","Html":"Blog"},{"PropertyId":55,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":56,"MemberCode":"MetaDescription","Html":""}]',5,'Blog','/blog');
 INSERT INTO `CachedObjects` VALUES (1,5,NULL,'[{"PropertyId":21,"MemberCode":"Preview","Html":"Post 1"},{"PropertyId":22,"MemberCode":"Content","Html":"<p>Post 1 content</p>"},{"PropertyId":23,"MemberCode":"Title","Html":"Post 1"},{"PropertyId":24,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":25,"MemberCode":"MetaDescription","Html":""}]',6,'BlogPost','/blog/post-1');
 INSERT INTO `CachedObjects` VALUES (1,6,NULL,'[{"PropertyId":26,"MemberCode":"Preview","Html":"Post 2"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Post&nbsp;2 content</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Post 2"},{"PropertyId":29,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":30,"MemberCode":"MetaDescription","Html":""}]',6,'BlogPost','/blog/post-2');
 INSERT INTO `CachedObjects` VALUES (1,7,NULL,'[{"PropertyId":36,"MemberCode":"Preview","Html":"Post 3"},{"PropertyId":37,"MemberCode":"Content","Html":"<p>Post&nbsp;3 content</p>"},{"PropertyId":38,"MemberCode":"Title","Html":"Post 3"},{"PropertyId":39,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":40,"MemberCode":"MetaDescription","Html":""}]',6,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (1,8,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Modular structure"},{"PropertyId":42,"MemberCode":"State","Html":"no"}]',4,NULL,NULL);
+INSERT INTO `CachedObjects` VALUES (1,8,NULL,'[{"PropertyId":69,"MemberCode":"Name","Html":"Modular structure"},{"PropertyId":70,"MemberCode":"State","Html":"yes"}]',4,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (1,9,NULL,'[{"PropertyId":43,"MemberCode":"Name","Html":"User interface localization"},{"PropertyId":44,"MemberCode":"State","Html":"no"}]',4,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (1,10,NULL,'[{"PropertyId":45,"MemberCode":"Name","Html":"Content localization"},{"PropertyId":46,"MemberCode":"State","Html":"yes"}]',4,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (2,1,NULL,'[{"PropertyId":65,"MemberCode":"Content","Html":"<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>\r\n<p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href=\"/backend/\">бекенду</a>.</p>\r\n<p>Електронна пошта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":66,"MemberCode":"Title","Html":"Демонстраційний веб-сайт на CMS Platformus"},{"PropertyId":67,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"},{"PropertyId":68,"MemberCode":"MetaDescription","Html":"Це демонстраційний веб-сайт, що працює на CMS Platformus."}]',1,'Index','/');
-INSERT INTO `CachedObjects` VALUES (2,2,'[{"DataSourceId":7,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":69,"MemberCode":"Content","Html":"<p>Основні особливості CMS Platformus:</p>"},{"PropertyId":70,"MemberCode":"Title","Html":"Особливості"},{"PropertyId":71,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":72,"MemberCode":"MetaDescription","Html":""}]',2,'Features','/features');
+INSERT INTO `CachedObjects` VALUES (2,2,'[{"DataSourceId":7,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":71,"MemberCode":"Content","Html":"<p>Основні особливості CMS Platformus:</p>"},{"PropertyId":72,"MemberCode":"Title","Html":"Особливості"},{"PropertyId":73,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":74,"MemberCode":"MetaDescription","Html":""}]',2,'Features','/features');
 INSERT INTO `CachedObjects` VALUES (2,3,NULL,'[{"PropertyId":13,"MemberCode":"Content","Html":"<p>Контакти</p>\r\n<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":14,"MemberCode":"Title","Html":"Контакти"},{"PropertyId":15,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":16,"MemberCode":"MetaDescription","Html":""}]',3,'Contacts','/contacts');
 INSERT INTO `CachedObjects` VALUES (2,4,'[{"DataSourceId":8,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":53,"MemberCode":"Content","Html":"<p>Блог</p>\r\n<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>"},{"PropertyId":54,"MemberCode":"Title","Html":"Блог"},{"PropertyId":55,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":56,"MemberCode":"MetaDescription","Html":""}]',5,'Blog','/blog');
 INSERT INTO `CachedObjects` VALUES (2,5,NULL,'[{"PropertyId":21,"MemberCode":"Preview","Html":"Пост 1"},{"PropertyId":22,"MemberCode":"Content","Html":"<p>Зміст посту 1</p>"},{"PropertyId":23,"MemberCode":"Title","Html":"Пост 1"},{"PropertyId":24,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":25,"MemberCode":"MetaDescription","Html":""}]',6,'BlogPost','/blog/post-1');
 INSERT INTO `CachedObjects` VALUES (2,6,NULL,'[{"PropertyId":26,"MemberCode":"Preview","Html":"Пост 2"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Зміст посту 2</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Пост 2"},{"PropertyId":29,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":30,"MemberCode":"MetaDescription","Html":""}]',6,'BlogPost','/blog/post-2');
 INSERT INTO `CachedObjects` VALUES (2,7,NULL,'[{"PropertyId":36,"MemberCode":"Preview","Html":"Пост 3"},{"PropertyId":37,"MemberCode":"Content","Html":"<p>Зміст посту 3</p>"},{"PropertyId":38,"MemberCode":"Title","Html":"Пост 3"},{"PropertyId":39,"MemberCode":"MetaKeywords","Html":""},{"PropertyId":40,"MemberCode":"MetaDescription","Html":""}]',6,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (2,8,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Модульна структура"},{"PropertyId":42,"MemberCode":"State","Html":"ні"}]',4,NULL,NULL);
+INSERT INTO `CachedObjects` VALUES (2,8,NULL,'[{"PropertyId":69,"MemberCode":"Name","Html":"Модульна структура"},{"PropertyId":70,"MemberCode":"State","Html":"так"}]',4,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (2,9,NULL,'[{"PropertyId":43,"MemberCode":"Name","Html":"Локалізація інтерфейсу користувача"},{"PropertyId":44,"MemberCode":"State","Html":"ні"}]',4,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (2,10,NULL,'[{"PropertyId":45,"MemberCode":"Name","Html":"Локалізація контенту"},{"PropertyId":46,"MemberCode":"State","Html":"так"}]',4,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (2,11,NULL,'[{"PropertyId":47,"MemberCode":"Name","Html":"Гнучке управління контентом"},{"PropertyId":48,"MemberCode":"State","Html":"так"}]',4,NULL,NULL);
