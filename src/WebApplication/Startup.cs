@@ -3,21 +3,16 @@
 
 using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
 
 namespace WebApplication
 {
-  public class Startup : ExtCore.WebApplication.Startup
+  public class Startup : Platformus.WebApplication.Startup
   {
     public Startup(IHostingEnvironment hostingEnvironment, IApplicationEnvironment applicationEnvironment, IAssemblyLoaderContainer assemblyLoaderContainer, IAssemblyLoadContextAccessor assemblyLoadContextAccessor, ILibraryManager libraryManager)
       : base(hostingEnvironment, applicationEnvironment, assemblyLoaderContainer, assemblyLoadContextAccessor, libraryManager)
     {
-      IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
-        .AddJsonFile("config.json");
-
-      this.configurationRoot = configurationBuilder.Build();
     }
 
     public override void ConfigureServices(IServiceCollection services)
@@ -27,18 +22,6 @@ namespace WebApplication
 
     public override void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
     {
-      if (hostingEnvironment.IsEnvironment("Development"))
-      {
-        applicationBuilder.UseBrowserLink();
-        applicationBuilder.UseDeveloperExceptionPage();
-        applicationBuilder.UseDatabaseErrorPage();
-      }
-
-      else
-      {
-        applicationBuilder.UseExceptionHandler("/");
-      }
-
       base.Configure(applicationBuilder, hostingEnvironment);
     }
   }
