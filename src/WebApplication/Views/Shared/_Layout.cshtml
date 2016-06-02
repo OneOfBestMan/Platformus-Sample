@@ -14,14 +14,14 @@
 <body>
   <div class="container">
     <div class="header">
-      @Component.Invoke("Cultures")
-      @Component.Invoke("Menu", "Main")
+      @await Component.InvokeAsync("Cultures")
+      @await Component.InvokeAsync("Menu", new { code = "Main" })
     </div>
     <div class="content">
       @RenderBody()
     </div>
     <div class="footer">
-      Platformus 1.0.0-alpha4
+      Platformus 1.0.0-alpha5
     </div>
   </div>
 </body>

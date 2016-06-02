@@ -8,4 +8,4 @@
 }
 
 @Html.Raw(this.Model.Properties["Content"].Html)
-@Component.Invoke("Form", "Feedback")
+@await Component.InvokeAsync("Form", new { code = "Feedback" })

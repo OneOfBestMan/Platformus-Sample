@@ -2,46 +2,55 @@
   "authors": [
     "Dmitry Sikorsky"
   ],
-  "commands": {
-    "web": "Microsoft.AspNet.Server.Kestrel"
+  "buildOptions": {
+    "emitEntryPoint": true,
+    "preserveCompilationContext": true
   },
   "dependencies": {
-    "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
-    "Platformus.Configuration.Backend": "1.0.0-alpha4",
-    "Platformus.Configuration.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.Content.Backend": "1.0.0-alpha4",
-    "Platformus.Content.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.Content.Frontend": "1.0.0-alpha4",
-    "Platformus.Forms.Backend": "1.0.0-alpha4",
-    "Platformus.Forms.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.Forms.Frontend": "1.0.0-alpha4",
-    "Platformus.Globalization.Backend": "1.0.0-alpha4",
-    "Platformus.Globalization.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.Globalization.Frontend": "1.0.0-alpha4",
-    "Platformus.Navigation.Backend": "1.0.0-alpha4",
-    "Platformus.Navigation.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.Navigation.Frontend": "1.0.0-alpha4",
-    "Platformus.Security.Backend": "1.0.0-alpha4",
-    "Platformus.Security.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.Static.Backend": "1.0.0-alpha4",
-    "Platformus.Static.Data.EntityFramework.Sqlite": "1.0.0-alpha4",
-    "Platformus.WebApplication": "1.0.0-alpha4"
+    "Microsoft.AspNetCore.Server.IISIntegration": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Server.Kestrel": "1.0.0-rc2-final",
+    "Microsoft.NETCore.App": {
+      "version": "1.0.0-rc2-3002702",
+      "type": "platform"
+    },
+    "Platformus.Configuration.Backend": "1.0.0-alpha5",
+    "Platformus.Configuration.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.Content.Backend": "1.0.0-alpha5",
+    "Platformus.Content.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.Content.Frontend": "1.0.0-alpha5",
+    "Platformus.Forms.Backend": "1.0.0-alpha5",
+    "Platformus.Forms.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.Forms.Frontend": "1.0.0-alpha5",
+    "Platformus.Globalization.Backend": "1.0.0-alpha5",
+    "Platformus.Globalization.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.Globalization.Frontend": "1.0.0-alpha5",
+    "Platformus.Navigation.Backend": "1.0.0-alpha5",
+    "Platformus.Navigation.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.Navigation.Frontend": "1.0.0-alpha5",
+    "Platformus.Security.Backend": "1.0.0-alpha5",
+    "Platformus.Security.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.Static.Backend": "1.0.0-alpha5",
+    "Platformus.Static.Data.EntityFramework.Sqlite": "1.0.0-alpha5",
+    "Platformus.WebApplication": "1.0.0-alpha5"
   },
-  "exclude": [
-    "wwwroot",
-    "node_modules",
-    "bower_components"
-  ],
   "frameworks": {
-    "dnx451": {},
-    "dnxcore50": {}
+    "netcoreapp1.0": {
+      "imports": [
+        "dotnet5.6",
+        "dnxcore50",
+        "portable-net45+win8"
+      ]
+    }
   },
-  "publishExclude": [
-    "node_modules",
-    "bower_components",
-    "**.xproj",
-    "**.user"
-  ],
-  "version": "1.0.0-*",
-  "webroot": "wwwroot"
+  "publishOptions": {
+    "include": [
+      "wwwroot",
+      "Views",
+      "config.json",
+      "web.config"
+    ]
+  },
+  "runtimeOptions": {
+    "gcServer": true
+  }
 }
