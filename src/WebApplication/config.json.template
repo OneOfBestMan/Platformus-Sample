@@ -1,7 +1,19 @@
 ﻿{
   "Data": {
     "DefaultConnection": {
+      // Sqlite
       "ConnectionString": "Data Source=..\\..\\..\\db.sqlite"
+      // SqlServer
+      //"ConnectionString": "Data Source=localhost;Initial Catalog=Platformus;MultipleActiveResultSets=True;Persist Security Info=True;User ID=platformus;Password=?"
+      // PostgreSql
+      //"ConnectionString": "Host=localhost;Port=5432;Database=platformus;Pooling=true;User ID=platformus;Password=?;"
     }
+  },
+  "Extensions": {
+    "Path": "\\Extensions"
+  },
+  "Globalization": {
+    "DefaultCulture": "en",
+    "SupportedCultures": "en,uk"
   }
 }

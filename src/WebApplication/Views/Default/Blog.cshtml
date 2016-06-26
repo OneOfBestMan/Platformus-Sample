@@ -9,7 +9,9 @@
 
 @Html.Raw(this.Model.Properties["Content"].Html)
 
-@foreach (var blogPost in this.Model.DataSources["BlogPosts"].Objects)
-{
-  @Html.Partial("_BlogPost", blogPost as object)
-}
+<div class="blog-posts">
+  @foreach (var blogPost in this.Model.DataSources["BlogPosts"].Objects)
+  {
+    @Html.Partial("_BlogPost", blogPost as object)
+  }
+</div>

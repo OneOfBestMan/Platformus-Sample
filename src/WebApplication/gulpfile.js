@@ -97,7 +97,7 @@ gulp.task(
   "frontend:minify-css", function (cb) {
     return gulp.src(paths.frontend.scss.dest + "/*.css")
       .pipe(minifyCss())
-      .pipe(autoprefixer("last 2 version", "safari 5", "ie 8", "ie 9"))
+      .pipe(autoprefixer())
       .pipe(concat("webapplication.min.css.temp"))
       .pipe(gulp.dest(paths.frontend.scss.dest));
   }
