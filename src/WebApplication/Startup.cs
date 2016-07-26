@@ -4,14 +4,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace WebApplication
 {
   public class Startup : Platformus.WebApplication.Startup
   {
-    public Startup(IHostingEnvironment hostingEnvironment)
-      : base(hostingEnvironment)
+    public Startup(IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
+      : base(hostingEnvironment, loggerFactory)
     {
+      loggerFactory.AddConsole();
     }
 
     public override void ConfigureServices(IServiceCollection services)
@@ -19,9 +21,9 @@ namespace WebApplication
       base.ConfigureServices(services);
     }
 
-    public override void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
+    public override void Configure(IApplicationBuilder applicationBuilder)
     {
-      base.Configure(applicationBuilder, hostingEnvironment);
+      base.Configure(applicationBuilder);
     }
   }
 }
