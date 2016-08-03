@@ -1,8 +1,8 @@
 ﻿// Copyright © 2015 Dmitry Sikorsky. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
+using System;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -10,10 +10,10 @@ namespace WebApplication
 {
   public class Startup : Platformus.WebApplication.Startup
   {
-    public Startup(IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
-      : base(hostingEnvironment, loggerFactory)
+    public Startup(IServiceProvider serviceProvider)
+      : base(serviceProvider)
     {
-      loggerFactory.AddConsole();
+      this.serviceProvider.GetService<ILoggerFactory>().AddConsole();
     }
 
     public override void ConfigureServices(IServiceCollection services)
