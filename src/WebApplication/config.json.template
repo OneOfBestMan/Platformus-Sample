@@ -1,6 +1,7 @@
 ﻿{
   "Data": {
     "DefaultConnection": {
+	    // Please keep in mind that you have to change '\' to '/' on Linux-based systems
       // Sqlite
       "ConnectionString": "Data Source=..\\..\\..\\db.sqlite"
       // SqlServer
@@ -10,10 +11,7 @@
     }
   },
   "Extensions": {
+    // Please keep in mind that you have to change '\' to '/' on Linux-based systems
     "Path": "\\Extensions"
-  },
-  "Globalization": {
-    "DefaultCulture": "en",
-    "SupportedCultures": "en,uk"
   }
 }
