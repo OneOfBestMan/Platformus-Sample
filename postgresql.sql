@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.3
 -- Dumped by pg_dump version 9.5.3
 
--- Started on 2016-06-25 20:03:33
+-- Started on 2016-10-19 11:31:56
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -145,7 +145,8 @@ CREATE TABLE "Cultures" (
     "Id" integer NOT NULL,
     "Code" text,
     "Name" text,
-    "IsNeutral" boolean
+    "IsNeutral" boolean NOT NULL,
+    "IsDefault" boolean NOT NULL
 );
 
 
@@ -504,6 +505,8 @@ ALTER TABLE "Variables" OWNER TO postgres;
 -- Data for Name: CachedForms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "CachedForms" ("CultureId", "FormId", "Code", "Name", "CachedFields") FROM stdin;
+\.
 
 
 --
@@ -512,6 +515,8 @@ ALTER TABLE "Variables" OWNER TO postgres;
 -- Data for Name: CachedMenus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "CachedMenus" ("CultureId", "MenuId", "Code", "CachedMenuItems") FROM stdin;
+\.
 
 
 --
@@ -520,6 +525,8 @@ ALTER TABLE "Variables" OWNER TO postgres;
 -- Data for Name: CachedObjects; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "CachedObjects" ("CultureId", "ObjectId", "ClassId", "ViewName", "Url", "CachedProperties", "CachedDataSources") FROM stdin;
+\.
 
 
 --
@@ -528,6 +535,8 @@ ALTER TABLE "Variables" OWNER TO postgres;
 -- Data for Name: Classes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Classes" ("Id", "ClassId", "Name", "PluralizedName", "IsAbstract", "IsStandalone", "DefaultViewName") FROM stdin;
+\.
 
 
 --
@@ -536,7 +545,9 @@ ALTER TABLE "Variables" OWNER TO postgres;
 -- Data for Name: CredentialTypes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "CredentialTypes" VALUES (1, 'Email', 'Email', 1);
+COPY "CredentialTypes" ("Id", "Code", "Name", "Position") FROM stdin;
+1	Email	Email	1
+\.
 
 
 --
@@ -545,7 +556,9 @@ INSERT INTO "CredentialTypes" VALUES (1, 'Email', 'Email', 1);
 -- Data for Name: Credentials; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "Credentials" VALUES (1, 1, 1, 'admin@platformus.net', '21-23-2F-29-7A-57-A5-A7-43-89-4A-0E-4A-80-1F-C3');
+COPY "Credentials" ("Id", "UserId", "CredentialTypeId", "Identifier", "Secret") FROM stdin;
+1	1	1	admin@platformus.net	21-23-2F-29-7A-57-A5-A7-43-89-4A-0E-4A-80-1F-C3
+\.
 
 
 --
@@ -554,9 +567,11 @@ INSERT INTO "Credentials" VALUES (1, 1, 1, 'admin@platformus.net', '21-23-2F-29-
 -- Data for Name: Cultures; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "Cultures" VALUES (1, '__', 'Neutral', true);
-INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', NULL);
-INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
+COPY "Cultures" ("Id", "Code", "Name", "IsNeutral", "IsDefault") FROM stdin;
+1	__	Neutral	t	f
+2	en	English	f	t
+3	uk	Українська	f	f
+\.
 
 
 --
@@ -565,6 +580,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: DataSources; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "DataSources" ("Id", "ClassId", "Code", "CSharpClassName", "Parameters") FROM stdin;
+\.
 
 
 --
@@ -573,6 +590,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: DataTypes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "DataTypes" ("Id", "JavaScriptEditorClassName", "Name", "Position") FROM stdin;
+\.
 
 
 --
@@ -581,6 +600,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Dictionaries; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Dictionaries" ("Id") FROM stdin;
+\.
 
 
 --
@@ -589,6 +610,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: FieldOptions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "FieldOptions" ("Id", "FieldId", "ValueId", "Position") FROM stdin;
+\.
 
 
 --
@@ -597,6 +620,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: FieldTypes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "FieldTypes" ("Id", "Code", "Name", "Position") FROM stdin;
+\.
 
 
 --
@@ -605,6 +630,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Fields; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Fields" ("Id", "FormId", "FieldTypeId", "NameId", "Position") FROM stdin;
+\.
 
 
 --
@@ -613,6 +640,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Files; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Files" ("Id", "Name", "Size") FROM stdin;
+\.
 
 
 --
@@ -621,6 +650,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Forms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Forms" ("Id", "Code", "NameId", "Email") FROM stdin;
+\.
 
 
 --
@@ -629,6 +660,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Localizations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Localizations" ("Id", "DictionaryId", "CultureId", "Value") FROM stdin;
+\.
 
 
 --
@@ -637,6 +670,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Members; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Members" ("Id", "ClassId", "TabId", "Code", "Name", "Position", "PropertyDataTypeId", "IsPropertyLocalizable", "IsPropertyVisibleInList", "RelationClassId", "IsRelationSingleParent") FROM stdin;
+\.
 
 
 --
@@ -645,6 +680,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: MenuItems; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "MenuItems" ("Id", "MenuId", "MenuItemId", "NameId", "Url", "Position") FROM stdin;
+\.
 
 
 --
@@ -653,6 +690,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Menus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Menus" ("Id", "Code", "NameId") FROM stdin;
+\.
 
 
 --
@@ -661,6 +700,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Objects; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Objects" ("Id", "ClassId", "ViewName", "Url") FROM stdin;
+\.
 
 
 --
@@ -669,6 +710,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Permissions" ("Id", "Code", "Name", "Position") FROM stdin;
+\.
 
 
 --
@@ -677,6 +720,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Properties; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Properties" ("Id", "ObjectId", "MemberId", "HtmlId") FROM stdin;
+\.
 
 
 --
@@ -685,6 +730,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Relations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Relations" ("Id", "MemberId", "PrimaryId", "ForeignId") FROM stdin;
+\.
 
 
 --
@@ -693,6 +740,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: RolePermissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "RolePermissions" ("RoleId", "PermissionId") FROM stdin;
+\.
 
 
 --
@@ -701,6 +750,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Roles" ("Id", "Code", "Name", "Position") FROM stdin;
+\.
 
 
 --
@@ -709,6 +760,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Sections; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Sections" ("Id", "Code", "Name") FROM stdin;
+\.
 
 
 --
@@ -717,6 +770,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Tabs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Tabs" ("Id", "ClassId", "Name", "Position") FROM stdin;
+\.
 
 
 --
@@ -725,6 +780,8 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: UserRoles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "UserRoles" ("UserId", "RoleId") FROM stdin;
+\.
 
 
 --
@@ -733,7 +790,9 @@ INSERT INTO "Cultures" VALUES (2, 'en', 'English', NULL);
 -- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO "Users" VALUES (1, 'Administrator', 1441274400);
+COPY "Users" ("Id", "Name", "Created") FROM stdin;
+1	Administrator	1441274400
+\.
 
 
 --
@@ -742,6 +801,8 @@ INSERT INTO "Users" VALUES (1, 'Administrator', 1441274400);
 -- Data for Name: Variables; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+COPY "Variables" ("Id", "SectionId", "Code", "Name", "Value", "Position") FROM stdin;
+\.
 
 
 --
@@ -1026,7 +1087,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-06-25 20:03:33
+-- Completed on 2016-10-19 11:31:56
 
 --
 -- PostgreSQL database dump complete
