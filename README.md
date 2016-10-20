@@ -9,25 +9,18 @@ based on ASP.NET Core and [ExtCore framework](https://github.com/ExtCore/ExtCore
 the best and the most modern tools and languages (Visual Studio 2015, C#, TypeScript, SCSS etc).
 Join our team!
 
-### Few Facts About Platformus
-
-1. It runs on Windows, Mac and Linux.
-2. It is completely modular and extendable. Using the features of the underlying
-[ExtCore framework](https://github.com/ExtCore/ExtCore) you can easily create your own extensions
-to extend its functionality.
-3. It is multicultural and multilingual.
-4. It is fast, flexible and easy to use. You can describe even complicated entities and their relationships
-without writing any code!
-
-## Quick Start
-
-### Samples
-
 Please take a look at this sample.
 
 You can also download our [ready to use sample](http://platformus.net/files/Platformus-Sample-1.0.0-alpha11.zip).
 It contains everything you need to run Platformus-based web application from Visual Studio 2015, including SQLite
 database with the test data.
+
+## More Information
+
+### Tutorials
+
+We have written [several tutorials](http://docs.platformus.net/en/latest/getting_started/index.html)
+to help you start developing your Platformus-based web applications.
 
 ## Links
 
