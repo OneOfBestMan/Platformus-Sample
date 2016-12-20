@@ -469,10 +469,10 @@ CREATE TABLE "DataTypes" (
     "Name" TEXT,
     "Position" INTEGER
 );
-INSERT INTO `DataTypes` VALUES (1,'SingleLinePlainText','Single line plain text',1);
-INSERT INTO `DataTypes` VALUES (2,'MultilinePlainText','Multiline plain text',2);
-INSERT INTO `DataTypes` VALUES (3,'Html','Html',3);
-INSERT INTO `DataTypes` VALUES (4,'Image','Image',4);
+INSERT INTO `DataTypes` VALUES (1,'singleLinePlainText','Single line plain text',1);
+INSERT INTO `DataTypes` VALUES (2,'multilinePlainText','Multiline plain text',2);
+INSERT INTO `DataTypes` VALUES (3,'html','Html',3);
+INSERT INTO `DataTypes` VALUES (4,'image','Image',4);
 CREATE TABLE "DataSources" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_DataSource" PRIMARY KEY AUTOINCREMENT,
     "CSharpClassName" TEXT,
