@@ -7,7 +7,9 @@
   this.ViewBag.MetaDescription = this.Model.Properties["MetaDescription"].Html;
 }
 
+<h1>@Model.Properties["Title"].Html</h1>
 <div class="image">
   <img src="@Html.Raw(this.Model.Properties["Image"].Html)" alt="" />
 </div>
 @Html.Raw(this.Model.Properties["Content"].Html)
+<div class="clear"></div>

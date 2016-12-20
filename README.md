@@ -1,4 +1,4 @@
-# Platformus 1.0.0-alpha11 Sample
+# Platformus 1.0.0-alpha12 Sample
 
 [![Join the chat at https://gitter.im/Platformus/Platformus](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Platformus/Platformus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
@@ -11,7 +11,7 @@ Join our team!
 
 Please take a look at this sample.
 
-You can also download our [ready to use sample](http://platformus.net/files/Platformus-Sample-1.0.0-alpha11.zip).
+You can also download our [ready to use sample](http://platformus.net/files/Platformus-Sample-1.0.0-alpha12.zip).
 It contains everything you need to run Platformus-based web application from Visual Studio 2015, including SQLite
 database with the test data.
 

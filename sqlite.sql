@@ -267,12 +267,9 @@ INSERT INTO `Localizations` VALUES (48,4,16,'');
 INSERT INTO `Localizations` VALUES (49,2,17,'');
 INSERT INTO `Localizations` VALUES (50,3,17,'');
 INSERT INTO `Localizations` VALUES (51,4,17,'');
-INSERT INTO `Localizations` VALUES (52,2,18,'<p>Blog</p>
-<p>Only related objects demo.</p>');
-INSERT INTO `Localizations` VALUES (53,3,18,'<p>Блог</p>
-<p>Только для демонстрации связанных объектов.</p>');
-INSERT INTO `Localizations` VALUES (54,4,18,'<p>Блог</p>
-<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>');
+INSERT INTO `Localizations` VALUES (52,2,18,'<p>Only related objects demo.</p>');
+INSERT INTO `Localizations` VALUES (53,3,18,'<p>Только для демонстрации связанных объектов.</p>');
+INSERT INTO `Localizations` VALUES (54,4,18,'<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>');
 INSERT INTO `Localizations` VALUES (55,2,19,'Blog');
 INSERT INTO `Localizations` VALUES (56,3,19,'Блог');
 INSERT INTO `Localizations` VALUES (57,4,19,'Блог');
@@ -330,8 +327,7 @@ INSERT INTO `Localizations` VALUES (108,4,38,'');
 INSERT INTO `Localizations` VALUES (109,2,39,'');
 INSERT INTO `Localizations` VALUES (110,3,39,'');
 INSERT INTO `Localizations` VALUES (111,4,39,'');
-INSERT INTO `Localizations` VALUES (112,2,40,'<p>Contacts</p>
-<p>Website: <a href="http://platformus.net/">http://platformus.net/</a></p>
+INSERT INTO `Localizations` VALUES (112,2,40,'<p>Website: <a href="http://platformus.net/">http://platformus.net/</a></p>
 <p>Git: <a href="https://github.com/Platformus">https://github.com/Platformus</a></p>');
 INSERT INTO `Localizations` VALUES (113,2,41,'Contacts');
 INSERT INTO `Localizations` VALUES (114,3,41,'Контакты');
@@ -341,11 +337,9 @@ INSERT INTO `Localizations` VALUES (117,3,42,'');
 INSERT INTO `Localizations` VALUES (118,4,42,'');
 INSERT INTO `Localizations` VALUES (119,2,43,'');
 INSERT INTO `Localizations` VALUES (120,3,43,'');
-INSERT INTO `Localizations` VALUES (121,3,40,'<p>Контакты</p>
-<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
+INSERT INTO `Localizations` VALUES (121,3,40,'<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
 <p>Git: <a href="https://github.com/Platformus">https://github.com/Platformus</a></p>');
-INSERT INTO `Localizations` VALUES (122,4,40,'<p>Контакти</p>
-<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
+INSERT INTO `Localizations` VALUES (122,4,40,'<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
 <p>Git: <a href="https://github.com/Platformus">https://github.com/Platformus</a></p>');
 INSERT INTO `Localizations` VALUES (123,4,43,'');
 INSERT INTO `Localizations` VALUES (124,2,44,'Modular structure');
@@ -522,18 +516,19 @@ CREATE TABLE "Classes" (
 	`ClassId`	INTEGER,
 	`IsAbstract`	INTEGER,
 	`IsStandalone`	INTEGER,
-	`Name`	TEXT,
-	`PluralizedName`	TEXT,
+	`Code`	TEXT NOT NULL,
+	`Name`	TEXT NOT NULL,
+	`PluralizedName`	TEXT NOT NULL,
 	`DefaultViewName`	TEXT,
 	CONSTRAINT "FK_Class_Class_ClassId" FOREIGN KEY(`ClassId`) REFERENCES "Classes" ( "Id" )
 );
-INSERT INTO `Classes` VALUES (1,NULL,1,NULL,'Base Page','Base Pages',NULL);
-INSERT INTO `Classes` VALUES (2,1,NULL,1,'Index Page','Index Pages','Index');
-INSERT INTO `Classes` VALUES (3,1,NULL,1,'Features Page','Features Pages','Features');
-INSERT INTO `Classes` VALUES (4,1,NULL,1,'Blog Page','Blog Pages','Blog');
-INSERT INTO `Classes` VALUES (5,1,NULL,1,'Blog Post Page','Blog Post Pages','BlogPost');
-INSERT INTO `Classes` VALUES (6,1,NULL,1,'Contacts Page','Contacts Pages','Contacts');
-INSERT INTO `Classes` VALUES (7,NULL,NULL,NULL,'Feature','Features',NULL);
+INSERT INTO `Classes` VALUES (1,NULL,1,NULL,'BasePage','Base Page','Base Pages',NULL);
+INSERT INTO `Classes` VALUES (2,1,NULL,1,'IndexPage','Index Page','Index Pages','Index');
+INSERT INTO `Classes` VALUES (3,1,NULL,1,'FeaturesPage','Features Page','Features Pages','Features');
+INSERT INTO `Classes` VALUES (4,1,NULL,1,'BlogPage','Blog Page','Blog Pages','Blog');
+INSERT INTO `Classes` VALUES (5,1,NULL,1,'BlogPostPage','Blog Post Page','Blog Post Pages','BlogPost');
+INSERT INTO `Classes` VALUES (6,1,NULL,1,'ContactsPage','Contacts Page','Contacts Pages','Contacts');
+INSERT INTO `Classes` VALUES (7,NULL,NULL,NULL,'Feature','Feature','Features',NULL);
 CREATE TABLE "CachedObjects" (
 	`CultureId`	INTEGER NOT NULL,
 	`ObjectId`	INTEGER NOT NULL,
@@ -550,10 +545,10 @@ INSERT INTO `CachedObjects` VALUES (2,1,NULL,'[{"PropertyId":1,"MemberCode":"Con
 INSERT INTO `CachedObjects` VALUES (1,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":null},{"PropertyId":2,"MemberCode":"Title","Html":null},{"PropertyId":3,"MemberCode":"MetaDescription","Html":null},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":null}]',2,'Index','/');
 INSERT INTO `CachedObjects` VALUES (3,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>Это демонстрационный сайт, работающий на CMS Platforms.</p>\r\n<p>Вы можете управлять им с помощью <a href=\"/backend/\">бекенда</a>.</p>\r\n<p>Электронная почта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Демонстрационный веб-сайт на CMS Platforms"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"Это демонстрационный веб-сайт, работающий на CMS Platforms."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
 INSERT INTO `CachedObjects` VALUES (4,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>\r\n<p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href=\"/backend/\">бекенду</a>.</p>\r\n<p>Електронна пошта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Демонстраційний веб-сайт на CMS Platformus"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"Це демонстраційний веб-сайт, що працює на CMS Platformus."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
-INSERT INTO `CachedObjects` VALUES (2,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Blog</p>\r\n<p>Only related objects demo.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Blog"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (2,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Only related objects demo.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Blog"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
 INSERT INTO `CachedObjects` VALUES (1,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":null},{"PropertyId":10,"MemberCode":"Title","Html":null},{"PropertyId":11,"MemberCode":"MetaDescription","Html":null},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":null}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (3,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Блог</p>\r\n<p>Только для демонстрации связанных объектов.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (4,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Блог</p>\r\n<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (3,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Только для демонстрации связанных объектов.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (4,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
 INSERT INTO `CachedObjects` VALUES (2,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Post 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Post 1 content</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Post 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
 INSERT INTO `CachedObjects` VALUES (1,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":null},{"PropertyId":15,"MemberCode":"Content","Html":null},{"PropertyId":16,"MemberCode":"Title","Html":null},{"PropertyId":17,"MemberCode":"MetaDescription","Html":null},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":null}]',5,'BlogPost','/blog/post-1');
 INSERT INTO `CachedObjects` VALUES (3,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Пост 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Содержимое поста 1</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Пост 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
@@ -566,10 +561,10 @@ INSERT INTO `CachedObjects` VALUES (2,6,NULL,'[{"PropertyId":25,"MemberCode":"Im
 INSERT INTO `CachedObjects` VALUES (1,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":null},{"PropertyId":27,"MemberCode":"Content","Html":null},{"PropertyId":28,"MemberCode":"Title","Html":null},{"PropertyId":29,"MemberCode":"MetaDescription","Html":null},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":null}]',5,'BlogPost','/blog/post-3');
 INSERT INTO `CachedObjects` VALUES (3,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":"Пост 3"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Содержимое поста 3</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Пост 3"},{"PropertyId":29,"MemberCode":"MetaDescription","Html":""},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-3');
 INSERT INTO `CachedObjects` VALUES (4,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":"Пост 3"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Зміст посту 3</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Пост 3"},{"PropertyId":29,"MemberCode":"MetaDescription","Html":""},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (2,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Contacts</p>\r\n<p>Website: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Contacts"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
+INSERT INTO `CachedObjects` VALUES (2,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Website: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Contacts"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
 INSERT INTO `CachedObjects` VALUES (1,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":null},{"PropertyId":32,"MemberCode":"Title","Html":null},{"PropertyId":33,"MemberCode":"MetaDescription","Html":null},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":null}]',6,'Contacts','/contacts');
-INSERT INTO `CachedObjects` VALUES (3,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Контакты</p>\r\n<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Контакты"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
-INSERT INTO `CachedObjects` VALUES (4,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Контакти</p>\r\n<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Контакти"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
+INSERT INTO `CachedObjects` VALUES (3,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Контакты"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
+INSERT INTO `CachedObjects` VALUES (4,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Контакти"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
 INSERT INTO `CachedObjects` VALUES (2,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":"Modular structure"},{"PropertyId":36,"MemberCode":"State","Html":"yes"}]',7,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (1,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":null},{"PropertyId":36,"MemberCode":"State","Html":null}]',7,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (3,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":"Модульная структура"},{"PropertyId":36,"MemberCode":"State","Html":"да"}]',7,NULL,NULL);

@@ -95,8 +95,9 @@ ALTER TABLE "CachedObjects" OWNER TO postgres;
 CREATE TABLE "Classes" (
     "Id" integer NOT NULL,
     "ClassId" integer,
-    "Name" text,
-    "PluralizedName" text,
+    "Code" text NOT NULL,
+	"Name" text NOT NULL,
+    "PluralizedName" text NOT NULL,
     "IsAbstract" boolean,
     "IsStandalone" boolean,
     "DefaultViewName" text

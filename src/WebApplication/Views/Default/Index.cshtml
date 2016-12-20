@@ -7,4 +7,5 @@
   this.ViewBag.MetaDescription = this.Model.Properties["MetaDescription"].Html;
 }
 
+<h1>@Model.Properties["Title"].Html</h1>
 @Html.Raw(this.Model.Properties["Content"].Html)

@@ -7,13 +7,17 @@
   <title>@Html.Raw(this.ViewBag.Title as string)</title>
   <meta name="description" content="@Html.Raw(this.ViewBag.MetaDescription as string)" />
   <meta name="keywords" content="@Html.Raw(this.ViewBag.MetaKeywords as string)" />
-  <link href="/css/webapplication.min.css" rel="stylesheet" />
   <link href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic&subset=latin,cyrillic" type="text/css" rel="stylesheet" />
-  <script src="/js/webapplication.min.js"></script>
+  <link href="~/css/platformus.min.css" rel="stylesheet" />
+  <script src="//ajax.aspnetcdn.com/ajax/jquery/jquery-1.11.3.min.js"></script>
+  <script src="~/js/platformus.min.js"></script>
 </head>
 <body>
   <div class="container">
     <div class="header">
+      <a class="platformus" href="/@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName/">
+        <img src="/images/platformus.png" alt="Platformus CMS" />
+      </a>
       @await Component.InvokeAsync("Cultures")
       @await Component.InvokeAsync("Menu", new { code = "Main" })
     </div>
@@ -21,8 +25,18 @@
       @RenderBody()
     </div>
     <div class="footer">
-      Platformus 1.0.0-alpha11
+      Platformus 1.0.0-alpha12
     </div>
   </div>
+
+  <script>
+    $(document).ready(
+      function () {
+        highlightCulture();
+        highlightMenuItem();
+      }
+    );
+  </script>
+
 </body>
 </html>
