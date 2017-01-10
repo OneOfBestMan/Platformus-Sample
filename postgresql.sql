@@ -5,7 +5,7 @@
 -- Dumped from database version 9.5.3
 -- Dumped by pg_dump version 9.5.3
 
--- Started on 2016-10-19 11:38:00
+-- Started on 2017-01-10 12:35:40
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -24,7 +24,7 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- TOC entry 2329 (class 0 OID 0)
+-- TOC entry 2340 (class 0 OID 0)
 -- Dependencies: 1
 -- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
 --
@@ -95,16 +95,59 @@ ALTER TABLE "CachedObjects" OWNER TO postgres;
 CREATE TABLE "Classes" (
     "Id" integer NOT NULL,
     "ClassId" integer,
-    "Code" text NOT NULL,
-	"Name" text NOT NULL,
-    "PluralizedName" text NOT NULL,
+    "Name" text,
+    "PluralizedName" text,
     "IsAbstract" boolean,
     "IsStandalone" boolean,
-    "DefaultViewName" text
+    "DefaultViewName" text,
+    "Code" text
 );
 
 
 ALTER TABLE "Classes" OWNER TO postgres;
+
+--
+-- TOC entry 212 (class 1259 OID 17701)
+-- Name: CompletedFields; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "CompletedFields" (
+    "Id" integer NOT NULL,
+    "CompletedFormId" integer NOT NULL,
+    "FieldId" integer NOT NULL,
+    "Value" text
+);
+
+
+ALTER TABLE "CompletedFields" OWNER TO postgres;
+
+--
+-- TOC entry 211 (class 1259 OID 17698)
+-- Name: CompletedForms; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "CompletedForms" (
+    "Id" integer NOT NULL,
+    "FormId" integer NOT NULL,
+    "Created" bigint NOT NULL
+);
+
+
+ALTER TABLE "CompletedForms" OWNER TO postgres;
+
+--
+-- TOC entry 203 (class 1259 OID 17590)
+-- Name: Configurations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Configurations" (
+    "Id" integer NOT NULL,
+    "Code" text,
+    "Name" text
+);
+
+
+ALTER TABLE "Configurations" OWNER TO postgres;
 
 --
 -- TOC entry 183 (class 1259 OID 17488)
@@ -428,20 +471,6 @@ CREATE TABLE "Roles" (
 ALTER TABLE "Roles" OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 17590)
--- Name: Sections; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE "Sections" (
-    "Id" integer NOT NULL,
-    "Code" text,
-    "Name" text
-);
-
-
-ALTER TABLE "Sections" OWNER TO postgres;
-
---
 -- TOC entry 204 (class 1259 OID 17596)
 -- Name: Tabs; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -490,7 +519,7 @@ ALTER TABLE "Users" OWNER TO postgres;
 
 CREATE TABLE "Variables" (
     "Id" integer NOT NULL,
-    "SectionId" integer,
+    "ConfigurationId" integer,
     "Code" text,
     "Name" text,
     "Value" text,
@@ -501,7 +530,7 @@ CREATE TABLE "Variables" (
 ALTER TABLE "Variables" OWNER TO postgres;
 
 --
--- TOC entry 2319 (class 0 OID 17617)
+-- TOC entry 2328 (class 0 OID 17617)
 -- Dependencies: 208
 -- Data for Name: CachedForms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -509,7 +538,7 @@ ALTER TABLE "Variables" OWNER TO postgres;
 
 
 --
--- TOC entry 2292 (class 0 OID 17476)
+-- TOC entry 2301 (class 0 OID 17476)
 -- Dependencies: 181
 -- Data for Name: CachedMenus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -517,7 +546,7 @@ ALTER TABLE "Variables" OWNER TO postgres;
 
 
 --
--- TOC entry 2293 (class 0 OID 17482)
+-- TOC entry 2302 (class 0 OID 17482)
 -- Dependencies: 182
 -- Data for Name: CachedObjects; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -525,7 +554,7 @@ ALTER TABLE "Variables" OWNER TO postgres;
 
 
 --
--- TOC entry 2320 (class 0 OID 17623)
+-- TOC entry 2329 (class 0 OID 17623)
 -- Dependencies: 209
 -- Data for Name: Classes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -533,7 +562,31 @@ ALTER TABLE "Variables" OWNER TO postgres;
 
 
 --
--- TOC entry 2294 (class 0 OID 17488)
+-- TOC entry 2332 (class 0 OID 17701)
+-- Dependencies: 212
+-- Data for Name: CompletedFields; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2331 (class 0 OID 17698)
+-- Dependencies: 211
+-- Data for Name: CompletedForms; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2323 (class 0 OID 17590)
+-- Dependencies: 203
+-- Data for Name: Configurations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2303 (class 0 OID 17488)
 -- Dependencies: 183
 -- Data for Name: CredentialTypes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -542,7 +595,7 @@ INSERT INTO "CredentialTypes" VALUES (1, 'Email', 'Email', 1);
 
 
 --
--- TOC entry 2295 (class 0 OID 17494)
+-- TOC entry 2304 (class 0 OID 17494)
 -- Dependencies: 184
 -- Data for Name: Credentials; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -551,7 +604,7 @@ INSERT INTO "Credentials" VALUES (1, 1, 1, 'admin@platformus.net', '21-23-2F-29-
 
 
 --
--- TOC entry 2296 (class 0 OID 17500)
+-- TOC entry 2305 (class 0 OID 17500)
 -- Dependencies: 185
 -- Data for Name: Cultures; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -562,7 +615,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2297 (class 0 OID 17506)
+-- TOC entry 2306 (class 0 OID 17506)
 -- Dependencies: 186
 -- Data for Name: DataSources; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -570,7 +623,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2298 (class 0 OID 17512)
+-- TOC entry 2307 (class 0 OID 17512)
 -- Dependencies: 187
 -- Data for Name: DataTypes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -578,7 +631,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2299 (class 0 OID 17518)
+-- TOC entry 2308 (class 0 OID 17518)
 -- Dependencies: 188
 -- Data for Name: Dictionaries; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -586,7 +639,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2300 (class 0 OID 17521)
+-- TOC entry 2309 (class 0 OID 17521)
 -- Dependencies: 189
 -- Data for Name: FieldOptions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -594,7 +647,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2301 (class 0 OID 17524)
+-- TOC entry 2310 (class 0 OID 17524)
 -- Dependencies: 190
 -- Data for Name: FieldTypes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -602,7 +655,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2302 (class 0 OID 17530)
+-- TOC entry 2311 (class 0 OID 17530)
 -- Dependencies: 191
 -- Data for Name: Fields; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -610,7 +663,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2303 (class 0 OID 17533)
+-- TOC entry 2312 (class 0 OID 17533)
 -- Dependencies: 192
 -- Data for Name: Files; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -618,7 +671,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2304 (class 0 OID 17539)
+-- TOC entry 2313 (class 0 OID 17539)
 -- Dependencies: 193
 -- Data for Name: Forms; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -626,7 +679,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2305 (class 0 OID 17545)
+-- TOC entry 2314 (class 0 OID 17545)
 -- Dependencies: 194
 -- Data for Name: Localizations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -634,7 +687,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2321 (class 0 OID 17629)
+-- TOC entry 2330 (class 0 OID 17629)
 -- Dependencies: 210
 -- Data for Name: Members; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -642,7 +695,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2306 (class 0 OID 17551)
+-- TOC entry 2315 (class 0 OID 17551)
 -- Dependencies: 195
 -- Data for Name: MenuItems; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -650,7 +703,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2307 (class 0 OID 17557)
+-- TOC entry 2316 (class 0 OID 17557)
 -- Dependencies: 196
 -- Data for Name: Menus; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -658,7 +711,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2308 (class 0 OID 17563)
+-- TOC entry 2317 (class 0 OID 17563)
 -- Dependencies: 197
 -- Data for Name: Objects; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -666,7 +719,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2309 (class 0 OID 17569)
+-- TOC entry 2318 (class 0 OID 17569)
 -- Dependencies: 198
 -- Data for Name: Permissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -674,7 +727,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2310 (class 0 OID 17575)
+-- TOC entry 2319 (class 0 OID 17575)
 -- Dependencies: 199
 -- Data for Name: Properties; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -682,7 +735,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2311 (class 0 OID 17578)
+-- TOC entry 2320 (class 0 OID 17578)
 -- Dependencies: 200
 -- Data for Name: Relations; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -690,7 +743,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2312 (class 0 OID 17581)
+-- TOC entry 2321 (class 0 OID 17581)
 -- Dependencies: 201
 -- Data for Name: RolePermissions; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -698,7 +751,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2313 (class 0 OID 17584)
+-- TOC entry 2322 (class 0 OID 17584)
 -- Dependencies: 202
 -- Data for Name: Roles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -706,15 +759,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2314 (class 0 OID 17590)
--- Dependencies: 203
--- Data for Name: Sections; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-
-
---
--- TOC entry 2315 (class 0 OID 17596)
+-- TOC entry 2324 (class 0 OID 17596)
 -- Dependencies: 204
 -- Data for Name: Tabs; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -722,7 +767,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2316 (class 0 OID 17602)
+-- TOC entry 2325 (class 0 OID 17602)
 -- Dependencies: 205
 -- Data for Name: UserRoles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -730,7 +775,7 @@ INSERT INTO "Cultures" VALUES (3, 'uk', 'Українська', false, false);
 
 
 --
--- TOC entry 2317 (class 0 OID 17605)
+-- TOC entry 2326 (class 0 OID 17605)
 -- Dependencies: 206
 -- Data for Name: Users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -739,7 +784,7 @@ INSERT INTO "Users" VALUES (1, 'Administrator', 1441274400);
 
 
 --
--- TOC entry 2318 (class 0 OID 17611)
+-- TOC entry 2327 (class 0 OID 17611)
 -- Dependencies: 207
 -- Data for Name: Variables; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -747,7 +792,7 @@ INSERT INTO "Users" VALUES (1, 'Administrator', 1441274400);
 
 
 --
--- TOC entry 2173 (class 2606 OID 17636)
+-- TOC entry 2182 (class 2606 OID 17636)
 -- Name: PK_CachedForms; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -756,7 +801,7 @@ ALTER TABLE ONLY "CachedForms"
 
 
 --
--- TOC entry 2119 (class 2606 OID 17638)
+-- TOC entry 2128 (class 2606 OID 17638)
 -- Name: PK_CachedMenus; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -765,7 +810,7 @@ ALTER TABLE ONLY "CachedMenus"
 
 
 --
--- TOC entry 2121 (class 2606 OID 17640)
+-- TOC entry 2130 (class 2606 OID 17640)
 -- Name: PK_CachedObjects; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -774,7 +819,7 @@ ALTER TABLE ONLY "CachedObjects"
 
 
 --
--- TOC entry 2175 (class 2606 OID 17642)
+-- TOC entry 2184 (class 2606 OID 17642)
 -- Name: PK_Classes; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -783,7 +828,16 @@ ALTER TABLE ONLY "Classes"
 
 
 --
--- TOC entry 2123 (class 2606 OID 17644)
+-- TOC entry 2172 (class 2606 OID 17686)
+-- Name: PK_Configurations; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Configurations"
+    ADD CONSTRAINT "PK_Configurations" PRIMARY KEY ("Id");
+
+
+--
+-- TOC entry 2132 (class 2606 OID 17644)
 -- Name: PK_CredentialTypes; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -792,7 +846,7 @@ ALTER TABLE ONLY "CredentialTypes"
 
 
 --
--- TOC entry 2125 (class 2606 OID 17646)
+-- TOC entry 2134 (class 2606 OID 17646)
 -- Name: PK_Credentials; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -801,7 +855,7 @@ ALTER TABLE ONLY "Credentials"
 
 
 --
--- TOC entry 2127 (class 2606 OID 17648)
+-- TOC entry 2136 (class 2606 OID 17648)
 -- Name: PK_Cultures; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -810,7 +864,7 @@ ALTER TABLE ONLY "Cultures"
 
 
 --
--- TOC entry 2129 (class 2606 OID 17650)
+-- TOC entry 2138 (class 2606 OID 17650)
 -- Name: PK_DataSources; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -819,7 +873,7 @@ ALTER TABLE ONLY "DataSources"
 
 
 --
--- TOC entry 2131 (class 2606 OID 17652)
+-- TOC entry 2140 (class 2606 OID 17652)
 -- Name: PK_DataTypes; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -828,7 +882,7 @@ ALTER TABLE ONLY "DataTypes"
 
 
 --
--- TOC entry 2133 (class 2606 OID 17654)
+-- TOC entry 2142 (class 2606 OID 17654)
 -- Name: PK_Dictionaries; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -837,7 +891,7 @@ ALTER TABLE ONLY "Dictionaries"
 
 
 --
--- TOC entry 2135 (class 2606 OID 17656)
+-- TOC entry 2144 (class 2606 OID 17656)
 -- Name: PK_FieldOptions; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -846,7 +900,7 @@ ALTER TABLE ONLY "FieldOptions"
 
 
 --
--- TOC entry 2137 (class 2606 OID 17658)
+-- TOC entry 2146 (class 2606 OID 17658)
 -- Name: PK_FieldTypes; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -855,7 +909,7 @@ ALTER TABLE ONLY "FieldTypes"
 
 
 --
--- TOC entry 2139 (class 2606 OID 17660)
+-- TOC entry 2148 (class 2606 OID 17660)
 -- Name: PK_Fields; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -864,7 +918,7 @@ ALTER TABLE ONLY "Fields"
 
 
 --
--- TOC entry 2141 (class 2606 OID 17662)
+-- TOC entry 2150 (class 2606 OID 17662)
 -- Name: PK_Files; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -873,7 +927,7 @@ ALTER TABLE ONLY "Files"
 
 
 --
--- TOC entry 2143 (class 2606 OID 17664)
+-- TOC entry 2152 (class 2606 OID 17664)
 -- Name: PK_Forms; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -882,7 +936,7 @@ ALTER TABLE ONLY "Forms"
 
 
 --
--- TOC entry 2145 (class 2606 OID 17666)
+-- TOC entry 2154 (class 2606 OID 17666)
 -- Name: PK_Localizations; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -891,7 +945,7 @@ ALTER TABLE ONLY "Localizations"
 
 
 --
--- TOC entry 2177 (class 2606 OID 17668)
+-- TOC entry 2186 (class 2606 OID 17668)
 -- Name: PK_Members; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -900,7 +954,7 @@ ALTER TABLE ONLY "Members"
 
 
 --
--- TOC entry 2147 (class 2606 OID 17670)
+-- TOC entry 2156 (class 2606 OID 17670)
 -- Name: PK_MenuItems; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -909,7 +963,7 @@ ALTER TABLE ONLY "MenuItems"
 
 
 --
--- TOC entry 2149 (class 2606 OID 17672)
+-- TOC entry 2158 (class 2606 OID 17672)
 -- Name: PK_Menus; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -918,7 +972,7 @@ ALTER TABLE ONLY "Menus"
 
 
 --
--- TOC entry 2151 (class 2606 OID 17674)
+-- TOC entry 2160 (class 2606 OID 17674)
 -- Name: PK_Objects; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -927,7 +981,7 @@ ALTER TABLE ONLY "Objects"
 
 
 --
--- TOC entry 2153 (class 2606 OID 17676)
+-- TOC entry 2162 (class 2606 OID 17676)
 -- Name: PK_Permissions; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -936,7 +990,7 @@ ALTER TABLE ONLY "Permissions"
 
 
 --
--- TOC entry 2155 (class 2606 OID 17678)
+-- TOC entry 2164 (class 2606 OID 17678)
 -- Name: PK_Properties; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -945,7 +999,7 @@ ALTER TABLE ONLY "Properties"
 
 
 --
--- TOC entry 2157 (class 2606 OID 17680)
+-- TOC entry 2166 (class 2606 OID 17680)
 -- Name: PK_Relations; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -954,7 +1008,7 @@ ALTER TABLE ONLY "Relations"
 
 
 --
--- TOC entry 2159 (class 2606 OID 17682)
+-- TOC entry 2168 (class 2606 OID 17682)
 -- Name: PK_RolePermissions; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -963,7 +1017,7 @@ ALTER TABLE ONLY "RolePermissions"
 
 
 --
--- TOC entry 2161 (class 2606 OID 17684)
+-- TOC entry 2170 (class 2606 OID 17684)
 -- Name: PK_Roles; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -972,16 +1026,7 @@ ALTER TABLE ONLY "Roles"
 
 
 --
--- TOC entry 2163 (class 2606 OID 17686)
--- Name: PK_Sections; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY "Sections"
-    ADD CONSTRAINT "PK_Sections" PRIMARY KEY ("Id");
-
-
---
--- TOC entry 2165 (class 2606 OID 17688)
+-- TOC entry 2174 (class 2606 OID 17688)
 -- Name: PK_Tabs; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -990,7 +1035,7 @@ ALTER TABLE ONLY "Tabs"
 
 
 --
--- TOC entry 2167 (class 2606 OID 17690)
+-- TOC entry 2176 (class 2606 OID 17690)
 -- Name: PK_UserRoles; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -999,7 +1044,7 @@ ALTER TABLE ONLY "UserRoles"
 
 
 --
--- TOC entry 2169 (class 2606 OID 17692)
+-- TOC entry 2178 (class 2606 OID 17692)
 -- Name: PK_Users; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1008,7 +1053,7 @@ ALTER TABLE ONLY "Users"
 
 
 --
--- TOC entry 2171 (class 2606 OID 17694)
+-- TOC entry 2180 (class 2606 OID 17694)
 -- Name: PK_Variable; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1017,7 +1062,7 @@ ALTER TABLE ONLY "Variables"
 
 
 --
--- TOC entry 2328 (class 0 OID 0)
+-- TOC entry 2339 (class 0 OID 0)
 -- Dependencies: 7
 -- Name: public; Type: ACL; Schema: -; Owner: postgres
 --
@@ -1028,7 +1073,7 @@ GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO PUBLIC;
 
 
--- Completed on 2016-10-19 11:38:00
+-- Completed on 2017-01-10 12:35:41
 
 --
 -- PostgreSQL database dump complete

@@ -2,11 +2,11 @@ BEGIN TRANSACTION;
 CREATE TABLE `Variables` (
 	`Id`	INTEGER NOT NULL CONSTRAINT "PK_Variable" PRIMARY KEY AUTOINCREMENT,
 	`Code`	TEXT,
-	`SectionId`	INTEGER NOT NULL,
+	`ConfigurationId`	INTEGER NOT NULL,
 	`Name`	TEXT,
 	`Position`	INTEGER,
 	`Value`	TEXT,
-	CONSTRAINT "FK_Variable_Section_SectionId" FOREIGN KEY(`SectionId`) REFERENCES "Sections" ( "Id" )
+	CONSTRAINT "FK_Variable_Configuration_ConfigurationId" FOREIGN KEY(`ConfigurationId`) REFERENCES "Configurations" ( "Id" )
 );
 INSERT INTO `Variables` VALUES (1,'SmtpServer',1,'SMTP server',1,'test');
 INSERT INTO `Variables` VALUES (2,'SmtpPort',1,'SMTP port',2,'25');
@@ -36,12 +36,12 @@ CREATE TABLE "Tabs" (
 );
 INSERT INTO `Tabs` VALUES (1,1,'SEO',100);
 INSERT INTO `Tabs` VALUES (2,3,'Features',1);
-CREATE TABLE "Sections" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Section" PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE "Configurations" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Configuration" PRIMARY KEY AUTOINCREMENT,
     "Code" TEXT,
     "Name" TEXT
 );
-INSERT INTO `Sections` VALUES (1,'Email','Email');
+INSERT INTO `Configurations` VALUES (1,'Email','Email');
 CREATE TABLE "Roles" (
     "Id" INTEGER NOT NULL CONSTRAINT "PK_Role" PRIMARY KEY AUTOINCREMENT,
     "Code" TEXT,
@@ -481,8 +481,8 @@ CREATE TABLE "DataSources" (
     "Parameters" TEXT,
     CONSTRAINT "FK_DataSource_Class_ClassId" FOREIGN KEY ("ClassId") REFERENCES "Classes" ("Id")
 );
-INSERT INTO `DataSources` VALUES (1,'Platformus.Content.DataSources.PrimaryObjectsDataSource',3,'Features',NULL);
-INSERT INTO `DataSources` VALUES (2,'Platformus.Content.DataSources.ForeignObjectsDataSource',4,'BlogPosts',NULL);
+INSERT INTO `DataSources` VALUES (1,'Platformus.Domain.DataSources.PrimaryObjectsDataSource',3,'Features',NULL);
+INSERT INTO `DataSources` VALUES (2,'Platformus.Domain.DataSources.ForeignObjectsDataSource',4,'BlogPosts',NULL);
 CREATE TABLE "Cultures" (
 	`Id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	`Code`	TEXT,
@@ -545,10 +545,10 @@ INSERT INTO `CachedObjects` VALUES (2,1,NULL,'[{"PropertyId":1,"MemberCode":"Con
 INSERT INTO `CachedObjects` VALUES (1,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":null},{"PropertyId":2,"MemberCode":"Title","Html":null},{"PropertyId":3,"MemberCode":"MetaDescription","Html":null},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":null}]',2,'Index','/');
 INSERT INTO `CachedObjects` VALUES (3,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>Это демонстрационный сайт, работающий на CMS Platforms.</p>\r\n<p>Вы можете управлять им с помощью <a href=\"/backend/\">бекенда</a>.</p>\r\n<p>Электронная почта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Демонстрационный веб-сайт на CMS Platforms"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"Это демонстрационный веб-сайт, работающий на CMS Platforms."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
 INSERT INTO `CachedObjects` VALUES (4,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>\r\n<p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href=\"/backend/\">бекенду</a>.</p>\r\n<p>Електронна пошта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Демонстраційний веб-сайт на CMS Platformus"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"Це демонстраційний веб-сайт, що працює на CMS Platformus."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
-INSERT INTO `CachedObjects` VALUES (2,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Only related objects demo.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Blog"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (1,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":null},{"PropertyId":10,"MemberCode":"Title","Html":null},{"PropertyId":11,"MemberCode":"MetaDescription","Html":null},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":null}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (3,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Только для демонстрации связанных объектов.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (4,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Content.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (2,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Only related objects demo.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Blog"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (1,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":null},{"PropertyId":10,"MemberCode":"Title","Html":null},{"PropertyId":11,"MemberCode":"MetaDescription","Html":null},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":null}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (3,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Только для демонстрации связанных объектов.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
+INSERT INTO `CachedObjects` VALUES (4,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
 INSERT INTO `CachedObjects` VALUES (2,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Post 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Post 1 content</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Post 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
 INSERT INTO `CachedObjects` VALUES (1,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":null},{"PropertyId":15,"MemberCode":"Content","Html":null},{"PropertyId":16,"MemberCode":"Title","Html":null},{"PropertyId":17,"MemberCode":"MetaDescription","Html":null},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":null}]',5,'BlogPost','/blog/post-1');
 INSERT INTO `CachedObjects` VALUES (3,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Пост 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Содержимое поста 1</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Пост 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
@@ -581,10 +581,10 @@ INSERT INTO `CachedObjects` VALUES (2,11,NULL,'[{"PropertyId":41,"MemberCode":"N
 INSERT INTO `CachedObjects` VALUES (1,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":null},{"PropertyId":42,"MemberCode":"State","Html":null}]',7,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (3,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Гибкое управление содержимым"},{"PropertyId":42,"MemberCode":"State","Html":"да"}]',7,NULL,NULL);
 INSERT INTO `CachedObjects` VALUES (4,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Гнучке управління контентом"},{"PropertyId":42,"MemberCode":"State","Html":"так"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (2,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>The main features of the Platformus CMS:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Features"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
-INSERT INTO `CachedObjects` VALUES (1,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":null},{"PropertyId":6,"MemberCode":"Title","Html":null},{"PropertyId":7,"MemberCode":"MetaDescription","Html":null},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":null}]',3,'Features','/features');
-INSERT INTO `CachedObjects` VALUES (3,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>Главные особенности CMS Platformus:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Особенности"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
-INSERT INTO `CachedObjects` VALUES (4,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Content.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>Основні особливості CMS Platformus:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Особливості"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
+INSERT INTO `CachedObjects` VALUES (2,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>The main features of the Platformus CMS:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Features"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
+INSERT INTO `CachedObjects` VALUES (1,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":null},{"PropertyId":6,"MemberCode":"Title","Html":null},{"PropertyId":7,"MemberCode":"MetaDescription","Html":null},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":null}]',3,'Features','/features');
+INSERT INTO `CachedObjects` VALUES (3,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>Главные особенности CMS Platformus:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Особенности"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
+INSERT INTO `CachedObjects` VALUES (4,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>Основні особливості CMS Platformus:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Особливості"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
 CREATE TABLE "CachedMenus" (
     "CultureId" INTEGER NOT NULL,
     "MenuId" INTEGER NOT NULL,
