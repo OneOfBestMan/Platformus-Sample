@@ -15,6 +15,17 @@ You can also download our [ready to use sample](http://platformus.net/files/Plat
 It contains everything you need to run Platformus-based web application from Visual Studio 2015, including SQLite
 database with the test data.
 
+### Backend Screenshots
+
+![List of objects](http://platformus.net/files/list_of_objects.png)
+*List of objects*
+
+![Edit object](http://platformus.net/files/edit_object.png)
+*Edit object*
+
+![List menus](http://platformus.net/files/list_menus.png)
+*List menus*
+
 ## More Information
 
 ### Tutorials
