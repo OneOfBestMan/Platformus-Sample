@@ -14,33 +14,38 @@
       "version": "1.1.0",
       "type": "platform"
     },
-    "Platformus.Configurations": "1.0.0-alpha13",
-    "Platformus.Configurations.Backend": "1.0.0-alpha13",
-    "Platformus.Configurations.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.Domain.Api": "1.0.0-alpha13",
-    "Platformus.Domain.Backend": "1.0.0-alpha13",
-    "Platformus.Domain.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.Domain.Frontend": "1.0.0-alpha13",
-    "Platformus.FileManager.Backend": "1.0.0-alpha13",
-    "Platformus.FileManager.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.Forms.Backend": "1.0.0-alpha13",
-    "Platformus.Forms.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.Forms.Frontend": "1.0.0-alpha13",
-    "Platformus.Globalization.Backend": "1.0.0-alpha13",
-    "Platformus.Globalization.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.Globalization.Frontend": "1.0.0-alpha13",
-    "Platformus.Menus.Backend": "1.0.0-alpha13",
-    "Platformus.Menus.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.Menus.Frontend": "1.0.0-alpha13",
-    "Platformus.Security.Backend": "1.0.0-alpha13",
-    "Platformus.Security.Data.EntityFramework.Sqlite": "1.0.0-alpha13",
-    "Platformus.WebApplication": "1.0.0-alpha13"
+    "Platformus.Configurations": "1.0.0-alpha14",
+    "Platformus.Configurations.Backend": "1.0.0-alpha14",
+    "Platformus.Configurations.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.Designers.Backend": "1.0.0-alpha14",
+    "Platformus.Installer": "1.0.0-alpha14",
+    "Platformus.Domain.Api": "1.0.0-alpha14",
+    "Platformus.Domain.Backend": "1.0.0-alpha14",
+    "Platformus.Domain.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.Domain.Frontend": "1.0.0-alpha14",
+    "Platformus.FileManager.Backend": "1.0.0-alpha14",
+    "Platformus.FileManager.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.Forms.Backend": "1.0.0-alpha14",
+    "Platformus.Forms.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.Forms.Frontend": "1.0.0-alpha14",
+    "Platformus.Globalization.Backend": "1.0.0-alpha14",
+    "Platformus.Globalization.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.Globalization.Frontend": "1.0.0-alpha14",
+    "Platformus.Menus.Backend": "1.0.0-alpha14",
+    "Platformus.Menus.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.Menus.Frontend": "1.0.0-alpha14",
+    "Platformus.Security.Backend": "1.0.0-alpha14",
+    "Platformus.Security.Data.EntityFramework.Sqlite": "1.0.0-alpha14",
+    "Platformus.WebApplication": "1.0.0-alpha14"
   },
   "frameworks": {
     "netcoreapp1.1": {}
   },
   "publishOptions": {
     "include": [
+      "Bundles",
+      "Scripts",
+      "Styles",
       "Views",
       "wwwroot",
       "config.json",
@@ -50,13 +55,5 @@
   },
   "runtimeOptions": {
     "gcServer": true
-  },
-  "scripts": {
-    "precompile": [
-      "dotnet bundle"
-    ]
-  },
-  "tools": {
-    "BundlerMinifier.Core": "2.2.306"
   }
 }

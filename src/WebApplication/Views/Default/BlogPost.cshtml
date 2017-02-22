@@ -12,4 +12,7 @@
   <img src="@Html.Raw(this.Model.Properties["Image"].Html)" alt="" />
 </div>
 @Html.Raw(this.Model.Properties["Content"].Html)
+<div class="created">
+  @Model.Properties["Created"].Html
+</div>
 <div class="clear"></div>
