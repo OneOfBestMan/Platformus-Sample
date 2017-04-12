@@ -6,13 +6,13 @@
 
 [Platformus](https://github.com/Platformus/Platformus) is free, open source and cross-platform CMS
 based on ASP.NET Core and [ExtCore framework](https://github.com/ExtCore/ExtCore). It is built using
-the best and the most modern tools and languages (Visual Studio 2015, C#, TypeScript, SCSS etc).
+the best and the most modern tools and languages (Visual Studio 2017, C#, TypeScript, SCSS etc).
 Join our team!
 
 Please take a look at this sample.
 
 You can also download our [ready to use sample](http://platformus.net/files/Platformus-Sample-1.0.0-alpha17.zip).
-It contains everything you need to run Platformus-based web application from Visual Studio 2015, including SQLite
+It contains everything you need to run Platformus-based web application from Visual Studio 2017, including SQLite
 database with the test data.
 
 ### Backend Screenshots
@@ -40,3 +40,5 @@ Sources on GitHub: https://github.com/Platformus/Platformus
 Website: http://platformus.net/ (under construction)
 
 Docs: http://docs.platformus.net/ (under construction)
+
+Author: http://sikorsky.pro/
