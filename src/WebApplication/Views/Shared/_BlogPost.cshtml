@@ -4,12 +4,12 @@
 <div class="blog-post">
   <div class="image">
     <a href="/@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName@Model.Url">
-      <img src="@Html.Raw(this.Model.Properties["Image"].Html)" alt="" />
+      <img src="@Html.Raw(this.Model.Image)" alt="" />
     </a>
   </div>
-  <a href="/@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName@Model.Url">@Html.Raw(@Model.Properties["Preview"].Html)</a>
+  <a href="/@System.Globalization.CultureInfo.CurrentCulture.TwoLetterISOLanguageName@Model.Url">@Html.Raw(@Model.Preview)</a>
   <div class="created">
-    @Model.Properties["Created"].Html
+    @Model.Created
   </div>
   <div class="clear"></div>
 </div>

@@ -1,0 +1,12 @@
+﻿@* Copyright © 2015 Dmitry Sikorsky. All rights reserved. *@
+@* Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information. *@
+@model dynamic
+@{
+  this.ViewBag.Title = this.Model.Page.Title;
+  this.ViewBag.MetaKeywords = this.Model.Page.MetaKeywords;
+  this.ViewBag.MetaDescription = this.Model.Page.MetaDescription;
+}
+
+<h1>@Model.Page.Title</h1>
+@Html.Raw(this.Model.Page.Content)
+@await Component.InvokeAsync("Form", new { code = "Feedback" })

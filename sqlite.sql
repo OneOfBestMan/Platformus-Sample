@@ -1,611 +1,647 @@
 BEGIN TRANSACTION;
-CREATE TABLE `Variables` (
-	`Id`	INTEGER NOT NULL CONSTRAINT "PK_Variable" PRIMARY KEY AUTOINCREMENT,
-	`Code`	TEXT,
-	`ConfigurationId`	INTEGER NOT NULL,
-	`Name`	TEXT,
-	`Position`	INTEGER,
-	`Value`	TEXT,
-	CONSTRAINT "FK_Variable_Configuration_ConfigurationId" FOREIGN KEY(`ConfigurationId`) REFERENCES "Configurations" ( "Id" )
+CREATE TABLE "Variables" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Variable" PRIMARY KEY AUTOINCREMENT,
+	"ConfigurationId" INTEGER NOT NULL,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Value" TEXT NOT NULL,
+	"Position" INTEGER,
+	CONSTRAINT "FK_Variable_Configuration_ConfigurationId" FOREIGN KEY("ConfigurationId") REFERENCES "Configurations" ( "Id" )
 );
-INSERT INTO `Variables` VALUES (1,'SmtpServer',1,'SMTP server',1,'test');
-INSERT INTO `Variables` VALUES (2,'SmtpPort',1,'SMTP port',2,'25');
-INSERT INTO `Variables` VALUES (3,'SmtpLogin',1,'SMTP login',3,'test');
-INSERT INTO `Variables` VALUES (4,'SmtpPassword',1,'SMTP password',4,'test');
-INSERT INTO `Variables` VALUES (5,'SmtpSenderEmail',1,'SMTP sender email',5,'test');
-INSERT INTO `Variables` VALUES (6,'SmtpSenderName',1,'SMTP sender name',6,'test');
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (1,1,'SmtpServer','SMTP server','test',1);
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (2,1,'SmtpPort','SMTP port','25',2);
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (3,1,'SmtpLogin','SMTP login','test',3);
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (4,1,'SmtpPassword','SMTP password','test',4);
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (5,1,'SmtpSenderEmail','SMTP sender email','test',5);
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (6,1,'SmtpSenderName','SMTP sender name','test',6);
 CREATE TABLE "Users" (
-	`Id`	INTEGER NOT NULL CONSTRAINT "PK_User" PRIMARY KEY AUTOINCREMENT,
-	`Created`	INTEGER NOT NULL,
-	`Name`	TEXT
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_User" PRIMARY KEY AUTOINCREMENT,
+	"Name" TEXT NOT NULL,
+	"Created" INTEGER NOT NULL
 );
-INSERT INTO `Users` VALUES (1,1441274400,'Administrator');
+INSERT INTO `Users` (Id,Name,Created) VALUES (1,'Administrator',1441274400);
 CREATE TABLE "UserRoles" (
-    "UserId" INTEGER NOT NULL,
-    "RoleId" INTEGER NOT NULL,
-    CONSTRAINT "PK_UserRole" PRIMARY KEY ("UserId", "RoleId"),
-    CONSTRAINT "FK_UserRole_Role_RoleId" FOREIGN KEY ("RoleId") REFERENCES "Roles" ("Id"),
-    CONSTRAINT "FK_UserRole_User_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id")
+	"UserId" INTEGER NOT NULL,
+	"RoleId" INTEGER NOT NULL,
+	CONSTRAINT "PK_UserRole" PRIMARY KEY ("UserId", "RoleId"),
+	CONSTRAINT "FK_UserRole_User_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id"),
+	CONSTRAINT "FK_UserRole_Role_RoleId" FOREIGN KEY ("RoleId") REFERENCES "Roles" ("Id")
 );
-INSERT INTO `UserRoles` VALUES (1,1);
+INSERT INTO `UserRoles` (UserId,RoleId) VALUES (1,1);
 CREATE TABLE "Tabs" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Tab" PRIMARY KEY AUTOINCREMENT,
-    "ClassId" INTEGER NOT NULL,
-    "Name" TEXT,
-    "Position" INTEGER
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Tab" PRIMARY KEY AUTOINCREMENT,
+	"ClassId" INTEGER NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER,
+	CONSTRAINT "FK_Tab_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ( "Id" )
 );
-INSERT INTO `Tabs` VALUES (1,1,'SEO',100);
-INSERT INTO `Tabs` VALUES (2,3,'Features',1);
-CREATE TABLE "Configurations" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Configuration" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "Name" TEXT
+INSERT INTO `Tabs` (Id,ClassId,Name,Position) VALUES (1,1,'SEO',100);
+INSERT INTO `Tabs` (Id,ClassId,Name,Position) VALUES (2,3,'Features',10);
+CREATE TABLE "SerializedObjects" (
+	"CultureId" INTEGER NOT NULL,
+	"ObjectId" INTEGER NOT NULL,
+	"UrlPropertyStringValue" TEXT,
+	"SerializedProperties" TEXT,
+	CONSTRAINT "PK_SerializedObject" PRIMARY KEY("CultureId","ObjectId"),
+	CONSTRAINT "FK_SerializedObject_Culture_CultureId" FOREIGN KEY("CultureId") REFERENCES "Cultures"("Id"),
+	CONSTRAINT "FK_SerializedObject_Object_ObjectId" FOREIGN KEY("ObjectId") REFERENCES "Objects"("Id")
 );
-INSERT INTO `Configurations` VALUES (1,'Email','Email');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,1,'/','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>This is a demo website running on Platformus CMS.</p>\r\n<p>You can manage it using the <a href=\"/backend/\">backend</a>.</p>\r\n<p>Email: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Password: admin</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Platformus CMS demo website","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"This is a demo website running on Platformus CMS.","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"CMS, Platformus","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,1,'/','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Это демонстрационный сайт, работающий на CMS Platforms.</p>\r\n<p>Вы можете управлять им с помощью <a href=\"/backend/\">бекенда</a>.</p>\r\n<p>Электронная почта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Демонстрационный веб-сайт на CMS Platforms","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Это демонстрационный веб-сайт, работающий на CMS Platforms.","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"CMS, Platformus","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,1,'/','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>\r\n<p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href=\"/backend/\">бекенду</a>.</p>\r\n<p>Електронна пошта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Демонстраційний веб-сайт на CMS Platformus","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Це демонстраційний веб-сайт, що працює на CMS Platformus.","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"CMS, Platformus","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,2,'/blog','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Blog posts.</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Blog","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,2,'/blog','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Посты блога.</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Блог","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,2,'/blog','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пости блогу:</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Блог","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,3,'/contacts','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Website: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/contacts","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Contacts","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,3,'/contacts','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/contacts","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Контакты","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,3,'/contacts','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/contacts","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Контакти","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,4,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Modular structure","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"yes","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,4,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Модульная структура","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"да","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,4,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Модульна структура","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"так","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"User interface localization","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"no","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локализация пользовательского интерфейса","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"нет","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локалізація інтерфейсу користувача","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"ні","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,6,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Content localization","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"yes","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,6,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локализация контета","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"да","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,6,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локалізація контенту","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"так","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,7,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Flexible content management","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"yes","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,7,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Гибкое управление содержимым","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"да","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,7,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Гнучке управління контентом","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"так","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,8,'/features','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>The main features of the Platformus CMS:</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/features","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Features","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,8,'/features','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Главные особенности CMS Platformus:</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/features","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Особенности","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,8,'/features','[{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Основні особливості CMS Platformus:</p>","DateTimeValue":null},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/features","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Особливості","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,9,'/blog/post-1','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Post 1</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Post 1 content</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-01T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-1","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Post 1","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,9,'/blog/post-1','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пост 1</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Содержимое поста 1</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-01T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-1","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Пост 1","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,9,'/blog/post-1','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пост 1</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Зміст посту 1</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-01T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-1","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Пост 1","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,10,'/blog/post-2','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Post 2</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Post 2 content</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-02T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-2","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Post 2","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,10,'/blog/post-2','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пост 2</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Содержимое поста 2</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-02T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-2","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Пост 2","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,10,'/blog/post-2','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пост 2</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Зміст посту 2</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-02T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-2","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Пост 2","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (2,11,'/blog/post-3','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Post 3</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Post 3 content</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-03T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-3","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Post 3","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (3,11,'/blog/post-3','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пост 3</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Содержимое поста 3</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-03T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-3","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Пост 3","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,UrlPropertyStringValue,SerializedProperties) VALUES (4,11,'/blog/post-3','[{"Member":{"Code":"Image","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/images/objects/img.png","DateTimeValue":null},{"Member":{"Code":"Preview","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Пост 3</p>","DateTimeValue":null},{"Member":{"Code":"Content","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"<p>Зміст посту 3</p>","DateTimeValue":null},{"Member":{"Code":"Created","PropertyDataTypeStorageDataType":"datetime"},"IntegerValue":null,"DecimalValue":null,"StringValue":null,"DateTimeValue":"2017-05-03T00:00:00"},{"Member":{"Code":"Url","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"/blog/post-3","DateTimeValue":null},{"Member":{"Code":"Title","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Пост 3","DateTimeValue":null},{"Member":{"Code":"MetaDescription","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null},{"Member":{"Code":"MetaKeywords","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"","DateTimeValue":null}]');
+CREATE TABLE "SerializedMenus" (
+	"CultureId" INTEGER NOT NULL,
+	"MenuId" INTEGER NOT NULL,
+	"Code" TEXT NOT NULL,
+	"SerializedMenuItems" TEXT,
+	CONSTRAINT "PK_SerializedMenu" PRIMARY KEY("CultureId","MenuId"),
+	CONSTRAINT "FK_SerializedMenu_Culture_CultureId" FOREIGN KEY("CultureId") REFERENCES "Cultures"("Id"),
+	CONSTRAINT "FK_SerializedMenu_Menu_MenuId" FOREIGN KEY("MenuId") REFERENCES "Menus"("Id")
+);
+INSERT INTO `SerializedMenus` (CultureId,MenuId,Code,SerializedMenuItems) VALUES (2,1,'Main','[{"MenuItemId":1,"Name":"Home","Url":"/","Position":1,"SerializedMenuItems":null},{"MenuItemId":2,"Name":"Features","Url":"/features","Position":2,"SerializedMenuItems":null},{"MenuItemId":3,"Name":"Blog","Url":"/blog","Position":3,"SerializedMenuItems":null},{"MenuItemId":4,"Name":"Contacts","Url":"/contacts","Position":4,"SerializedMenuItems":null}]');
+INSERT INTO `SerializedMenus` (CultureId,MenuId,Code,SerializedMenuItems) VALUES (3,1,'Main','[{"MenuItemId":1,"Name":"Главная","Url":"/","Position":1,"SerializedMenuItems":null},{"MenuItemId":2,"Name":"Особенности","Url":"/features","Position":2,"SerializedMenuItems":null},{"MenuItemId":3,"Name":"Блог","Url":"/blog","Position":3,"SerializedMenuItems":null},{"MenuItemId":4,"Name":"Контакты","Url":"/contacts","Position":4,"SerializedMenuItems":null}]');
+INSERT INTO `SerializedMenus` (CultureId,MenuId,Code,SerializedMenuItems) VALUES (4,1,'Main','[{"MenuItemId":1,"Name":"Головна","Url":"/","Position":1,"SerializedMenuItems":null},{"MenuItemId":2,"Name":"Особливості","Url":"/features","Position":2,"SerializedMenuItems":null},{"MenuItemId":3,"Name":"Блог","Url":"/blog","Position":3,"SerializedMenuItems":null},{"MenuItemId":4,"Name":"Контакти","Url":"/contacts","Position":4,"SerializedMenuItems":null}]');
+CREATE TABLE "SerializedForms" (
+	"CultureId" INTEGER NOT NULL,
+	"FormId" INTEGER NOT NULL,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"SerializedFields" TEXT,
+	CONSTRAINT "PK_SerializedForm" PRIMARY KEY("CultureId","FormId"),
+	CONSTRAINT "FK_SerializedForm_Culture_CultureId" FOREIGN KEY("CultureId") REFERENCES "Cultures"("Id"),
+	CONSTRAINT "FK_SerializedForm_Form_FormId" FOREIGN KEY("FormId") REFERENCES "Forms"("Id")
+);
+INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (2,1,'Feedback','Feedback','[{"FieldId":1,"FieldTypeCode":"TextBox","Name":"Your name","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Name":"Your phone","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Name":"Your message","Position":3,"SerializedFieldOptions":null}]');
+INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (3,1,'Feedback','Обратная связь','[{"FieldId":1,"FieldTypeCode":"TextBox","Name":"Ваше имя","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Name":"Ваш телефон","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Name":"Ваше сообщение","Position":3,"SerializedFieldOptions":null}]');
+INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (4,1,'Feedback','Зворотний зв’язок','[{"FieldId":1,"FieldTypeCode":"TextBox","Name":"Ваше ім’я","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Name":"Ваш телефон","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Name":"Ваше повідомлення","Position":3,"SerializedFieldOptions":null}]');
 CREATE TABLE "Roles" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Role" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "Name" TEXT,
-    "Position" INTEGER
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Role" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER
 );
-INSERT INTO `Roles` VALUES (1,'Administrator','Administrator',1);
+INSERT INTO `Roles` (Id,Code,Name,Position) VALUES (1,'Administrator','Administrator',1);
 CREATE TABLE "RolePermissions" (
-    "RoleId" INTEGER NOT NULL,
-    "PermissionId" INTEGER NOT NULL,
-    CONSTRAINT "PK_RolePermission" PRIMARY KEY ("RoleId", "PermissionId"),
-    CONSTRAINT "FK_RolePermission_Permission_PermissionId" FOREIGN KEY ("PermissionId") REFERENCES "Permissions" ("Id"),
-    CONSTRAINT "FK_RolePermission_Role_RoleId" FOREIGN KEY ("RoleId") REFERENCES "Roles" ("Id")
+	"RoleId" INTEGER NOT NULL,
+	"PermissionId" INTEGER NOT NULL,
+	CONSTRAINT "PK_RolePermission" PRIMARY KEY ("RoleId", "PermissionId"),
+	CONSTRAINT "FK_RolePermission_Role_RoleId" FOREIGN KEY ("RoleId") REFERENCES "Roles" ("Id"),
+	CONSTRAINT "FK_RolePermission_Permission_PermissionId" FOREIGN KEY ("PermissionId") REFERENCES "Permissions" ("Id")
 );
-INSERT INTO `RolePermissions` VALUES (1,1);
+INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (1,1);
 CREATE TABLE "Relations" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Relation" PRIMARY KEY AUTOINCREMENT,
-    "ForeignId" INTEGER NOT NULL,
-    "MemberId" INTEGER NOT NULL,
-    "PrimaryId" INTEGER NOT NULL,
-    CONSTRAINT "FK_Relation_Object_ForeignId" FOREIGN KEY ("ForeignId") REFERENCES "Objects" ("Id"),
-    CONSTRAINT "FK_Relation_Member_MemberId" FOREIGN KEY ("MemberId") REFERENCES "Members" ("Id"),
-    CONSTRAINT "FK_Relation_Object_PrimaryId" FOREIGN KEY ("PrimaryId") REFERENCES "Objects" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Relation" PRIMARY KEY AUTOINCREMENT,
+	"MemberId" INTEGER NOT NULL,
+	"PrimaryId" INTEGER NOT NULL,
+	"ForeignId" INTEGER NOT NULL,
+	CONSTRAINT "FK_Relation_Member_MemberId" FOREIGN KEY ("MemberId") REFERENCES "Members" ("Id"),
+	CONSTRAINT "FK_Relation_Object_PrimaryId" FOREIGN KEY ("PrimaryId") REFERENCES "Objects" ("Id"),
+	CONSTRAINT "FK_Relation_Object_ForeignId" FOREIGN KEY ("ForeignId") REFERENCES "Objects" ("Id")
 );
-INSERT INTO `Relations` VALUES (1,2,6,8);
-INSERT INTO `Relations` VALUES (2,2,6,9);
-INSERT INTO `Relations` VALUES (3,2,6,10);
-INSERT INTO `Relations` VALUES (4,2,6,11);
-INSERT INTO `Relations` VALUES (5,4,8,3);
-INSERT INTO `Relations` VALUES (6,5,8,3);
-INSERT INTO `Relations` VALUES (7,6,8,3);
+INSERT INTO `Relations` (Id,MemberId,PrimaryId,ForeignId) VALUES (1,11,4,8);
+INSERT INTO `Relations` (Id,MemberId,PrimaryId,ForeignId) VALUES (2,11,5,8);
+INSERT INTO `Relations` (Id,MemberId,PrimaryId,ForeignId) VALUES (3,11,6,8);
+INSERT INTO `Relations` (Id,MemberId,PrimaryId,ForeignId) VALUES (4,11,7,8);
 CREATE TABLE "Properties" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Property" PRIMARY KEY AUTOINCREMENT,
-    "HtmlId" INTEGER NOT NULL,
-    "MemberId" INTEGER NOT NULL,
-    "ObjectId" INTEGER,
-    CONSTRAINT "FK_Property_Dictionary_HtmlId" FOREIGN KEY ("HtmlId") REFERENCES "Dictionaries" ("Id"),
-    CONSTRAINT "FK_Property_Member_MemberId" FOREIGN KEY ("MemberId") REFERENCES "Members" ("Id"),
-    CONSTRAINT "FK_Property_Object_ObjectId" FOREIGN KEY ("ObjectId") REFERENCES "Objects" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Property" PRIMARY KEY AUTOINCREMENT,
+	"ObjectId" INTEGER,
+	"MemberId" INTEGER NOT NULL,
+	"IntegerValue" INTEGER,
+	"DecimalValue" REAL,
+	"StringValueId" INTEGER,
+	"DateTimeValue" TEXT,
+	CONSTRAINT "FK_Property_Object_ObjectId" FOREIGN KEY("ObjectId") REFERENCES "Objects"("Id"),
+	CONSTRAINT "FK_Property_Member_MemberId" FOREIGN KEY("MemberId") REFERENCES "Members"("Id"),
+	CONSTRAINT "FK_Property_Dictionary_StringValueId" FOREIGN KEY("StringValueId") REFERENCES "Dictionaries"("Id")
 );
-INSERT INTO `Properties` VALUES (1,10,4,1);
-INSERT INTO `Properties` VALUES (2,11,1,1);
-INSERT INTO `Properties` VALUES (3,12,2,1);
-INSERT INTO `Properties` VALUES (4,13,3,1);
-INSERT INTO `Properties` VALUES (5,14,5,2);
-INSERT INTO `Properties` VALUES (6,15,1,2);
-INSERT INTO `Properties` VALUES (7,16,2,2);
-INSERT INTO `Properties` VALUES (8,17,3,2);
-INSERT INTO `Properties` VALUES (9,18,7,3);
-INSERT INTO `Properties` VALUES (10,19,1,3);
-INSERT INTO `Properties` VALUES (11,20,2,3);
-INSERT INTO `Properties` VALUES (12,21,3,3);
-INSERT INTO `Properties` VALUES (13,22,9,4);
-INSERT INTO `Properties` VALUES (14,23,10,4);
-INSERT INTO `Properties` VALUES (15,24,11,4);
-INSERT INTO `Properties` VALUES (16,25,1,4);
-INSERT INTO `Properties` VALUES (17,26,2,4);
-INSERT INTO `Properties` VALUES (18,27,3,4);
-INSERT INTO `Properties` VALUES (19,28,9,5);
-INSERT INTO `Properties` VALUES (20,29,10,5);
-INSERT INTO `Properties` VALUES (21,30,11,5);
-INSERT INTO `Properties` VALUES (22,31,1,5);
-INSERT INTO `Properties` VALUES (23,32,2,5);
-INSERT INTO `Properties` VALUES (24,33,3,5);
-INSERT INTO `Properties` VALUES (25,34,9,6);
-INSERT INTO `Properties` VALUES (26,35,10,6);
-INSERT INTO `Properties` VALUES (27,36,11,6);
-INSERT INTO `Properties` VALUES (28,37,1,6);
-INSERT INTO `Properties` VALUES (29,38,2,6);
-INSERT INTO `Properties` VALUES (30,39,3,6);
-INSERT INTO `Properties` VALUES (31,40,12,7);
-INSERT INTO `Properties` VALUES (32,41,1,7);
-INSERT INTO `Properties` VALUES (33,42,2,7);
-INSERT INTO `Properties` VALUES (34,43,3,7);
-INSERT INTO `Properties` VALUES (35,44,13,8);
-INSERT INTO `Properties` VALUES (36,45,14,8);
-INSERT INTO `Properties` VALUES (37,46,13,9);
-INSERT INTO `Properties` VALUES (38,47,14,9);
-INSERT INTO `Properties` VALUES (39,48,13,10);
-INSERT INTO `Properties` VALUES (40,49,14,10);
-INSERT INTO `Properties` VALUES (41,50,13,11);
-INSERT INTO `Properties` VALUES (42,51,14,11);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (1,1,1,NULL,NULL,10,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (2,1,2,NULL,NULL,11,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (3,1,3,NULL,NULL,12,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (4,1,4,NULL,NULL,13,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (5,1,5,NULL,NULL,14,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (6,2,1,NULL,NULL,15,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (7,2,2,NULL,NULL,16,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (8,2,3,NULL,NULL,17,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (9,2,4,NULL,NULL,18,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (10,2,5,NULL,NULL,19,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (11,3,1,NULL,NULL,20,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (12,3,2,NULL,NULL,21,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (13,3,3,NULL,NULL,22,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (14,3,4,NULL,NULL,23,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (15,3,5,NULL,NULL,24,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (16,4,9,NULL,NULL,25,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (17,4,10,NULL,NULL,26,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (18,5,9,NULL,NULL,27,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (19,5,10,NULL,NULL,28,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (20,6,9,NULL,NULL,29,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (21,6,10,NULL,NULL,30,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (22,7,9,NULL,NULL,31,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (23,7,10,NULL,NULL,32,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (24,8,1,NULL,NULL,33,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (25,8,2,NULL,NULL,34,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (26,8,3,NULL,NULL,35,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (27,8,4,NULL,NULL,36,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (28,8,5,NULL,NULL,37,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (29,9,6,NULL,NULL,38,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (30,9,7,NULL,NULL,39,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (31,9,1,NULL,NULL,40,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (32,9,8,NULL,NULL,NULL,'2017-05-01 00:00:00');
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (33,9,2,NULL,NULL,41,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (34,9,3,NULL,NULL,42,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (35,9,4,NULL,NULL,43,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (36,9,5,NULL,NULL,44,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (37,10,6,NULL,NULL,45,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (38,10,7,NULL,NULL,46,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (39,10,1,NULL,NULL,47,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (40,10,8,NULL,NULL,NULL,'2017-05-02 00:00:00');
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (41,10,2,NULL,NULL,48,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (42,10,3,NULL,NULL,49,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (43,10,4,NULL,NULL,50,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (44,10,5,NULL,NULL,51,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (45,11,6,NULL,NULL,52,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (46,11,7,NULL,NULL,53,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (47,11,1,NULL,NULL,54,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (48,11,8,NULL,NULL,NULL,'2017-05-03 00:00:00');
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (49,11,2,NULL,NULL,55,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (50,11,3,NULL,NULL,56,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (51,11,4,NULL,NULL,57,NULL);
+INSERT INTO `Properties` (Id,ObjectId,MemberId,IntegerValue,DecimalValue,StringValueId,DateTimeValue) VALUES (52,11,5,NULL,NULL,58,NULL);
 CREATE TABLE "Permissions" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Permission" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "Name" TEXT,
-    "Position" INTEGER
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Permission" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER
 );
-INSERT INTO `Permissions` VALUES (1,'DoEverything','Do everything',1);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (1,'DoEverything','Do everything',1);
 CREATE TABLE "Objects" (
-	`Id`	INTEGER NOT NULL CONSTRAINT "PK_Object" PRIMARY KEY AUTOINCREMENT,
-	`ClassId`	INTEGER NOT NULL,
-	`ViewName`	TEXT,
-	`Url`	TEXT
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Object" PRIMARY KEY AUTOINCREMENT,
+	"ClassId" INTEGER NOT NULL,
+	CONSTRAINT "FK_Object_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ( "Id" )
 );
-INSERT INTO `Objects` VALUES (1,2,NULL,'/');
-INSERT INTO `Objects` VALUES (2,3,NULL,'/features');
-INSERT INTO `Objects` VALUES (3,4,NULL,'/blog');
-INSERT INTO `Objects` VALUES (4,5,NULL,'/blog/post-1');
-INSERT INTO `Objects` VALUES (5,5,NULL,'/blog/post-2');
-INSERT INTO `Objects` VALUES (6,5,NULL,'/blog/post-3');
-INSERT INTO `Objects` VALUES (7,6,NULL,'/contacts');
-INSERT INTO `Objects` VALUES (8,7,NULL,NULL);
-INSERT INTO `Objects` VALUES (9,7,NULL,NULL);
-INSERT INTO `Objects` VALUES (10,7,NULL,NULL);
-INSERT INTO `Objects` VALUES (11,7,NULL,NULL);
+INSERT INTO `Objects` (Id,ClassId) VALUES (1,2);
+INSERT INTO `Objects` (Id,ClassId) VALUES (2,2);
+INSERT INTO `Objects` (Id,ClassId) VALUES (3,2);
+INSERT INTO `Objects` (Id,ClassId) VALUES (4,5);
+INSERT INTO `Objects` (Id,ClassId) VALUES (5,5);
+INSERT INTO `Objects` (Id,ClassId) VALUES (6,5);
+INSERT INTO `Objects` (Id,ClassId) VALUES (7,5);
+INSERT INTO `Objects` (Id,ClassId) VALUES (8,3);
+INSERT INTO `Objects` (Id,ClassId) VALUES (9,4);
+INSERT INTO `Objects` (Id,ClassId) VALUES (10,4);
+INSERT INTO `Objects` (Id,ClassId) VALUES (11,4);
+CREATE TABLE "Microcontrollers" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Microcontroller" PRIMARY KEY AUTOINCREMENT,
+	"Name" TEXT NOT NULL,
+	"UrlTemplate" TEXT,
+	"ViewName" TEXT NOT NULL,
+	"CSharpClassName" TEXT NOT NULL,
+	"Position" INTEGER
+);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (1,'Default','{*url}','RegularPage','Platformus.Domain.Frontend.DefaultMicrocontroller',100);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (2,'Features','features','FeaturesPage','Platformus.Domain.Frontend.DefaultMicrocontroller',10);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (3,'Blog','blog','BlogPage','Platformus.Domain.Frontend.DefaultMicrocontroller',20);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (4,'Contacts','contacts','ContactsPage','Platformus.Domain.Frontend.DefaultMicrocontroller',30);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (5,'Blog post','blog/{post}','BlogPostPage','Platformus.Domain.Frontend.DefaultMicrocontroller',40);
 CREATE TABLE "Menus" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Menu" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "NameId" INTEGER NOT NULL,
-    CONSTRAINT "FK_Menu_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Menu" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"NameId" INTEGER NOT NULL,
+	CONSTRAINT "FK_Menu_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Menus` VALUES (1,'Main',1);
+INSERT INTO `Menus` (Id,Code,NameId) VALUES (1,'Main',1);
 CREATE TABLE "MenuItems" (
-	`Id`	INTEGER NOT NULL CONSTRAINT "PK_MenuItem" PRIMARY KEY AUTOINCREMENT,
-	`MenuId`	INTEGER,
-	`MenuItemId`	INTEGER,
-	`NameId`	INTEGER NOT NULL,
-	`Position`	INTEGER,
-	`Url`	TEXT,
-	CONSTRAINT "FK_MenuItem_Menu_MenuId" FOREIGN KEY(`MenuId`) REFERENCES "Menus" ( "Id" ),
-	CONSTRAINT "FK_MenuItem_MenuItem_MenuItemId" FOREIGN KEY(`MenuItemId`) REFERENCES "MenuItems" ( "Id" ),
-	CONSTRAINT "FK_MenuItem_Dictionary_NameId" FOREIGN KEY(`NameId`) REFERENCES "Dictionaries" ( "Id" )
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_MenuItem" PRIMARY KEY AUTOINCREMENT,
+	"MenuId" INTEGER,
+	"MenuItemId" INTEGER,
+	"NameId" INTEGER NOT NULL,
+	"Url" TEXT,
+	"Position" INTEGER,
+	CONSTRAINT "FK_MenuItem_Menu_MenuId" FOREIGN KEY("MenuId") REFERENCES "Menus" ( "Id" ),
+	CONSTRAINT "FK_MenuItem_MenuItem_MenuItemId" FOREIGN KEY("MenuItemId") REFERENCES "MenuItems" ( "Id" ),
+	CONSTRAINT "FK_MenuItem_Dictionary_NameId" FOREIGN KEY("NameId") REFERENCES "Dictionaries" ( "Id" )
 );
-INSERT INTO `MenuItems` VALUES (1,1,NULL,2,1,'/');
-INSERT INTO `MenuItems` VALUES (2,1,NULL,3,2,'/features');
-INSERT INTO `MenuItems` VALUES (3,1,NULL,4,3,'/blog');
-INSERT INTO `MenuItems` VALUES (4,1,NULL,5,4,'/contacts');
+INSERT INTO `MenuItems` (Id,MenuId,MenuItemId,NameId,Url,Position) VALUES (1,1,NULL,2,'/',1);
+INSERT INTO `MenuItems` (Id,MenuId,MenuItemId,NameId,Url,Position) VALUES (2,1,NULL,3,'/features',2);
+INSERT INTO `MenuItems` (Id,MenuId,MenuItemId,NameId,Url,Position) VALUES (3,1,NULL,4,'/blog',3);
+INSERT INTO `MenuItems` (Id,MenuId,MenuItemId,NameId,Url,Position) VALUES (4,1,NULL,5,'/contacts',4);
 CREATE TABLE "Members" (
-	`Id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`ClassId`	INTEGER NOT NULL,
-	`Code`	TEXT,
-	`IsPropertyLocalizable`	INTEGER,
-	`IsPropertyVisibleInList`	INTEGER,
-	`IsRelationSingleParent`	INTEGER,
-	`Name`	TEXT,
-	`Position`	INTEGER,
-	`PropertyDataTypeId`	INTEGER,
-	`RelationClassId`	INTEGER,
-	`TabId`	INTEGER,
-	CONSTRAINT "FK_Member_DataType_PropertyDataTypeId" FOREIGN KEY(`PropertyDataTypeId`) REFERENCES "DataTypes" ( "Id" ),
-	CONSTRAINT "FK_Member_Class_RelationClassId" FOREIGN KEY(`RelationClassId`) REFERENCES "Classes" ( "Id" )
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Member" PRIMARY KEY AUTOINCREMENT,
+	"ClassId" INTEGER NOT NULL,
+	"TabId" INTEGER,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER,
+	"PropertyDataTypeId" INTEGER,
+	"IsPropertyLocalizable" INTEGER,
+	"IsPropertyVisibleInList" INTEGER,
+	"RelationClassId" INTEGER,
+	"IsRelationSingleParent" INTEGER,
+	CONSTRAINT "FK_Member_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ( "Id" ),
+	CONSTRAINT "FK_Member_Tab_TabId" FOREIGN KEY("TabId") REFERENCES "Tabs" ( "Id" ),
+	CONSTRAINT "FK_Member_DataType_PropertyDataTypeId" FOREIGN KEY("PropertyDataTypeId") REFERENCES "DataTypes" ( "Id" ),
+	CONSTRAINT "FK_Member_Class_RelationClassId" FOREIGN KEY("RelationClassId") REFERENCES "Classes" ( "Id" )
 );
-INSERT INTO `Members` VALUES (1,1,'Title',1,1,NULL,'Title',100,1,NULL,1);
-INSERT INTO `Members` VALUES (2,1,'MetaDescription',1,NULL,NULL,'META description',101,1,NULL,1);
-INSERT INTO `Members` VALUES (3,1,'MetaKeywords',1,NULL,NULL,'META keywords',102,1,NULL,1);
-INSERT INTO `Members` VALUES (4,2,'Content',1,NULL,NULL,'Content',1,3,NULL,NULL);
-INSERT INTO `Members` VALUES (5,3,'Content',1,NULL,NULL,'Content',1,3,NULL,NULL);
-INSERT INTO `Members` VALUES (6,3,'Features',NULL,NULL,NULL,'Features',50,NULL,7,2);
-INSERT INTO `Members` VALUES (7,4,'Content',1,NULL,NULL,'Content',1,3,NULL,NULL);
-INSERT INTO `Members` VALUES (8,5,'BlogPage',NULL,NULL,1,'Blog page',1,NULL,4,NULL);
-INSERT INTO `Members` VALUES (9,5,'Image',NULL,NULL,NULL,'Image',2,4,NULL,NULL);
-INSERT INTO `Members` VALUES (10,5,'Preview',1,NULL,NULL,'Preview',3,2,NULL,NULL);
-INSERT INTO `Members` VALUES (11,5,'Content',1,NULL,NULL,'Content',4,3,NULL,NULL);
-INSERT INTO `Members` VALUES (12,6,'Content',1,NULL,NULL,'Content',1,3,NULL,NULL);
-INSERT INTO `Members` VALUES (13,7,'Name',1,1,NULL,'Name',1,1,NULL,NULL);
-INSERT INTO `Members` VALUES (14,7,'State',1,NULL,NULL,'State',2,1,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (1,1,NULL,'Content','Content',100,3,1,NULL,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (2,1,1,'Url','URL',200,1,NULL,1,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (3,1,1,'Title','Title',300,1,1,1,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (4,1,1,'MetaDescription','Meta description',400,1,1,NULL,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (5,1,1,'MetaKeywords','Meta keywords',500,1,1,NULL,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (6,4,NULL,'Image','Image',10,4,NULL,NULL,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (7,4,NULL,'Preview','Preview',20,3,1,NULL,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (8,4,NULL,'Created','Created',110,5,1,NULL,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (9,5,NULL,'Name','Name',100,1,1,1,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (10,5,NULL,'State','State',200,1,1,1,NULL,NULL);
+INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (11,3,2,'Features','Features',10,NULL,NULL,NULL,5,NULL);
 CREATE TABLE "Localizations" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Localization" PRIMARY KEY AUTOINCREMENT,
-    "CultureId" INTEGER NOT NULL,
-    "DictionaryId" INTEGER NOT NULL,
-    "Value" TEXT,
-    CONSTRAINT "FK_Localization_Culture_CultureId" FOREIGN KEY ("CultureId") REFERENCES "Cultures" ("Id"),
-    CONSTRAINT "FK_Localization_Dictionary_DictionaryId" FOREIGN KEY ("DictionaryId") REFERENCES "Dictionaries" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Localization" PRIMARY KEY AUTOINCREMENT,
+	"DictionaryId" INTEGER NOT NULL,
+	"CultureId" INTEGER NOT NULL,
+	"Value" TEXT,
+	CONSTRAINT "FK_Localization_Dictionary_DictionaryId" FOREIGN KEY ("DictionaryId") REFERENCES "Dictionaries" ("Id"),
+	CONSTRAINT "FK_Localization_Culture_CultureId" FOREIGN KEY ("CultureId") REFERENCES "Cultures" ("Id")
 );
-INSERT INTO `Localizations` VALUES (1,4,1,'Головне');
-INSERT INTO `Localizations` VALUES (2,3,1,'Главное');
-INSERT INTO `Localizations` VALUES (3,2,1,'Main');
-INSERT INTO `Localizations` VALUES (4,4,2,'Головна');
-INSERT INTO `Localizations` VALUES (5,3,2,'Главная');
-INSERT INTO `Localizations` VALUES (6,2,2,'Home');
-INSERT INTO `Localizations` VALUES (7,4,3,'Особливості');
-INSERT INTO `Localizations` VALUES (8,3,3,'Особенности');
-INSERT INTO `Localizations` VALUES (9,2,3,'Features');
-INSERT INTO `Localizations` VALUES (10,4,4,'Блог');
-INSERT INTO `Localizations` VALUES (11,3,4,'Блог');
-INSERT INTO `Localizations` VALUES (12,2,4,'Blog');
-INSERT INTO `Localizations` VALUES (13,4,5,'Контакти');
-INSERT INTO `Localizations` VALUES (14,3,5,'Контакты');
-INSERT INTO `Localizations` VALUES (15,2,5,'Contacts');
-INSERT INTO `Localizations` VALUES (16,4,6,'Зворотний зв’язок');
-INSERT INTO `Localizations` VALUES (17,3,6,'Обратная связь');
-INSERT INTO `Localizations` VALUES (18,2,6,'Feedback');
-INSERT INTO `Localizations` VALUES (19,4,7,'Ваше ім’я');
-INSERT INTO `Localizations` VALUES (20,3,7,'Ваше имя');
-INSERT INTO `Localizations` VALUES (21,2,7,'Your name');
-INSERT INTO `Localizations` VALUES (22,4,8,'Ваш телефон');
-INSERT INTO `Localizations` VALUES (23,3,8,'Ваш телефон');
-INSERT INTO `Localizations` VALUES (24,2,8,'Your phone');
-INSERT INTO `Localizations` VALUES (25,4,9,'Ваше повідомлення');
-INSERT INTO `Localizations` VALUES (26,3,9,'Ваше сообщение');
-INSERT INTO `Localizations` VALUES (27,2,9,'Your message');
-INSERT INTO `Localizations` VALUES (28,2,10,'<p>This is a demo website running on Platformus CMS.</p>
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (1,1,2,'Main');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (2,1,3,'Главное');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (3,1,4,'Головне');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (4,2,2,'Home');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (5,2,3,'Главная');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (6,2,4,'Головна');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (7,3,2,'Features');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (8,3,3,'Особенности');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (9,3,4,'Особливості');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (10,4,2,'Blog');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (11,4,3,'Блог');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (12,4,4,'Блог');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (13,5,2,'Contacts');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (14,5,3,'Контакты');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (15,5,4,'Контакти');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (16,6,2,'Feedback');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (17,6,3,'Обратная связь');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (18,6,4,'Зворотний зв’язок');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (19,7,2,'Your name');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (20,7,3,'Ваше имя');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (21,7,4,'Ваше ім’я');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (22,8,2,'Your phone');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (23,8,3,'Ваш телефон');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (24,8,4,'Ваш телефон');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (25,9,2,'Your message');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (26,9,3,'Ваше сообщение');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (27,9,4,'Ваше повідомлення');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (28,10,2,'<p>This is a demo website running on Platformus CMS.</p>
 <p>You can manage it using the <a href="/backend/">backend</a>.</p>
 <p>Email: <a href="mailto:admin@platformus.net">admin@platformus.net</a></p>
 <p>Password: admin</p>');
-INSERT INTO `Localizations` VALUES (29,3,10,'<p>Это демонстрационный сайт, работающий на CMS Platforms.</p>
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (29,10,3,'<p>Это демонстрационный сайт, работающий на CMS Platforms.</p>
 <p>Вы можете управлять им с помощью <a href="/backend/">бекенда</a>.</p>
 <p>Электронная почта: <a href="mailto:admin@platformus.net">admin@platformus.net</a></p>
 <p>Пароль: admin</p>');
-INSERT INTO `Localizations` VALUES (30,4,10,'<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (30,10,4,'<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>
 <p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href="/backend/">бекенду</a>.</p>
 <p>Електронна пошта: <a href="mailto:admin@platformus.net">admin@platformus.net</a></p>
 <p>Пароль: admin</p>');
-INSERT INTO `Localizations` VALUES (31,2,11,'Platformus CMS demo website');
-INSERT INTO `Localizations` VALUES (32,3,11,'Демонстрационный веб-сайт на CMS Platforms');
-INSERT INTO `Localizations` VALUES (33,4,11,'Демонстраційний веб-сайт на CMS Platformus');
-INSERT INTO `Localizations` VALUES (34,2,12,'This is a demo website running on Platformus CMS.');
-INSERT INTO `Localizations` VALUES (35,3,12,'Это демонстрационный веб-сайт, работающий на CMS Platforms.');
-INSERT INTO `Localizations` VALUES (36,4,12,'Це демонстраційний веб-сайт, що працює на CMS Platformus.');
-INSERT INTO `Localizations` VALUES (37,2,13,'CMS, Platformus');
-INSERT INTO `Localizations` VALUES (38,3,13,'CMS, Platformus');
-INSERT INTO `Localizations` VALUES (39,4,13,'CMS, Platformus');
-INSERT INTO `Localizations` VALUES (40,2,14,'<p>The main features of the Platformus CMS:</p>');
-INSERT INTO `Localizations` VALUES (41,3,14,'<p>Главные особенности CMS Platformus:</p>');
-INSERT INTO `Localizations` VALUES (42,4,14,'<p>Основні особливості CMS Platformus:</p>');
-INSERT INTO `Localizations` VALUES (43,2,15,'Features');
-INSERT INTO `Localizations` VALUES (44,3,15,'Особенности');
-INSERT INTO `Localizations` VALUES (45,4,15,'Особливості');
-INSERT INTO `Localizations` VALUES (46,2,16,'');
-INSERT INTO `Localizations` VALUES (47,3,16,'');
-INSERT INTO `Localizations` VALUES (48,4,16,'');
-INSERT INTO `Localizations` VALUES (49,2,17,'');
-INSERT INTO `Localizations` VALUES (50,3,17,'');
-INSERT INTO `Localizations` VALUES (51,4,17,'');
-INSERT INTO `Localizations` VALUES (52,2,18,'<p>Only related objects demo.</p>');
-INSERT INTO `Localizations` VALUES (53,3,18,'<p>Только для демонстрации связанных объектов.</p>');
-INSERT INTO `Localizations` VALUES (54,4,18,'<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>');
-INSERT INTO `Localizations` VALUES (55,2,19,'Blog');
-INSERT INTO `Localizations` VALUES (56,3,19,'Блог');
-INSERT INTO `Localizations` VALUES (57,4,19,'Блог');
-INSERT INTO `Localizations` VALUES (58,2,20,'');
-INSERT INTO `Localizations` VALUES (59,3,20,'');
-INSERT INTO `Localizations` VALUES (60,4,20,'');
-INSERT INTO `Localizations` VALUES (61,2,21,'');
-INSERT INTO `Localizations` VALUES (62,3,21,'');
-INSERT INTO `Localizations` VALUES (63,4,21,'');
-INSERT INTO `Localizations` VALUES (64,1,22,'/images/temp/img.png');
-INSERT INTO `Localizations` VALUES (65,2,23,'Post 1');
-INSERT INTO `Localizations` VALUES (66,3,23,'Пост 1');
-INSERT INTO `Localizations` VALUES (67,4,23,'Пост 1');
-INSERT INTO `Localizations` VALUES (68,2,24,'<p>Post 1 content</p>');
-INSERT INTO `Localizations` VALUES (69,3,24,'<p>Содержимое поста 1</p>');
-INSERT INTO `Localizations` VALUES (70,4,24,'<p>Зміст посту 1</p>');
-INSERT INTO `Localizations` VALUES (71,2,25,'Post 1');
-INSERT INTO `Localizations` VALUES (72,3,25,'Пост 1');
-INSERT INTO `Localizations` VALUES (73,4,25,'Пост 1');
-INSERT INTO `Localizations` VALUES (74,2,26,'');
-INSERT INTO `Localizations` VALUES (75,3,26,'');
-INSERT INTO `Localizations` VALUES (76,4,26,'');
-INSERT INTO `Localizations` VALUES (77,2,27,'');
-INSERT INTO `Localizations` VALUES (78,3,27,'');
-INSERT INTO `Localizations` VALUES (79,1,28,'/images/temp/img.png');
-INSERT INTO `Localizations` VALUES (80,2,29,'Post 2');
-INSERT INTO `Localizations` VALUES (81,3,29,'Пост 2');
-INSERT INTO `Localizations` VALUES (82,4,29,'Пост 2');
-INSERT INTO `Localizations` VALUES (83,2,30,'<p>Post 2 content</p>');
-INSERT INTO `Localizations` VALUES (84,3,30,'<p>Содержимое поста 2</p>');
-INSERT INTO `Localizations` VALUES (85,4,30,'<p>Зміст посту 2</p>');
-INSERT INTO `Localizations` VALUES (86,4,27,'');
-INSERT INTO `Localizations` VALUES (87,2,31,'Post 2');
-INSERT INTO `Localizations` VALUES (88,3,31,'Пост 2');
-INSERT INTO `Localizations` VALUES (89,4,31,'Пост 2');
-INSERT INTO `Localizations` VALUES (90,2,32,'');
-INSERT INTO `Localizations` VALUES (91,3,32,'');
-INSERT INTO `Localizations` VALUES (92,4,32,'');
-INSERT INTO `Localizations` VALUES (93,2,33,'');
-INSERT INTO `Localizations` VALUES (94,3,33,'');
-INSERT INTO `Localizations` VALUES (95,4,33,'');
-INSERT INTO `Localizations` VALUES (96,1,34,'/images/temp/img.png');
-INSERT INTO `Localizations` VALUES (97,2,35,'Post 3');
-INSERT INTO `Localizations` VALUES (98,3,35,'Пост 3');
-INSERT INTO `Localizations` VALUES (99,4,35,'Пост 3');
-INSERT INTO `Localizations` VALUES (100,2,36,'<p>Post 3 content</p>');
-INSERT INTO `Localizations` VALUES (101,3,36,'<p>Содержимое поста 3</p>');
-INSERT INTO `Localizations` VALUES (102,4,36,'<p>Зміст посту 3</p>');
-INSERT INTO `Localizations` VALUES (103,2,37,'Post 3');
-INSERT INTO `Localizations` VALUES (104,3,37,'Пост 3');
-INSERT INTO `Localizations` VALUES (105,4,37,'Пост 3');
-INSERT INTO `Localizations` VALUES (106,2,38,'');
-INSERT INTO `Localizations` VALUES (107,3,38,'');
-INSERT INTO `Localizations` VALUES (108,4,38,'');
-INSERT INTO `Localizations` VALUES (109,2,39,'');
-INSERT INTO `Localizations` VALUES (110,3,39,'');
-INSERT INTO `Localizations` VALUES (111,4,39,'');
-INSERT INTO `Localizations` VALUES (112,2,40,'<p>Website: <a href="http://platformus.net/">http://platformus.net/</a></p>
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (31,11,1,'/');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (32,12,2,'Platformus CMS demo website');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (33,12,3,'Демонстрационный веб-сайт на CMS Platforms');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (34,12,4,'Демонстраційний веб-сайт на CMS Platformus');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (35,13,2,'This is a demo website running on Platformus CMS.');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (36,13,3,'Это демонстрационный веб-сайт, работающий на CMS Platforms.');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (37,13,4,'Це демонстраційний веб-сайт, що працює на CMS Platformus.');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (38,14,2,'CMS, Platformus');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (39,14,3,'CMS, Platformus');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (40,14,4,'CMS, Platformus');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (41,15,2,'<p>Blog posts.</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (42,15,3,'<p>Посты блога.</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (43,15,4,'<p>Пости блогу:</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (44,16,1,'/blog');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (45,17,2,'Blog');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (46,17,3,'Блог');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (47,17,4,'Блог');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (48,18,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (49,18,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (50,18,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (51,19,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (52,19,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (53,19,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (54,20,2,'<p>Website: <a href="http://platformus.net/">http://platformus.net/</a></p>
 <p>Git: <a href="https://github.com/Platformus">https://github.com/Platformus</a></p>');
-INSERT INTO `Localizations` VALUES (113,2,41,'Contacts');
-INSERT INTO `Localizations` VALUES (114,3,41,'Контакты');
-INSERT INTO `Localizations` VALUES (115,4,41,'Контакти');
-INSERT INTO `Localizations` VALUES (116,2,42,'');
-INSERT INTO `Localizations` VALUES (117,3,42,'');
-INSERT INTO `Localizations` VALUES (118,4,42,'');
-INSERT INTO `Localizations` VALUES (119,2,43,'');
-INSERT INTO `Localizations` VALUES (120,3,43,'');
-INSERT INTO `Localizations` VALUES (121,3,40,'<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (55,20,3,'<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
 <p>Git: <a href="https://github.com/Platformus">https://github.com/Platformus</a></p>');
-INSERT INTO `Localizations` VALUES (122,4,40,'<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (56,20,4,'<p>Веб-сайт: <a href="http://platformus.net/">http://platformus.net/</a></p>
 <p>Git: <a href="https://github.com/Platformus">https://github.com/Platformus</a></p>');
-INSERT INTO `Localizations` VALUES (123,4,43,'');
-INSERT INTO `Localizations` VALUES (124,2,44,'Modular structure');
-INSERT INTO `Localizations` VALUES (125,3,44,'Модульная структура');
-INSERT INTO `Localizations` VALUES (126,4,44,'Модульна структура');
-INSERT INTO `Localizations` VALUES (127,2,45,'yes');
-INSERT INTO `Localizations` VALUES (128,3,45,'да');
-INSERT INTO `Localizations` VALUES (129,4,45,'так');
-INSERT INTO `Localizations` VALUES (130,2,46,'User interface localization');
-INSERT INTO `Localizations` VALUES (131,3,46,'Локализация пользовательского интерфейса');
-INSERT INTO `Localizations` VALUES (132,4,46,'Локалізація інтерфейсу користувача');
-INSERT INTO `Localizations` VALUES (133,2,47,'no');
-INSERT INTO `Localizations` VALUES (134,3,47,'нет');
-INSERT INTO `Localizations` VALUES (135,4,47,'ні');
-INSERT INTO `Localizations` VALUES (136,2,48,'Content localization');
-INSERT INTO `Localizations` VALUES (137,3,48,'Локализация контета');
-INSERT INTO `Localizations` VALUES (138,4,48,'Локалізація контенту');
-INSERT INTO `Localizations` VALUES (139,2,49,'yes');
-INSERT INTO `Localizations` VALUES (140,3,49,'да');
-INSERT INTO `Localizations` VALUES (141,4,49,'так');
-INSERT INTO `Localizations` VALUES (142,2,50,'Flexible content management');
-INSERT INTO `Localizations` VALUES (143,3,50,'Гибкое управление содержимым');
-INSERT INTO `Localizations` VALUES (144,4,50,'Гнучке управління контентом');
-INSERT INTO `Localizations` VALUES (145,2,51,'yes');
-INSERT INTO `Localizations` VALUES (146,3,51,'да');
-INSERT INTO `Localizations` VALUES (147,4,51,'так');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (57,21,1,'/contacts');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (58,22,2,'Contacts');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (59,22,3,'Контакты');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (60,22,4,'Контакти');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (61,23,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (62,23,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (63,23,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (64,24,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (65,24,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (66,24,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (67,25,2,'Modular structure');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (68,25,3,'Модульная структура');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (69,25,4,'Модульна структура');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (70,26,2,'yes');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (71,26,3,'да');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (72,26,4,'так');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (73,27,2,'User interface localization');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (74,27,3,'Локализация пользовательского интерфейса');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (75,27,4,'Локалізація інтерфейсу користувача');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (76,28,2,'no');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (77,28,3,'нет');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (78,28,4,'ні');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (79,29,2,'Content localization');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (80,29,3,'Локализация контета');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (81,29,4,'Локалізація контенту');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (82,30,2,'yes');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (83,30,3,'да');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (84,30,4,'так');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (85,31,2,'Flexible content management');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (86,31,3,'Гибкое управление содержимым');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (87,31,4,'Гнучке управління контентом');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (88,32,2,'yes');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (89,32,3,'да');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (90,32,4,'так');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (91,33,2,'<p>The main features of the Platformus CMS:</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (92,33,3,'<p>Главные особенности CMS Platformus:</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (93,33,4,'<p>Основні особливості CMS Platformus:</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (94,34,1,'/features');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (95,35,2,'Features');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (96,35,3,'Особенности');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (97,35,4,'Особливості');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (98,36,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (99,36,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (100,36,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (101,37,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (102,37,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (103,37,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (104,38,1,'/images/objects/img.png');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (105,39,2,'<p>Post 1</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (106,39,3,'<p>Пост 1</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (107,39,4,'<p>Пост 1</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (108,40,2,'<p>Post 1 content</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (109,40,3,'<p>Содержимое поста 1</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (110,40,4,'<p>Зміст посту 1</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (111,41,1,'/blog/post-1');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (112,42,2,'Post 1');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (113,42,3,'Пост 1');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (114,42,4,'Пост 1');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (115,43,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (116,43,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (117,43,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (118,44,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (119,44,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (120,44,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (121,45,1,'/images/objects/img.png');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (122,46,2,'<p>Post 2</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (123,46,3,'<p>Пост 2</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (124,46,4,'<p>Пост 2</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (125,47,2,'<p>Post 2 content</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (126,47,3,'<p>Содержимое поста 2</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (127,47,4,'<p>Зміст посту 2</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (128,48,1,'/blog/post-2');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (129,49,2,'Post 2');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (130,49,3,'Пост 2');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (131,49,4,'Пост 2');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (132,50,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (133,50,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (134,50,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (135,51,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (136,51,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (137,51,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (138,52,1,'/images/objects/img.png');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (139,53,2,'<p>Post 3</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (140,53,3,'<p>Пост 3</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (141,53,4,'<p>Пост 3</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (142,54,2,'<p>Post 3 content</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (143,54,3,'<p>Содержимое поста 3</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (144,54,4,'<p>Зміст посту 3</p>');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (145,55,1,'/blog/post-3');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (146,56,2,'Post 3');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (147,56,3,'Пост 3');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (148,56,4,'Пост 3');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (149,57,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (150,57,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (151,57,4,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (152,58,2,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (153,58,3,'');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (154,58,4,'');
 CREATE TABLE "Forms" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Form" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "Email" TEXT,
-    "NameId" INTEGER NOT NULL,
-    CONSTRAINT "FK_Form_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Form" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"NameId" INTEGER NOT NULL,
+	"Email" TEXT NOT NULL,
+	CONSTRAINT "FK_Form_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Forms` VALUES (1,'Feedback','admin@platformus.net',6);
+INSERT INTO `Forms` (Id,Code,NameId,Email) VALUES (1,'Feedback',6,'admin@platformus.net');
 CREATE TABLE "Files" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_File" PRIMARY KEY AUTOINCREMENT,
-    "Name" TEXT,
-    "Size" INTEGER NOT NULL
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_File" PRIMARY KEY AUTOINCREMENT,
+	"Name" TEXT NOT NULL,
+	"Size" INTEGER NOT NULL
 );
 CREATE TABLE "Fields" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Field" PRIMARY KEY AUTOINCREMENT,
-    "FieldTypeId" INTEGER NOT NULL,
-    "FormId" INTEGER NOT NULL,
-    "NameId" INTEGER NOT NULL,
-    "Position" INTEGER,
-    CONSTRAINT "FK_Field_FieldType_FieldTypeId" FOREIGN KEY ("FieldTypeId") REFERENCES "FieldTypes" ("Id"),
-    CONSTRAINT "FK_Field_Form_FormId" FOREIGN KEY ("FormId") REFERENCES "Forms" ("Id"),
-    CONSTRAINT "FK_Field_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Field" PRIMARY KEY AUTOINCREMENT,
+	"FormId" INTEGER NOT NULL,
+	"FieldTypeId" INTEGER NOT NULL,
+	"NameId" INTEGER NOT NULL,
+	"Position" INTEGER,
+	CONSTRAINT "FK_Field_Form_FormId" FOREIGN KEY ("FormId") REFERENCES "Forms" ("Id"),
+	CONSTRAINT "FK_Field_FieldType_FieldTypeId" FOREIGN KEY ("FieldTypeId") REFERENCES "FieldTypes" ("Id"),
+	CONSTRAINT "FK_Field_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Fields` VALUES (1,1,1,7,1);
-INSERT INTO `Fields` VALUES (2,1,1,8,2);
-INSERT INTO `Fields` VALUES (3,2,1,9,3);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,Position) VALUES (1,1,1,7,1);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,Position) VALUES (2,1,1,8,2);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,Position) VALUES (3,1,2,9,3);
 CREATE TABLE "FieldTypes" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_FieldType" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "Name" TEXT,
-    "Position" INTEGER
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_FieldType" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER
 );
-INSERT INTO `FieldTypes` VALUES (1,'TextBox','Text box',1);
-INSERT INTO `FieldTypes` VALUES (2,'TextArea','Text area',2);
-INSERT INTO `FieldTypes` VALUES (3,'DropDownList','Drop down list',3);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (1,'TextBox','Text box',1);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (2,'TextArea','Text area',2);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (3,'DropDownList','Drop down list',3);
 CREATE TABLE "FieldOptions" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_FieldOption" PRIMARY KEY AUTOINCREMENT,
-    "FieldId" INTEGER NOT NULL,
-    "Position" INTEGER,
-    "ValueId" INTEGER NOT NULL,
-    CONSTRAINT "FK_FieldOption_Field_FieldId" FOREIGN KEY ("FieldId") REFERENCES "Fields" ("Id"),
-    CONSTRAINT "FK_FieldOption_Dictionary_ValueId" FOREIGN KEY ("ValueId") REFERENCES "Dictionaries" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_FieldOption" PRIMARY KEY AUTOINCREMENT,
+	"FieldId" INTEGER NOT NULL,
+	"ValueId" INTEGER NOT NULL,
+	"Position" INTEGER,
+	CONSTRAINT "FK_FieldOption_Field_FieldId" FOREIGN KEY ("FieldId") REFERENCES "Fields" ("Id"),
+	CONSTRAINT "FK_FieldOption_Dictionary_ValueId" FOREIGN KEY ("ValueId") REFERENCES "Dictionaries" ("Id")
 );
 CREATE TABLE "Dictionaries" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Dictionary" PRIMARY KEY AUTOINCREMENT
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Dictionary" PRIMARY KEY AUTOINCREMENT
 );
-INSERT INTO `Dictionaries` VALUES (1);
-INSERT INTO `Dictionaries` VALUES (2);
-INSERT INTO `Dictionaries` VALUES (3);
-INSERT INTO `Dictionaries` VALUES (4);
-INSERT INTO `Dictionaries` VALUES (5);
-INSERT INTO `Dictionaries` VALUES (6);
-INSERT INTO `Dictionaries` VALUES (7);
-INSERT INTO `Dictionaries` VALUES (8);
-INSERT INTO `Dictionaries` VALUES (9);
-INSERT INTO `Dictionaries` VALUES (10);
-INSERT INTO `Dictionaries` VALUES (11);
-INSERT INTO `Dictionaries` VALUES (12);
-INSERT INTO `Dictionaries` VALUES (13);
-INSERT INTO `Dictionaries` VALUES (14);
-INSERT INTO `Dictionaries` VALUES (15);
-INSERT INTO `Dictionaries` VALUES (16);
-INSERT INTO `Dictionaries` VALUES (17);
-INSERT INTO `Dictionaries` VALUES (18);
-INSERT INTO `Dictionaries` VALUES (19);
-INSERT INTO `Dictionaries` VALUES (20);
-INSERT INTO `Dictionaries` VALUES (21);
-INSERT INTO `Dictionaries` VALUES (22);
-INSERT INTO `Dictionaries` VALUES (23);
-INSERT INTO `Dictionaries` VALUES (24);
-INSERT INTO `Dictionaries` VALUES (25);
-INSERT INTO `Dictionaries` VALUES (26);
-INSERT INTO `Dictionaries` VALUES (27);
-INSERT INTO `Dictionaries` VALUES (28);
-INSERT INTO `Dictionaries` VALUES (29);
-INSERT INTO `Dictionaries` VALUES (30);
-INSERT INTO `Dictionaries` VALUES (31);
-INSERT INTO `Dictionaries` VALUES (32);
-INSERT INTO `Dictionaries` VALUES (33);
-INSERT INTO `Dictionaries` VALUES (34);
-INSERT INTO `Dictionaries` VALUES (35);
-INSERT INTO `Dictionaries` VALUES (36);
-INSERT INTO `Dictionaries` VALUES (37);
-INSERT INTO `Dictionaries` VALUES (38);
-INSERT INTO `Dictionaries` VALUES (39);
-INSERT INTO `Dictionaries` VALUES (40);
-INSERT INTO `Dictionaries` VALUES (41);
-INSERT INTO `Dictionaries` VALUES (42);
-INSERT INTO `Dictionaries` VALUES (43);
-INSERT INTO `Dictionaries` VALUES (44);
-INSERT INTO `Dictionaries` VALUES (45);
-INSERT INTO `Dictionaries` VALUES (46);
-INSERT INTO `Dictionaries` VALUES (47);
-INSERT INTO `Dictionaries` VALUES (48);
-INSERT INTO `Dictionaries` VALUES (49);
-INSERT INTO `Dictionaries` VALUES (50);
-INSERT INTO `Dictionaries` VALUES (51);
+INSERT INTO `Dictionaries` (Id) VALUES (1);
+INSERT INTO `Dictionaries` (Id) VALUES (2);
+INSERT INTO `Dictionaries` (Id) VALUES (3);
+INSERT INTO `Dictionaries` (Id) VALUES (4);
+INSERT INTO `Dictionaries` (Id) VALUES (5);
+INSERT INTO `Dictionaries` (Id) VALUES (6);
+INSERT INTO `Dictionaries` (Id) VALUES (7);
+INSERT INTO `Dictionaries` (Id) VALUES (8);
+INSERT INTO `Dictionaries` (Id) VALUES (9);
+INSERT INTO `Dictionaries` (Id) VALUES (10);
+INSERT INTO `Dictionaries` (Id) VALUES (11);
+INSERT INTO `Dictionaries` (Id) VALUES (12);
+INSERT INTO `Dictionaries` (Id) VALUES (13);
+INSERT INTO `Dictionaries` (Id) VALUES (14);
+INSERT INTO `Dictionaries` (Id) VALUES (15);
+INSERT INTO `Dictionaries` (Id) VALUES (16);
+INSERT INTO `Dictionaries` (Id) VALUES (17);
+INSERT INTO `Dictionaries` (Id) VALUES (18);
+INSERT INTO `Dictionaries` (Id) VALUES (19);
+INSERT INTO `Dictionaries` (Id) VALUES (20);
+INSERT INTO `Dictionaries` (Id) VALUES (21);
+INSERT INTO `Dictionaries` (Id) VALUES (22);
+INSERT INTO `Dictionaries` (Id) VALUES (23);
+INSERT INTO `Dictionaries` (Id) VALUES (24);
+INSERT INTO `Dictionaries` (Id) VALUES (25);
+INSERT INTO `Dictionaries` (Id) VALUES (26);
+INSERT INTO `Dictionaries` (Id) VALUES (27);
+INSERT INTO `Dictionaries` (Id) VALUES (28);
+INSERT INTO `Dictionaries` (Id) VALUES (29);
+INSERT INTO `Dictionaries` (Id) VALUES (30);
+INSERT INTO `Dictionaries` (Id) VALUES (31);
+INSERT INTO `Dictionaries` (Id) VALUES (32);
+INSERT INTO `Dictionaries` (Id) VALUES (33);
+INSERT INTO `Dictionaries` (Id) VALUES (34);
+INSERT INTO `Dictionaries` (Id) VALUES (35);
+INSERT INTO `Dictionaries` (Id) VALUES (36);
+INSERT INTO `Dictionaries` (Id) VALUES (37);
+INSERT INTO `Dictionaries` (Id) VALUES (38);
+INSERT INTO `Dictionaries` (Id) VALUES (39);
+INSERT INTO `Dictionaries` (Id) VALUES (40);
+INSERT INTO `Dictionaries` (Id) VALUES (41);
+INSERT INTO `Dictionaries` (Id) VALUES (42);
+INSERT INTO `Dictionaries` (Id) VALUES (43);
+INSERT INTO `Dictionaries` (Id) VALUES (44);
+INSERT INTO `Dictionaries` (Id) VALUES (45);
+INSERT INTO `Dictionaries` (Id) VALUES (46);
+INSERT INTO `Dictionaries` (Id) VALUES (47);
+INSERT INTO `Dictionaries` (Id) VALUES (48);
+INSERT INTO `Dictionaries` (Id) VALUES (49);
+INSERT INTO `Dictionaries` (Id) VALUES (50);
+INSERT INTO `Dictionaries` (Id) VALUES (51);
+INSERT INTO `Dictionaries` (Id) VALUES (52);
+INSERT INTO `Dictionaries` (Id) VALUES (53);
+INSERT INTO `Dictionaries` (Id) VALUES (54);
+INSERT INTO `Dictionaries` (Id) VALUES (55);
+INSERT INTO `Dictionaries` (Id) VALUES (56);
+INSERT INTO `Dictionaries` (Id) VALUES (57);
+INSERT INTO `Dictionaries` (Id) VALUES (58);
 CREATE TABLE "DataTypes" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_DataType" PRIMARY KEY AUTOINCREMENT,
-    "JavaScriptEditorClassName" TEXT,
-    "Name" TEXT,
-    "Position" INTEGER
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataType" PRIMARY KEY AUTOINCREMENT,
+	"StorageDataType" TEXT NOT NULL,
+	"JavaScriptEditorClassName" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER
 );
-INSERT INTO `DataTypes` VALUES (1,'singleLinePlainText','Single line plain text',1);
-INSERT INTO `DataTypes` VALUES (2,'multilinePlainText','Multiline plain text',2);
-INSERT INTO `DataTypes` VALUES (3,'html','Html',3);
-INSERT INTO `DataTypes` VALUES (4,'image','Image',4);
+INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Position) VALUES (1,'string','singleLinePlainText','Single line plain text',1);
+INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Position) VALUES (2,'string','multilinePlainText','Multiline plain text',2);
+INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Position) VALUES (3,'string','html','Html',3);
+INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Position) VALUES (4,'string','image','Image',4);
+INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Position) VALUES (5,'datetime','date','Date',5);
 CREATE TABLE "DataSources" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_DataSource" PRIMARY KEY AUTOINCREMENT,
-    "CSharpClassName" TEXT,
-    "ClassId" INTEGER NOT NULL,
-    "Code" TEXT,
-    "Parameters" TEXT,
-    CONSTRAINT "FK_DataSource_Class_ClassId" FOREIGN KEY ("ClassId") REFERENCES "Classes" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataSource" PRIMARY KEY AUTOINCREMENT,
+	"MicrocontrollerId" INTEGER NOT NULL,
+	"Code" TEXT NOT NULL,
+	"CSharpClassName" TEXT NOT NULL,
+	"Parameters" TEXT,
+	CONSTRAINT "FK_DataSource_Microcontroller_MicrocontrollerId" FOREIGN KEY("MicrocontrollerId") REFERENCES "Microcontrollers"("Id")
 );
-INSERT INTO `DataSources` VALUES (1,'Platformus.Domain.DataSources.PrimaryObjectsDataSource',3,'Features',NULL);
-INSERT INTO `DataSources` VALUES (2,'Platformus.Domain.DataSources.ForeignObjectsDataSource',4,'BlogPosts',NULL);
+INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (1,2,'Features','Platformus.Domain.DataSources.PrimaryObjectsDataSource',NULL);
+INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (2,3,'BlogPosts','Platformus.Domain.DataSources.ObjectsDataSource','ClassId=4');
 CREATE TABLE "Cultures" (
-	`Id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`Code`	TEXT,
-	`Name`	TEXT,
-	`IsNeutral`	INTEGER NOT NULL,
-	`IsDefault`	INTEGER NOT NULL
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Culture" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"IsNeutral" INTEGER NOT NULL,
+	"IsDefault" INTEGER NOT NULL
 );
-INSERT INTO `Cultures` VALUES (1,'__','Neutral',1,0);
-INSERT INTO `Cultures` VALUES (2,'en','English',0,1);
-INSERT INTO `Cultures` VALUES (3,'ru','Русский',0,0);
-INSERT INTO `Cultures` VALUES (4,'uk','Українська',0,0);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (1,'__','Neutral',1,0);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (2,'en','English',0,1);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (3,'ru','Русский',0,0);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (4,'uk','Українська',0,0);
 CREATE TABLE "Credentials" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_Credential" PRIMARY KEY AUTOINCREMENT,
-    "CredentialTypeId" INTEGER NOT NULL,
-    "Identifier" TEXT,
-    "Secret" TEXT,
-    "UserId" INTEGER NOT NULL,
-    CONSTRAINT "FK_Credential_CredentialType_CredentialTypeId" FOREIGN KEY ("CredentialTypeId") REFERENCES "CredentialTypes" ("Id"),
-    CONSTRAINT "FK_Credential_User_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id")
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Credential" PRIMARY KEY AUTOINCREMENT,
+	"UserId" INTEGER NOT NULL,
+	"CredentialTypeId" INTEGER NOT NULL,
+	"Identifier" TEXT NOT NULL,
+	"Secret" TEXT,
+	CONSTRAINT "FK_Credential_User_UserId" FOREIGN KEY ("UserId") REFERENCES "Users" ("Id"),
+	CONSTRAINT "FK_Credential_CredentialType_CredentialTypeId" FOREIGN KEY ("CredentialTypeId") REFERENCES "CredentialTypes" ("Id")
 );
-INSERT INTO `Credentials` VALUES (1,1,'admin@platformus.net','21-23-2F-29-7A-57-A5-A7-43-89-4A-0E-4A-80-1F-C3',1);
+INSERT INTO `Credentials` (Id,UserId,CredentialTypeId,Identifier,Secret) VALUES (1,1,1,'admin@platformus.net','21-23-2F-29-7A-57-A5-A7-43-89-4A-0E-4A-80-1F-C3');
 CREATE TABLE "CredentialTypes" (
-    "Id" INTEGER NOT NULL CONSTRAINT "PK_CredentialType" PRIMARY KEY AUTOINCREMENT,
-    "Code" TEXT,
-    "Name" TEXT,
-    "Position" INTEGER
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_CredentialType" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"Position" INTEGER
 );
-INSERT INTO `CredentialTypes` VALUES (1,'Email','Email',1);
+INSERT INTO `CredentialTypes` (Id,Code,Name,Position) VALUES (1,'Email','Email',1);
+CREATE TABLE "Configurations" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Configuration" PRIMARY KEY AUTOINCREMENT,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL
+);
+INSERT INTO `Configurations` (Id,Code,Name) VALUES (1,'Email','Email');
+CREATE TABLE "CompletedForms" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_CompletedForm" PRIMARY KEY AUTOINCREMENT,
+	"FormId" INTEGER NOT NULL,
+	"Created" INTEGER NOT NULL,
+	CONSTRAINT "FK_CompletedForm_Form_FormId" FOREIGN KEY ("FormId") REFERENCES "Forms" ("Id")
+);
+CREATE TABLE "CompletedFields" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_CompletedField" PRIMARY KEY AUTOINCREMENT,
+	"CompletedFormId" INTEGER NOT NULL,
+	"FieldId" INTEGER NOT NULL,
+	"Value" TEXT,
+	CONSTRAINT "FK_CompletedField_CompletedForm_CompletedFormId" FOREIGN KEY ("CompletedFormId") REFERENCES "CompletedForms" ("Id")
+	CONSTRAINT "FK_CompletedField_Field_FieldId" FOREIGN KEY ("FieldId") REFERENCES "Fields" ("Id")
+);
 CREATE TABLE "Classes" (
-	`Id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-	`ClassId`	INTEGER,
-	`IsAbstract`	INTEGER,
-	`IsStandalone`	INTEGER,
-	`Code`	TEXT NOT NULL,
-	`Name`	TEXT NOT NULL,
-	`PluralizedName`	TEXT NOT NULL,
-	`DefaultViewName`	TEXT,
-	CONSTRAINT "FK_Class_Class_ClassId" FOREIGN KEY(`ClassId`) REFERENCES "Classes" ( "Id" )
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Class" PRIMARY KEY AUTOINCREMENT,
+	"ClassId" INTEGER,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	"PluralizedName" TEXT NOT NULL,
+	"IsAbstract" INTEGER NOT NULL,
+	CONSTRAINT "FK_Class_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes"("Id")
 );
-INSERT INTO `Classes` VALUES (1,NULL,1,NULL,'BasePage','Base Page','Base Pages',NULL);
-INSERT INTO `Classes` VALUES (2,1,NULL,1,'IndexPage','Index Page','Index Pages','Index');
-INSERT INTO `Classes` VALUES (3,1,NULL,1,'FeaturesPage','Features Page','Features Pages','Features');
-INSERT INTO `Classes` VALUES (4,1,NULL,1,'BlogPage','Blog Page','Blog Pages','Blog');
-INSERT INTO `Classes` VALUES (5,1,NULL,1,'BlogPostPage','Blog Post Page','Blog Post Pages','BlogPost');
-INSERT INTO `Classes` VALUES (6,1,NULL,1,'ContactsPage','Contacts Page','Contacts Pages','Contacts');
-INSERT INTO `Classes` VALUES (7,NULL,NULL,NULL,'Feature','Feature','Features',NULL);
-CREATE TABLE "CachedObjects" (
-	`CultureId`	INTEGER NOT NULL,
-	`ObjectId`	INTEGER NOT NULL,
-	`CachedDataSources`	TEXT,
-	`CachedProperties`	TEXT,
-	`ClassId`	INTEGER NOT NULL,
-	`ViewName`	TEXT,
-	`Url`	TEXT,
-	CONSTRAINT "PK_CachedObject" PRIMARY KEY(CultureId,ObjectId),
-	CONSTRAINT "FK_CachedObject_Culture_CultureId" FOREIGN KEY(`CultureId`) REFERENCES "Cultures" ( "Id" ),
-	CONSTRAINT "FK_CachedObject_Object_ObjectId" FOREIGN KEY(`ObjectId`) REFERENCES "Objects" ( "Id" )
-);
-INSERT INTO `CachedObjects` VALUES (2,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>This is a demo website running on Platformus CMS.</p>\r\n<p>You can manage it using the <a href=\"/backend/\">backend</a>.</p>\r\n<p>Email: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Password: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Platformus CMS demo website"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"This is a demo website running on Platformus CMS."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
-INSERT INTO `CachedObjects` VALUES (1,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":null},{"PropertyId":2,"MemberCode":"Title","Html":null},{"PropertyId":3,"MemberCode":"MetaDescription","Html":null},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":null}]',2,'Index','/');
-INSERT INTO `CachedObjects` VALUES (3,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>Это демонстрационный сайт, работающий на CMS Platforms.</p>\r\n<p>Вы можете управлять им с помощью <a href=\"/backend/\">бекенда</a>.</p>\r\n<p>Электронная почта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Демонстрационный веб-сайт на CMS Platforms"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"Это демонстрационный веб-сайт, работающий на CMS Platforms."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
-INSERT INTO `CachedObjects` VALUES (4,1,NULL,'[{"PropertyId":1,"MemberCode":"Content","Html":"<p>Це демонстраційний веб-сайт, що працює на CMS Platformus.</p>\r\n<p>Ви можете&nbsp;керувати ним&nbsp;за допомогою <a href=\"/backend/\">бекенду</a>.</p>\r\n<p>Електронна пошта: <a href=\"mailto:admin@platformus.net\">admin@platformus.net</a></p>\r\n<p>Пароль: admin</p>"},{"PropertyId":2,"MemberCode":"Title","Html":"Демонстраційний веб-сайт на CMS Platformus"},{"PropertyId":3,"MemberCode":"MetaDescription","Html":"Це демонстраційний веб-сайт, що працює на CMS Platformus."},{"PropertyId":4,"MemberCode":"MetaKeywords","Html":"CMS, Platformus"}]',2,'Index','/');
-INSERT INTO `CachedObjects` VALUES (2,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Only related objects demo.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Blog"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (1,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":null},{"PropertyId":10,"MemberCode":"Title","Html":null},{"PropertyId":11,"MemberCode":"MetaDescription","Html":null},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":null}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (3,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Только для демонстрации связанных объектов.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (4,3,'[{"DataSourceId":2,"Code":"BlogPosts","CSharpClassName":"Platformus.Domain.DataSources.ForeignObjectsDataSource","Parameters":null}]','[{"PropertyId":9,"MemberCode":"Content","Html":"<p>Лише демонстрація пов&rsquo;язаних об&rsquo;єктів.</p>"},{"PropertyId":10,"MemberCode":"Title","Html":"Блог"},{"PropertyId":11,"MemberCode":"MetaDescription","Html":""},{"PropertyId":12,"MemberCode":"MetaKeywords","Html":""}]',4,'Blog','/blog');
-INSERT INTO `CachedObjects` VALUES (2,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Post 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Post 1 content</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Post 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
-INSERT INTO `CachedObjects` VALUES (1,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":null},{"PropertyId":15,"MemberCode":"Content","Html":null},{"PropertyId":16,"MemberCode":"Title","Html":null},{"PropertyId":17,"MemberCode":"MetaDescription","Html":null},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":null}]',5,'BlogPost','/blog/post-1');
-INSERT INTO `CachedObjects` VALUES (3,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Пост 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Содержимое поста 1</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Пост 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
-INSERT INTO `CachedObjects` VALUES (4,4,NULL,'[{"PropertyId":13,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":14,"MemberCode":"Preview","Html":"Пост 1"},{"PropertyId":15,"MemberCode":"Content","Html":"<p>Зміст посту 1</p>"},{"PropertyId":16,"MemberCode":"Title","Html":"Пост 1"},{"PropertyId":17,"MemberCode":"MetaDescription","Html":""},{"PropertyId":18,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-1');
-INSERT INTO `CachedObjects` VALUES (2,5,NULL,'[{"PropertyId":19,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":20,"MemberCode":"Preview","Html":"Post 2"},{"PropertyId":21,"MemberCode":"Content","Html":"<p>Post 2 content</p>"},{"PropertyId":22,"MemberCode":"Title","Html":"Post 2"},{"PropertyId":23,"MemberCode":"MetaDescription","Html":""},{"PropertyId":24,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-2');
-INSERT INTO `CachedObjects` VALUES (1,5,NULL,'[{"PropertyId":19,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":20,"MemberCode":"Preview","Html":null},{"PropertyId":21,"MemberCode":"Content","Html":null},{"PropertyId":22,"MemberCode":"Title","Html":null},{"PropertyId":23,"MemberCode":"MetaDescription","Html":null},{"PropertyId":24,"MemberCode":"MetaKeywords","Html":null}]',5,'BlogPost','/blog/post-2');
-INSERT INTO `CachedObjects` VALUES (3,5,NULL,'[{"PropertyId":19,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":20,"MemberCode":"Preview","Html":"Пост 2"},{"PropertyId":21,"MemberCode":"Content","Html":"<p>Содержимое поста 2</p>"},{"PropertyId":22,"MemberCode":"Title","Html":"Пост 2"},{"PropertyId":23,"MemberCode":"MetaDescription","Html":""},{"PropertyId":24,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-2');
-INSERT INTO `CachedObjects` VALUES (4,5,NULL,'[{"PropertyId":19,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":20,"MemberCode":"Preview","Html":"Пост 2"},{"PropertyId":21,"MemberCode":"Content","Html":"<p>Зміст посту 2</p>"},{"PropertyId":22,"MemberCode":"Title","Html":"Пост 2"},{"PropertyId":23,"MemberCode":"MetaDescription","Html":""},{"PropertyId":24,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-2');
-INSERT INTO `CachedObjects` VALUES (2,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":"Post 3"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Post 3 content</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Post 3"},{"PropertyId":29,"MemberCode":"MetaDescription","Html":""},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (1,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":null},{"PropertyId":27,"MemberCode":"Content","Html":null},{"PropertyId":28,"MemberCode":"Title","Html":null},{"PropertyId":29,"MemberCode":"MetaDescription","Html":null},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":null}]',5,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (3,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":"Пост 3"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Содержимое поста 3</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Пост 3"},{"PropertyId":29,"MemberCode":"MetaDescription","Html":""},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (4,6,NULL,'[{"PropertyId":25,"MemberCode":"Image","Html":"/images/temp/img.png"},{"PropertyId":26,"MemberCode":"Preview","Html":"Пост 3"},{"PropertyId":27,"MemberCode":"Content","Html":"<p>Зміст посту 3</p>"},{"PropertyId":28,"MemberCode":"Title","Html":"Пост 3"},{"PropertyId":29,"MemberCode":"MetaDescription","Html":""},{"PropertyId":30,"MemberCode":"MetaKeywords","Html":""}]',5,'BlogPost','/blog/post-3');
-INSERT INTO `CachedObjects` VALUES (2,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Website: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Contacts"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
-INSERT INTO `CachedObjects` VALUES (1,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":null},{"PropertyId":32,"MemberCode":"Title","Html":null},{"PropertyId":33,"MemberCode":"MetaDescription","Html":null},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":null}]',6,'Contacts','/contacts');
-INSERT INTO `CachedObjects` VALUES (3,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Контакты"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
-INSERT INTO `CachedObjects` VALUES (4,7,NULL,'[{"PropertyId":31,"MemberCode":"Content","Html":"<p>Веб-сайт: <a href=\"http://platformus.net/\">http://platformus.net/</a></p>\r\n<p>Git: <a href=\"https://github.com/Platformus\">https://github.com/Platformus</a></p>"},{"PropertyId":32,"MemberCode":"Title","Html":"Контакти"},{"PropertyId":33,"MemberCode":"MetaDescription","Html":""},{"PropertyId":34,"MemberCode":"MetaKeywords","Html":""}]',6,'Contacts','/contacts');
-INSERT INTO `CachedObjects` VALUES (2,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":"Modular structure"},{"PropertyId":36,"MemberCode":"State","Html":"yes"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (1,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":null},{"PropertyId":36,"MemberCode":"State","Html":null}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (3,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":"Модульная структура"},{"PropertyId":36,"MemberCode":"State","Html":"да"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (4,8,NULL,'[{"PropertyId":35,"MemberCode":"Name","Html":"Модульна структура"},{"PropertyId":36,"MemberCode":"State","Html":"так"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (2,9,NULL,'[{"PropertyId":37,"MemberCode":"Name","Html":"User interface localization"},{"PropertyId":38,"MemberCode":"State","Html":"no"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (1,9,NULL,'[{"PropertyId":37,"MemberCode":"Name","Html":null},{"PropertyId":38,"MemberCode":"State","Html":null}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (3,9,NULL,'[{"PropertyId":37,"MemberCode":"Name","Html":"Локализация пользовательского интерфейса"},{"PropertyId":38,"MemberCode":"State","Html":"нет"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (4,9,NULL,'[{"PropertyId":37,"MemberCode":"Name","Html":"Локалізація інтерфейсу користувача"},{"PropertyId":38,"MemberCode":"State","Html":"ні"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (2,10,NULL,'[{"PropertyId":39,"MemberCode":"Name","Html":"Content localization"},{"PropertyId":40,"MemberCode":"State","Html":"yes"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (1,10,NULL,'[{"PropertyId":39,"MemberCode":"Name","Html":null},{"PropertyId":40,"MemberCode":"State","Html":null}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (3,10,NULL,'[{"PropertyId":39,"MemberCode":"Name","Html":"Локализация контета"},{"PropertyId":40,"MemberCode":"State","Html":"да"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (4,10,NULL,'[{"PropertyId":39,"MemberCode":"Name","Html":"Локалізація контенту"},{"PropertyId":40,"MemberCode":"State","Html":"так"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (2,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Flexible content management"},{"PropertyId":42,"MemberCode":"State","Html":"yes"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (1,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":null},{"PropertyId":42,"MemberCode":"State","Html":null}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (3,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Гибкое управление содержимым"},{"PropertyId":42,"MemberCode":"State","Html":"да"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (4,11,NULL,'[{"PropertyId":41,"MemberCode":"Name","Html":"Гнучке управління контентом"},{"PropertyId":42,"MemberCode":"State","Html":"так"}]',7,NULL,NULL);
-INSERT INTO `CachedObjects` VALUES (2,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>The main features of the Platformus CMS:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Features"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
-INSERT INTO `CachedObjects` VALUES (1,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":null},{"PropertyId":6,"MemberCode":"Title","Html":null},{"PropertyId":7,"MemberCode":"MetaDescription","Html":null},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":null}]',3,'Features','/features');
-INSERT INTO `CachedObjects` VALUES (3,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>Главные особенности CMS Platformus:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Особенности"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
-INSERT INTO `CachedObjects` VALUES (4,2,'[{"DataSourceId":1,"Code":"Features","CSharpClassName":"Platformus.Domain.DataSources.PrimaryObjectsDataSource","Parameters":null}]','[{"PropertyId":5,"MemberCode":"Content","Html":"<p>Основні особливості CMS Platformus:</p>"},{"PropertyId":6,"MemberCode":"Title","Html":"Особливості"},{"PropertyId":7,"MemberCode":"MetaDescription","Html":""},{"PropertyId":8,"MemberCode":"MetaKeywords","Html":""}]',3,'Features','/features');
-CREATE TABLE "CachedMenus" (
-    "CultureId" INTEGER NOT NULL,
-    "MenuId" INTEGER NOT NULL,
-    "CachedMenuItems" TEXT,
-    "Code" TEXT,
-    CONSTRAINT "PK_CachedMenu" PRIMARY KEY ("CultureId", "MenuId"),
-    CONSTRAINT "FK_CachedMenu_Culture_CultureId" FOREIGN KEY ("CultureId") REFERENCES "Cultures" ("Id"),
-    CONSTRAINT "FK_CachedMenu_Menu_MenuId" FOREIGN KEY ("MenuId") REFERENCES "Menus" ("Id")
-);
-INSERT INTO `CachedMenus` VALUES (2,1,'[{"MenuItemId":1,"Name":"Home","Url":"/","Position":1,"CachedMenuItems":null},{"MenuItemId":2,"Name":"Features","Url":"/features","Position":2,"CachedMenuItems":null},{"MenuItemId":3,"Name":"Blog","Url":"/blog","Position":3,"CachedMenuItems":null},{"MenuItemId":4,"Name":"Contacts","Url":"/contacts","Position":4,"CachedMenuItems":null}]','Main');
-INSERT INTO `CachedMenus` VALUES (1,1,'[{"MenuItemId":1,"Name":null,"Url":"/","Position":1,"CachedMenuItems":null},{"MenuItemId":2,"Name":null,"Url":"/features","Position":2,"CachedMenuItems":null},{"MenuItemId":3,"Name":null,"Url":"/blog","Position":3,"CachedMenuItems":null},{"MenuItemId":4,"Name":null,"Url":"/contacts","Position":4,"CachedMenuItems":null}]','Main');
-INSERT INTO `CachedMenus` VALUES (3,1,'[{"MenuItemId":1,"Name":"Главная","Url":"/","Position":1,"CachedMenuItems":null},{"MenuItemId":2,"Name":"Особенности","Url":"/features","Position":2,"CachedMenuItems":null},{"MenuItemId":3,"Name":"Блог","Url":"/blog","Position":3,"CachedMenuItems":null},{"MenuItemId":4,"Name":"Контакты","Url":"/contacts","Position":4,"CachedMenuItems":null}]','Main');
-INSERT INTO `CachedMenus` VALUES (4,1,'[{"MenuItemId":1,"Name":"Головна","Url":"/","Position":1,"CachedMenuItems":null},{"MenuItemId":2,"Name":"Особливості","Url":"/features","Position":2,"CachedMenuItems":null},{"MenuItemId":3,"Name":"Блог","Url":"/blog","Position":3,"CachedMenuItems":null},{"MenuItemId":4,"Name":"Контакти","Url":"/contacts","Position":4,"CachedMenuItems":null}]','Main');
-CREATE TABLE "CachedForms" (
-    "CultureId" INTEGER NOT NULL,
-    "FormId" INTEGER NOT NULL,
-    "CachedFields" TEXT,
-    "Code" TEXT,
-    "Name" TEXT,
-    CONSTRAINT "PK_CachedForm" PRIMARY KEY ("CultureId", "FormId"),
-    CONSTRAINT "FK_CachedForm_Culture_CultureId" FOREIGN KEY ("CultureId") REFERENCES "Cultures" ("Id"),
-    CONSTRAINT "FK_CachedForm_Form_FormId" FOREIGN KEY ("FormId") REFERENCES "Forms" ("Id")
-);
+INSERT INTO `Classes` (Id,ClassId,Code,Name,PluralizedName,IsAbstract) VALUES (1,NULL,'Page','Page','Pages',1);
+INSERT INTO `Classes` (Id,ClassId,Code,Name,PluralizedName,IsAbstract) VALUES (2,1,'RegularPage','Regular Page','Regular Pages',0);
+INSERT INTO `Classes` (Id,ClassId,Code,Name,PluralizedName,IsAbstract) VALUES (3,1,'FeaturesPage','Features Page','Features Pages',0);
+INSERT INTO `Classes` (Id,ClassId,Code,Name,PluralizedName,IsAbstract) VALUES (4,1,'BlogPostPage','Blog Post Page','Blog Post Pages',0);
+INSERT INTO `Classes` (Id,ClassId,Code,Name,PluralizedName,IsAbstract) VALUES (5,NULL,'Feature','Feature','Features',0);
 COMMIT;
