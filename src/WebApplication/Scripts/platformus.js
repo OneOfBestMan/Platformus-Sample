@@ -12,21 +12,3 @@ function getCulture() {
 
   return "en";
 }
-
-function highlightCulture() {
-  $(".header > .cultures > .culture a[href='/" + getCulture() + "/']").parent().addClass("active");
-}
-
-function highlightMenuItem() {
-  var url = null;
-
-  if (location.href.indexOf("/" + getCulture() + "/") == -1) {
-    url = "/" + getCulture() + "/";
-  }
-
-  else {
-    url = location.href.substring(location.href.indexOf("/" + getCulture() + "/"));
-  }
-
-  $(".header > .menu > .menu-items > .menu-item a[href='" + url + "']").parent().addClass("active");
-}

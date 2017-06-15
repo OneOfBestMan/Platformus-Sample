@@ -6,7 +6,7 @@ CREATE TABLE "Variables" (
 	"Name" TEXT NOT NULL,
 	"Value" TEXT NOT NULL,
 	"Position" INTEGER,
-	CONSTRAINT "FK_Variable_Configuration_ConfigurationId" FOREIGN KEY("ConfigurationId") REFERENCES "Configurations" ( "Id" )
+	CONSTRAINT "FK_Variable_Configuration_ConfigurationId" FOREIGN KEY("ConfigurationId") REFERENCES "Configurations" ("Id")
 );
 INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (1,1,'SmtpServer','SMTP server','test',1);
 INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (2,1,'SmtpPort','SMTP port','25',2);
@@ -14,12 +14,13 @@ INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (3,
 INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (4,1,'SmtpPassword','SMTP password','test',4);
 INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (5,1,'SmtpSenderEmail','SMTP sender email','test',5);
 INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (6,1,'SmtpSenderName','SMTP sender name','test',6);
+INSERT INTO `Variables` (Id,ConfigurationId,Code,Name,Value,Position) VALUES (7,2,'SpecifyCultureInUrl','Specify culture in URL','yes',1);
 CREATE TABLE "Users" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_User" PRIMARY KEY AUTOINCREMENT,
 	"Name" TEXT NOT NULL,
-	"Created" INTEGER NOT NULL
+	"Created" TEXT NOT NULL
 );
-INSERT INTO `Users` (Id,Name,Created) VALUES (1,'Administrator',1441274400);
+INSERT INTO `Users` (Id,Name,Created) VALUES (1,'Administrator','2017-01-01 00:00:00.0000000');
 CREATE TABLE "UserRoles" (
 	"UserId" INTEGER NOT NULL,
 	"RoleId" INTEGER NOT NULL,
@@ -28,12 +29,13 @@ CREATE TABLE "UserRoles" (
 	CONSTRAINT "FK_UserRole_Role_RoleId" FOREIGN KEY ("RoleId") REFERENCES "Roles" ("Id")
 );
 INSERT INTO `UserRoles` (UserId,RoleId) VALUES (1,1);
+INSERT INTO `UserRoles` (UserId,RoleId) VALUES (1,2);
 CREATE TABLE "Tabs" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Tab" PRIMARY KEY AUTOINCREMENT,
 	"ClassId" INTEGER NOT NULL,
 	"Name" TEXT NOT NULL,
 	"Position" INTEGER,
-	CONSTRAINT "FK_Tab_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ( "Id" )
+	CONSTRAINT "FK_Tab_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ("Id")
 );
 INSERT INTO `Tabs` (Id,ClassId,Name,Position) VALUES (1,1,'SEO',100);
 INSERT INTO `Tabs` (Id,ClassId,Name,Position) VALUES (2,3,'Features',10);
@@ -110,7 +112,9 @@ CREATE TABLE "Roles" (
 	"Name" TEXT NOT NULL,
 	"Position" INTEGER
 );
-INSERT INTO `Roles` (Id,Code,Name,Position) VALUES (1,'Administrator','Administrator',1);
+INSERT INTO `Roles` (Id,Code,Name,Position) VALUES (1,'Administrator','Administrator',100);
+INSERT INTO `Roles` (Id,Code,Name,Position) VALUES (2,'ApplicationOwner','Application owner',200);
+INSERT INTO `Roles` (Id,Code,Name,Position) VALUES (3,'ContentManager','Content manager',300);
 CREATE TABLE "RolePermissions" (
 	"RoleId" INTEGER NOT NULL,
 	"PermissionId" INTEGER NOT NULL,
@@ -119,6 +123,11 @@ CREATE TABLE "RolePermissions" (
 	CONSTRAINT "FK_RolePermission_Permission_PermissionId" FOREIGN KEY ("PermissionId") REFERENCES "Permissions" ("Id")
 );
 INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (1,1);
+INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (2,2);
+INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (3,7);
+INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (3,9);
+INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (3,13);
+INSERT INTO `RolePermissions` (RoleId,PermissionId) VALUES (3,14);
 CREATE TABLE "Relations" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Relation" PRIMARY KEY AUTOINCREMENT,
 	"MemberId" INTEGER NOT NULL,
@@ -134,7 +143,7 @@ INSERT INTO `Relations` (Id,MemberId,PrimaryId,ForeignId) VALUES (3,11,6,8);
 INSERT INTO `Relations` (Id,MemberId,PrimaryId,ForeignId) VALUES (4,11,7,8);
 CREATE TABLE "Properties" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Property" PRIMARY KEY AUTOINCREMENT,
-	"ObjectId" INTEGER,
+	"ObjectId" INTEGER NOT NULL,
 	"MemberId" INTEGER NOT NULL,
 	"IntegerValue" INTEGER,
 	"DecimalValue" REAL,
@@ -202,11 +211,28 @@ CREATE TABLE "Permissions" (
 	"Name" TEXT NOT NULL,
 	"Position" INTEGER
 );
-INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (1,'DoEverything','Do everything',1);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (1,'BrowseBackend','Browse backend',1);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (2,'DoEverything','Do everything',100);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (3,'BrowseConfigurations','Browse configurations',200);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (4,'BrowsePermissions','Browse permissions',300);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (5,'BrowseRoles','Browse roles',310);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (6,'BrowseUsers','Browse users',320);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (7,'BrowseFileManager','Browse file manager',400);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (8,'BrowseCultures','Browse cultures',500);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (9,'BrowseObjects','Browse objects',600);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (10,'BrowseDataTypes','Browse data types',610);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (11,'BrowseClasses','Browse classes',620);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (12,'BrowseMicrocontrollers','Browse microcontrollers',630);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (13,'BrowseMenus','Browse menus',700);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (14,'BrowseForms','Browse forms',800);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (15,'BrowseViews','Browse views',900);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (16,'BrowseStyles','Browse styles',910);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (17,'BrowseScripts','Browse scripts',920);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (18,'BrowseBundles','Browse bundles',930);
 CREATE TABLE "Objects" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Object" PRIMARY KEY AUTOINCREMENT,
 	"ClassId" INTEGER NOT NULL,
-	CONSTRAINT "FK_Object_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ( "Id" )
+	CONSTRAINT "FK_Object_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ("Id")
 );
 INSERT INTO `Objects` (Id,ClassId) VALUES (1,2);
 INSERT INTO `Objects` (Id,ClassId) VALUES (2,2);
@@ -225,13 +251,14 @@ CREATE TABLE "Microcontrollers" (
 	"UrlTemplate" TEXT,
 	"ViewName" TEXT NOT NULL,
 	"CSharpClassName" TEXT NOT NULL,
+	"UseCaching" INTEGER NOT NULL,
 	"Position" INTEGER
 );
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (1,'Default','{*url}','RegularPage','Platformus.Domain.Frontend.DefaultMicrocontroller',100);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (2,'Features','features','FeaturesPage','Platformus.Domain.Frontend.DefaultMicrocontroller',10);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (3,'Blog','blog','BlogPage','Platformus.Domain.Frontend.DefaultMicrocontroller',20);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (4,'Contacts','contacts','ContactsPage','Platformus.Domain.Frontend.DefaultMicrocontroller',30);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,Position) VALUES (5,'Blog post','blog/{post}','BlogPostPage','Platformus.Domain.Frontend.DefaultMicrocontroller',40);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (1,'Default','{*url}','RegularPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,100);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (2,'Features','features','FeaturesPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,10);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (3,'Blog','blog','BlogPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,20);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (4,'Contacts','contacts','ContactsPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,30);
+INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (5,'Blog post','blog/{post}','BlogPostPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,40);
 CREATE TABLE "Menus" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Menu" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
@@ -246,9 +273,9 @@ CREATE TABLE "MenuItems" (
 	"NameId" INTEGER NOT NULL,
 	"Url" TEXT,
 	"Position" INTEGER,
-	CONSTRAINT "FK_MenuItem_Menu_MenuId" FOREIGN KEY("MenuId") REFERENCES "Menus" ( "Id" ),
-	CONSTRAINT "FK_MenuItem_MenuItem_MenuItemId" FOREIGN KEY("MenuItemId") REFERENCES "MenuItems" ( "Id" ),
-	CONSTRAINT "FK_MenuItem_Dictionary_NameId" FOREIGN KEY("NameId") REFERENCES "Dictionaries" ( "Id" )
+	CONSTRAINT "FK_MenuItem_Menu_MenuId" FOREIGN KEY("MenuId") REFERENCES "Menus" ("Id"),
+	CONSTRAINT "FK_MenuItem_MenuItem_MenuItemId" FOREIGN KEY("MenuItemId") REFERENCES "MenuItems" ("Id"),
+	CONSTRAINT "FK_MenuItem_Dictionary_NameId" FOREIGN KEY("NameId") REFERENCES "Dictionaries" ("Id")
 );
 INSERT INTO `MenuItems` (Id,MenuId,MenuItemId,NameId,Url,Position) VALUES (1,1,NULL,2,'/',1);
 INSERT INTO `MenuItems` (Id,MenuId,MenuItemId,NameId,Url,Position) VALUES (2,1,NULL,3,'/features',2);
@@ -266,10 +293,10 @@ CREATE TABLE "Members" (
 	"IsPropertyVisibleInList" INTEGER,
 	"RelationClassId" INTEGER,
 	"IsRelationSingleParent" INTEGER,
-	CONSTRAINT "FK_Member_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ( "Id" ),
-	CONSTRAINT "FK_Member_Tab_TabId" FOREIGN KEY("TabId") REFERENCES "Tabs" ( "Id" ),
-	CONSTRAINT "FK_Member_DataType_PropertyDataTypeId" FOREIGN KEY("PropertyDataTypeId") REFERENCES "DataTypes" ( "Id" ),
-	CONSTRAINT "FK_Member_Class_RelationClassId" FOREIGN KEY("RelationClassId") REFERENCES "Classes" ( "Id" )
+	CONSTRAINT "FK_Member_Class_ClassId" FOREIGN KEY("ClassId") REFERENCES "Classes" ("Id"),
+	CONSTRAINT "FK_Member_Tab_TabId" FOREIGN KEY("TabId") REFERENCES "Tabs" ("Id"),
+	CONSTRAINT "FK_Member_DataType_PropertyDataTypeId" FOREIGN KEY("PropertyDataTypeId") REFERENCES "DataTypes" ("Id"),
+	CONSTRAINT "FK_Member_Class_RelationClassId" FOREIGN KEY("RelationClassId") REFERENCES "Classes" ("Id")
 );
 INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (1,1,NULL,'Content','Content',100,3,1,NULL,NULL,NULL);
 INSERT INTO `Members` (Id,ClassId,TabId,Code,Name,Position,PropertyDataTypeId,IsPropertyLocalizable,IsPropertyVisibleInList,RelationClassId,IsRelationSingleParent) VALUES (2,1,1,'Url','URL',200,1,NULL,1,NULL,NULL);
@@ -461,9 +488,10 @@ CREATE TABLE "Forms" (
 	"Code" TEXT NOT NULL,
 	"NameId" INTEGER NOT NULL,
 	"Email" TEXT NOT NULL,
+	"RedirectUrl" TEXT NOT NULL,
 	CONSTRAINT "FK_Form_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Forms` (Id,Code,NameId,Email) VALUES (1,'Feedback',6,'admin@platformus.net');
+INSERT INTO `Forms` (Id,Code,NameId,Email,RedirectUrl) VALUES (1,'Feedback',6,'admin@platformus.net','/contacts');
 CREATE TABLE "Files" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_File" PRIMARY KEY AUTOINCREMENT,
 	"Name" TEXT NOT NULL,
@@ -474,14 +502,16 @@ CREATE TABLE "Fields" (
 	"FormId" INTEGER NOT NULL,
 	"FieldTypeId" INTEGER NOT NULL,
 	"NameId" INTEGER NOT NULL,
+	"IsRequired" INTEGER NOT NULL,
+	"MaxLength" INTEGER,
 	"Position" INTEGER,
 	CONSTRAINT "FK_Field_Form_FormId" FOREIGN KEY ("FormId") REFERENCES "Forms" ("Id"),
 	CONSTRAINT "FK_Field_FieldType_FieldTypeId" FOREIGN KEY ("FieldTypeId") REFERENCES "FieldTypes" ("Id"),
 	CONSTRAINT "FK_Field_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,Position) VALUES (1,1,1,7,1);
-INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,Position) VALUES (2,1,1,8,2);
-INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,Position) VALUES (3,1,2,9,3);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,IsRequired,MaxLength,Position) VALUES (1,1,1,7,1,128,1);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,IsRequired,MaxLength,Position) VALUES (2,1,1,8,1,128,2);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,IsRequired,MaxLength,Position) VALUES (3,1,2,9,1,512,3);
 CREATE TABLE "FieldTypes" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_FieldType" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
@@ -491,6 +521,7 @@ CREATE TABLE "FieldTypes" (
 INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (1,'TextBox','Text box',1);
 INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (2,'TextArea','Text area',2);
 INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (3,'DropDownList','Drop down list',3);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (4,'FileUpload','File upload',4);
 CREATE TABLE "FieldOptions" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_FieldOption" PRIMARY KEY AUTOINCREMENT,
 	"FieldId" INTEGER NOT NULL,
@@ -560,6 +591,29 @@ INSERT INTO `Dictionaries` (Id) VALUES (55);
 INSERT INTO `Dictionaries` (Id) VALUES (56);
 INSERT INTO `Dictionaries` (Id) VALUES (57);
 INSERT INTO `Dictionaries` (Id) VALUES (58);
+CREATE TABLE `DataTypeParameters` (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataTypeParameter" PRIMARY KEY AUTOINCREMENT,
+	"DataTypeId" INT NOT NULL,
+	"JavaScriptEditorClassName" TEXT NOT NULL,
+	"Code" TEXT NOT NULL,
+	"Name" TEXT NOT NULL,
+	CONSTRAINT "FK_DataTypeParameter_DataType_DataTypeId" FOREIGN KEY("DataTypeId") REFERENCES "DataTypes" ("Id")
+);
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (1,1,'temp','IsRequired','Is required');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (2,1,'temp','MaxLength','Max length');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (3,2,'temp','IsRequired','Is required');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (4,2,'temp','MaxLength','Max length');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (5,4,'temp','Width','Width');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (6,4,'temp','Height','Height');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (7,5,'temp','IsRequired','Is required');
+CREATE TABLE "DataTypeParameterValues" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataTypeParameterValue" PRIMARY KEY AUTOINCREMENT,
+	"DataTypeParameterId" INT NOT NULL,
+	"MemberId" INT NOT NULL,
+	"Value" TEXT NOT NULL,
+	CONSTRAINT "FK_DataTypeParameterValue_DataTypeParameter_DataTypeParameterId" FOREIGN KEY("DataTypeParameterId") REFERENCES `DataTypeParameters` ("Id"),
+	CONSTRAINT "FK_DataTypeParameterValue_Member_MemberId" FOREIGN KEY("MemberId") REFERENCES "Members" ("Id")
+);
 CREATE TABLE "DataTypes" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataType" PRIMARY KEY AUTOINCREMENT,
 	"StorageDataType" TEXT NOT NULL,
@@ -616,10 +670,11 @@ CREATE TABLE "Configurations" (
 	"Name" TEXT NOT NULL
 );
 INSERT INTO `Configurations` (Id,Code,Name) VALUES (1,'Email','Email');
+INSERT INTO `Configurations` (Id,Code,Name) VALUES (2,'Globalization','Globalization');
 CREATE TABLE "CompletedForms" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_CompletedForm" PRIMARY KEY AUTOINCREMENT,
 	"FormId" INTEGER NOT NULL,
-	"Created" INTEGER NOT NULL,
+	"Created" TEXT NOT NULL,
 	CONSTRAINT "FK_CompletedForm_Form_FormId" FOREIGN KEY ("FormId") REFERENCES "Forms" ("Id")
 );
 CREATE TABLE "CompletedFields" (

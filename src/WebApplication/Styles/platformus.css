@@ -81,46 +81,6 @@ input, textarea, button {
   height: 100%;
 }
 
-.header .cultures {
-  background: #f0f0f0;
-}
-
-.header .cultures .culture {
-  display: inline-block;
-  padding: 5px 20px;
-}
-
-.header .cultures .culture a {
-  color: #666;
-}
-
-.header .cultures .active a {
-  text-decoration: none;
-}
-
-.header .menu {
-  background: #f04141;
-}
-
-.header .menu > .menu-items > .menu-item {
-  font-size: 20px;
-  line-height: 30px;
-  display: inline-block;
-  padding: 10px 20px;
-}
-
-.header .menu > .menu-items > .menu-item a {
-  color: #fff;
-}
-
-.header .menu > .menu-items > .active {
-  background: #f25454;
-}
-
-.header .menu > .menu-items > .active a {
-  text-decoration: none;
-}
-
 .content {
   padding: 20px 20px 100px;
 }
@@ -147,37 +107,130 @@ input, textarea, button {
   width: 100%;
 }
 
-.field {
-  margin-top: 10px;
+/* Cultures */
+.cultures {
+  background: #f0f0f0;
 }
 
-.field label {
-  display: block;
-  margin-bottom: 1px;
+.cultures__culture {
+  display: inline-block;
+  padding: 5px 20px;
 }
 
-.field input {
+.cultures__culture:hover {
+}
+
+.cultures__culture--active {
+}
+
+.cultures__culture--active:hover {
+}
+
+.cultures__culture-name {
+  color: #666;
+}
+
+.cultures__culture-name:hover {
+  color: #666;
+}
+
+.cultures__culture-name--active {
+  text-decoration: none;
+}
+
+.cultures__culture-name--active:hover {
+}
+
+/* Menu */
+.menu {
+  background: #f04141;
+}
+
+.menu__item {
+  font-size: 20px;
+  line-height: 30px;
+  display: inline-block;
+  padding: 10px 20px;
+}
+
+.menu__item:hover {
+}
+
+.menu__item--active {
+  background: #f25454;
+}
+
+.menu__item--active:hover {
+}
+
+.menu__item-name {
+  color: #fff;
+}
+
+.menu__item-name:hover {
+  color: #fff;
+}
+
+.menu__item-name--active {
+  text-decoration: none;
+}
+
+.menu__item-name--active:hover {
+}
+
+/* Text Box */
+.text-box {
   background: #f0f0f0;
   padding: 5px 10px;
-  width: 400px;
 }
 
-.field textarea {
+/* Text Area */
+.text-area {
   background: #f0f0f0;
-  box-sizing: border-box;
   padding: 5px 10px;
-  width: 100%;
-  height: 100px;
 }
 
-.buttons {
-  margin-top: 20px;
-}
-
-.buttons button {
+/* Button */
+.button {
   background: #f04141;
   color: #fff;
   cursor: pointer;
   display: inline-block;
   padding: 5px 10px;
+}
+
+/* Field */
+.field {
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 1px;
+}
+
+.field__text-box {
+  width: 400px;
+}
+
+.field__text-area {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100px;
+}
+
+/* Form */
+.form {
+}
+
+.form__field {
+  margin-top: 10px;
+}
+
+.form__buttons {
+  margin-top: 20px;
+}
+
+/* Input Validation Error */
+.input-validation-error {
+  background: #ffff96;
 }
