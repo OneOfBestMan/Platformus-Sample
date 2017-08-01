@@ -1,29 +1,53 @@
 ﻿// Copyright © 2015 Dmitry Sikorsky. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
-using System;
+using ExtCore.Data.EntityFramework;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Platformus.WebApplication.Extensions;
 
 namespace WebApplication
 {
-  public class Startup : Platformus.WebApplication.Startup
+  public class Startup
   {
-    public Startup(IServiceProvider serviceProvider)
-      : base(serviceProvider)
+    private IConfigurationRoot configurationRoot;
+    private string extensionsPath;
+
+    public Startup(IHostingEnvironment hostingEnvironment, ILoggerFactory loggerFactory)
     {
-      this.serviceProvider.GetService<ILoggerFactory>().AddConsole();
+      IConfigurationBuilder configurationBuilder = new ConfigurationBuilder()
+        .SetBasePath(hostingEnvironment.ContentRootPath)
+        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+      this.configurationRoot = configurationBuilder.Build();
+      this.extensionsPath = hostingEnvironment.ContentRootPath + this.configurationRoot["Extensions:Path"];
+      loggerFactory.AddConsole();
+      loggerFactory.AddDebug();
     }
 
-    public override void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
-      base.ConfigureServices(services);
+      services.AddPlatformus(this.extensionsPath);
+      services.Configure<StorageContextOptions>(options =>
+        {
+          options.ConnectionString = this.configurationRoot.GetConnectionString("Default");
+        }
+      );
     }
 
-    public override void Configure(IApplicationBuilder applicationBuilder)
+    public void Configure(IApplicationBuilder applicationBuilder, IHostingEnvironment hostingEnvironment)
     {
-      base.Configure(applicationBuilder);
+      if (hostingEnvironment.IsDevelopment())
+      {
+        applicationBuilder.UseDeveloperExceptionPage();
+        applicationBuilder.UseDatabaseErrorPage();
+        applicationBuilder.UseBrowserLink();
+      }
+
+      applicationBuilder.UsePlatformus();
     }
   }
 }

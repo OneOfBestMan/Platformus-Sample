@@ -11,43 +11,37 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="wwwroot/images\temp\img.png" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics" Version="1.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Server.IISIntegration" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="1.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.2" />
-    <PackageReference Include="Platformus.Configurations" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Configurations.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Configurations.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Designers.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Installer" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Domain.Api" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Domain.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Domain.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Domain.Frontend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.FileManager.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.FileManager.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Forms.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Forms.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Forms.Frontend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Globalization.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Globalization.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Globalization.Frontend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Menus.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Menus.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Menus.Frontend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Security.Backend" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.Security.Data.EntityFramework.Sqlite" Version="1.0.0-alpha19" />
-    <PackageReference Include="Platformus.WebApplication" Version="1.0.0-alpha19" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\images\temp\" />
-    <Folder Include="wwwroot\images\objects\" />
-    <Folder Include="wwwroot\images\objects\" />
-    <Folder Include="wwwroot\images\temp\" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
+    <PackageReference Include="Platformus.Configurations" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Configurations.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Configurations.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Designers.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Installer" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Domain.Api" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Domain.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Domain.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Domain.Frontend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.FileManager.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.FileManager.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Forms.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Forms.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Forms.Frontend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Globalization.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Globalization.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Globalization.Frontend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Menus.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Menus.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Menus.Frontend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Security.Backend" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.Security.Data.EntityFramework.Sqlite" Version="1.0.0-alpha20" />
+    <PackageReference Include="Platformus.WebApplication" Version="1.0.0-alpha20" />
   </ItemGroup>
 
 </Project>
