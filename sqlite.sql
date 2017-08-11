@@ -224,7 +224,7 @@ INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (8,'BrowseCultures','Br
 INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (9,'BrowseObjects','Browse objects',600);
 INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (10,'BrowseDataTypes','Browse data types',610);
 INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (11,'BrowseClasses','Browse classes',620);
-INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (12,'BrowseMicrocontrollers','Browse microcontrollers',630);
+INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (12,'BrowseEndpoints','Browse microcontrollers',630);
 INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (13,'BrowseMenus','Browse menus',700);
 INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (14,'BrowseForms','Browse forms',800);
 INSERT INTO `Permissions` (Id,Code,Name,Position) VALUES (15,'BrowseViews','Browse views',900);
@@ -247,20 +247,28 @@ INSERT INTO `Objects` (Id,ClassId) VALUES (8,3);
 INSERT INTO `Objects` (Id,ClassId) VALUES (9,4);
 INSERT INTO `Objects` (Id,ClassId) VALUES (10,4);
 INSERT INTO `Objects` (Id,ClassId) VALUES (11,4);
-CREATE TABLE "Microcontrollers" (
-	"Id" INTEGER NOT NULL CONSTRAINT "PK_Microcontroller" PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE "Endpoints" (
+	"Id" INTEGER NOT NULL CONSTRAINT "PK_Endpoint" PRIMARY KEY AUTOINCREMENT,
 	"Name" TEXT NOT NULL,
 	"UrlTemplate" TEXT,
-	"ViewName" TEXT NOT NULL,
+	"Position" INTEGER,
+	"DisallowAnonymous" INTEGER NOT NULL,
+	"SignInUrl" TEXT,
 	"CSharpClassName" TEXT NOT NULL,
-	"UseCaching" INTEGER NOT NULL,
-	"Position" INTEGER
+	"Parameters" TEXT
 );
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (1,'Default','{*url}','RegularPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,100);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (2,'Features','features','FeaturesPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,10);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (3,'Blog','blog','BlogPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,20);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (4,'Contacts','contacts','ContactsPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,30);
-INSERT INTO `Microcontrollers` (Id,Name,UrlTemplate,ViewName,CSharpClassName,UseCaching,Position) VALUES (5,'Blog post','blog/{post}','BlogPostPage','Platformus.Domain.Frontend.DefaultMicrocontroller',1,40);
+INSERT INTO `Endpoints` (Id,Name,UrlTemplate,Position,DisallowAnonymous,SignInUrl,CSharpClassName,Parameters) VALUES (1,'Default','{*url}',100,0,NULL,'Platformus.Domain.Frontend.DefaultEndpoint','ViewName=RegularPage;UseCaching=true');
+INSERT INTO `Endpoints` (Id,Name,UrlTemplate,Position,DisallowAnonymous,SignInUrl,CSharpClassName,Parameters) VALUES (2,'Features','features',10,0,NULL,'Platformus.Domain.Frontend.DefaultEndpoint','ViewName=FeaturesPage;UseCaching=true');
+INSERT INTO `Endpoints` (Id,Name,UrlTemplate,Position,DisallowAnonymous,SignInUrl,CSharpClassName,Parameters) VALUES (3,'Blog','blog',20,0,NULL,'Platformus.Domain.Frontend.DefaultEndpoint','ViewName=BlogPage;UseCaching=true');
+INSERT INTO `Endpoints` (Id,Name,UrlTemplate,Position,DisallowAnonymous,SignInUrl,CSharpClassName,Parameters) VALUES (4,'Contacts','contacts',30,0,NULL,'Platformus.Domain.Frontend.DefaultEndpoint','ViewName=ContactsPage;UseCaching=true');
+INSERT INTO `Endpoints` (Id,Name,UrlTemplate,Position,DisallowAnonymous,SignInUrl,CSharpClassName,Parameters) VALUES (5,'Blog post','blog/{post}',40,0,NULL,'Platformus.Domain.Frontend.DefaultEndpoint','ViewName=BlogPostPage;UseCaching=true');
+CREATE TABLE "EndpointPermissions" (
+	"EndpointId" INTEGER NOT NULL,
+	"PermissionId" INTEGER NOT NULL,
+	CONSTRAINT "PK_EndpointPermission" PRIMARY KEY ("EndpointId", "PermissionId"),
+	CONSTRAINT "FK_EndpointPermission_Endpoint_EndpointId" FOREIGN KEY ("EndpointId") REFERENCES "Endpoints" ("Id"),
+	CONSTRAINT "FK_EndpointPermission_Permission_PermissionId" FOREIGN KEY ("PermissionId") REFERENCES "Permissions" ("Id")
+);
 CREATE TABLE "Menus" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Menu" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
@@ -603,13 +611,13 @@ CREATE TABLE `DataTypeParameters` (
 	"Name" TEXT NOT NULL,
 	CONSTRAINT "FK_DataTypeParameter_DataType_DataTypeId" FOREIGN KEY("DataTypeId") REFERENCES "DataTypes" ("Id")
 );
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (1,1,'temp','IsRequired','Is required');
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (2,1,'temp','MaxLength','Max length');
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (3,2,'temp','IsRequired','Is required');
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (4,2,'temp','MaxLength','Max length');
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (5,4,'temp','Width','Width');
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (6,4,'temp','Height','Height');
-INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (7,5,'temp','IsRequired','Is required');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (1,1,'checkbox','IsRequired','Is required');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (2,1,'numericTextBox','MaxLength','Max length');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (3,2,'checkbox','IsRequired','Is required');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (4,2,'numericTextBox','MaxLength','Max length');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (5,4,'numericTextBox','Width','Width');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (6,4,'numericTextBox','Height','Height');
+INSERT INTO `DataTypeParameters` (Id,DataTypeId,JavaScriptEditorClassName,Code,Name) VALUES (7,5,'checkbox','IsRequired','Is required');
 CREATE TABLE "DataTypeParameterValues" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataTypeParameterValue" PRIMARY KEY AUTOINCREMENT,
 	"DataTypeParameterId" INT NOT NULL,
@@ -632,19 +640,19 @@ INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Posit
 INSERT INTO `DataTypes` (Id,StorageDataType,JavaScriptEditorClassName,Name,Position) VALUES (5,'datetime','date','Date',5);
 CREATE TABLE "DataSources" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_DataSource" PRIMARY KEY AUTOINCREMENT,
-	"MicrocontrollerId" INTEGER NOT NULL,
+	"EndpointId" INTEGER NOT NULL,
 	"Code" TEXT NOT NULL,
 	"CSharpClassName" TEXT NOT NULL,
 	"Parameters" TEXT,
-	CONSTRAINT "FK_DataSource_Microcontroller_MicrocontrollerId" FOREIGN KEY("MicrocontrollerId") REFERENCES "Microcontrollers"("Id")
+	CONSTRAINT "FK_DataSource_Endpoint_EndpointId" FOREIGN KEY("EndpointId") REFERENCES "Endpoints"("Id")
 );
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (1,1,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (2,2,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (3,2,'Features','Platformus.Domain.DataSources.PrimaryObjectsDataSource',NULL);
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (4,3,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (5,3,'BlogPosts','Platformus.Domain.DataSources.ObjectsDataSource','ClassId=4');
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (6,4,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
-INSERT INTO `DataSources` (Id,MicrocontrollerId,Code,CSharpClassName,Parameters) VALUES (7,5,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (1,1,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (2,2,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (3,2,'Features','Platformus.Domain.DataSources.PrimaryObjectsDataSource',NULL);
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (4,3,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (5,3,'BlogPosts','Platformus.Domain.DataSources.ObjectsDataSource','ClassId=4');
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (6,4,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
+INSERT INTO `DataSources` (Id,EndpointId,Code,CSharpClassName,Parameters) VALUES (7,5,'Page','Platformus.Domain.DataSources.PageDataSource',NULL);
 CREATE TABLE "Cultures" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Culture" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
