@@ -1,0 +1,10 @@
+{
+  "id": "platformus.super",
+  "name": "Extension Bla Bla Bla",
+  "version": "1.0.0-alpha19",
+  "files": [
+	"test1.dll",
+	"test2.dll",
+	"test3.dll"
+  ]
+}

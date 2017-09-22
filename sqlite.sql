@@ -62,9 +62,9 @@ INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringVal
 INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (2,4,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Modular structure","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"yes","DateTimeValue":null}]');
 INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (3,4,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Модульная структура","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"да","DateTimeValue":null}]');
 INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (4,4,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Модульна структура","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"так","DateTimeValue":null}]');
-INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (2,5,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"User interface localization","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"no","DateTimeValue":null}]');
-INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (3,5,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локализация пользовательского интерфейса","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"нет","DateTimeValue":null}]');
-INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (4,5,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локалізація інтерфейсу користувача","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"ні","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (2,5,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"User interface localization","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"yes","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (3,5,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локализация пользовательского интерфейса","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"да","DateTimeValue":null}]');
+INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (4,5,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локалізація інтерфейсу користувача","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"так","DateTimeValue":null}]');
 INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (2,6,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Content localization","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"yes","DateTimeValue":null}]');
 INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (3,6,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локализация контета","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"да","DateTimeValue":null}]');
 INSERT INTO `SerializedObjects` (CultureId,ObjectId,ClassId,UrlPropertyStringValue,SerializedProperties) VALUES (4,6,5,NULL,'[{"Member":{"Code":"Name","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"Локалізація контенту","DateTimeValue":null},{"Member":{"Code":"State","PropertyDataTypeStorageDataType":"string"},"IntegerValue":null,"DecimalValue":null,"StringValue":"так","DateTimeValue":null}]');
@@ -416,9 +416,9 @@ INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (72,26,4,'�
 INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (73,27,2,'User interface localization');
 INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (74,27,3,'Локализация пользовательского интерфейса');
 INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (75,27,4,'Локалізація інтерфейсу користувача');
-INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (76,28,2,'no');
-INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (77,28,3,'нет');
-INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (78,28,4,'ні');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (76,28,2,'yes');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (77,28,3,'да');
+INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (78,28,4,'так');
 INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (79,29,2,'Content localization');
 INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (80,29,3,'Локализация контета');
 INSERT INTO `Localizations` (Id,DictionaryId,CultureId,Value) VALUES (81,29,4,'Локалізація контенту');
@@ -499,11 +499,12 @@ CREATE TABLE "Forms" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Form" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
 	"NameId" INTEGER NOT NULL,
-	"Email" TEXT NOT NULL,
-	"RedirectUrl" TEXT NOT NULL,
+	"ProduceCompletedForms" INTEGER NOT NULL,
+	"CSharpClassName" TEXT NOT NULL,
+	"Parameters" TEXT,
 	CONSTRAINT "FK_Form_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Forms` (Id,Code,NameId,Email,RedirectUrl) VALUES (1,'Feedback',6,'admin@platformus.net','/contacts');
+INSERT INTO `Forms` (Id,Code,NameId,ProduceCompletedForms,CSharpClassName,Parameters) VALUES (1,'Feedback',6,1,'Platformus.Forms.Frontend.FormHandlers.EmailFormHandler','RecipientEmails=test@test.com;RedirectUrl=/');
 CREATE TABLE "Files" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_File" PRIMARY KEY AUTOINCREMENT,
 	"Name" TEXT NOT NULL,
@@ -532,8 +533,10 @@ CREATE TABLE "FieldTypes" (
 );
 INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (1,'TextBox','Text box',1);
 INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (2,'TextArea','Text area',2);
-INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (3,'DropDownList','Drop down list',3);
-INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (4,'FileUpload','File upload',4);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (3,'Checkbox','Checkbox',3);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (4,'RadioButtonList','Radio button list',4);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (5,'DropDownList','Drop down list',5);
+INSERT INTO `FieldTypes` (Id,Code,Name,Position) VALUES (6,'FileUpload','File upload',6);
 CREATE TABLE "FieldOptions" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_FieldOption" PRIMARY KEY AUTOINCREMENT,
 	"FieldId" INTEGER NOT NULL,
@@ -658,12 +661,13 @@ CREATE TABLE "Cultures" (
 	"Code" TEXT NOT NULL,
 	"Name" TEXT NOT NULL,
 	"IsNeutral" INTEGER NOT NULL,
-	"IsDefault" INTEGER NOT NULL
+	"IsDefault" INTEGER NOT NULL,
+	"IsBackendUi" INTEGER NOT NULL
 );
-INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (1,'__','Neutral',1,0);
-INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (2,'en','English',0,1);
-INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (3,'ru','Русский',0,0);
-INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault) VALUES (4,'uk','Українська',0,0);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault,IsBackendUi) VALUES (1,'__','Neutral',1,0,0);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault,IsBackendUi) VALUES (2,'en','English',0,1,1);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault,IsBackendUi) VALUES (3,'ru','Русский',0,0,0);
+INSERT INTO `Cultures` (Id,Code,Name,IsNeutral,IsDefault,IsBackendUi) VALUES (4,'uk','Українська',0,0,0);
 CREATE TABLE "Credentials" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Credential" PRIMARY KEY AUTOINCREMENT,
 	"UserId" INTEGER NOT NULL,
