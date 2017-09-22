@@ -1,14 +1,12 @@
 ﻿{
-  "Data": {
-    "DefaultConnection": {
-      // Please keep in mind that you have to change '\' to '/' on Linux-based systems
-      // Sqlite
-      "ConnectionString": "Data Source=..\\..\\..\\db.sqlite"
-      // SqlServer
-      //"ConnectionString": "Data Source=localhost;Initial Catalog=Platformus;MultipleActiveResultSets=True;Persist Security Info=True;User ID=platformus;Password=?"
-      // PostgreSql
-      //"ConnectionString": "Host=localhost;Port=5432;Database=platformus;Pooling=true;User ID=platformus;Password=?;"
-    }
+  "ConnectionStrings": {
+    // Please keep in mind that you have to change '\' to '/' on Linux-based systems
+    // Sqlite
+    "Default": "Data Source=..\\..\\..\\db.sqlite"
+    // SqlServer
+    //"Default": "Data Source=localhost;Initial Catalog=Platformus;MultipleActiveResultSets=True;Persist Security Info=True;User ID=platformus;Password=?"
+    // PostgreSql
+    //"Default": "Host=localhost;Port=5432;Database=platformus;Pooling=true;User ID=platformus;Password=?;"
   },
   "Extensions": {
     // Please keep in mind that you have to change '\' to '/' on Linux-based systems
