@@ -105,9 +105,9 @@ CREATE TABLE "SerializedForms" (
 	CONSTRAINT "FK_SerializedForm_Culture_CultureId" FOREIGN KEY("CultureId") REFERENCES "Cultures"("Id"),
 	CONSTRAINT "FK_SerializedForm_Form_FormId" FOREIGN KEY("FormId") REFERENCES "Forms"("Id")
 );
-INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (2,1,'Feedback','Feedback','[{"FieldId":1,"FieldTypeCode":"TextBox","Name":"Your name","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Name":"Your phone","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Name":"Your message","Position":3,"SerializedFieldOptions":null}]');
-INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (3,1,'Feedback','Обратная связь','[{"FieldId":1,"FieldTypeCode":"TextBox","Name":"Ваше имя","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Name":"Ваш телефон","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Name":"Ваше сообщение","Position":3,"SerializedFieldOptions":null}]');
-INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (4,1,'Feedback','Зворотний зв’язок','[{"FieldId":1,"FieldTypeCode":"TextBox","Name":"Ваше ім’я","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Name":"Ваш телефон","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Name":"Ваше повідомлення","Position":3,"SerializedFieldOptions":null}]');
+INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (2,1,'Feedback','Feedback','[{"FieldId":1,"FieldTypeCode":"TextBox","Code":"Name","Name":"Your name","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Code":"Phone","Name":"Your phone","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Code":"Message","Name":"Your message","Position":3,"SerializedFieldOptions":null}]');
+INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (3,1,'Feedback','Обратная связь','[{"FieldId":1,"FieldTypeCode":"TextBox","Code":"Name","Name":"Ваше имя","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Code":"Phone","Name":"Ваш телефон","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Code":"Message","Name":"Ваше сообщение","Position":3,"SerializedFieldOptions":null}]');
+INSERT INTO `SerializedForms` (CultureId,FormId,Code,Name,SerializedFields) VALUES (4,1,'Feedback','Зворотний зв’язок','[{"FieldId":1,"FieldTypeCode":"TextBox","Code":"Name","Name":"Ваше ім’я","Position":1,"SerializedFieldOptions":null},{"FieldId":2,"FieldTypeCode":"TextBox","Code":"Phone","Name":"Ваш телефон","Position":2,"SerializedFieldOptions":null},{"FieldId":3,"FieldTypeCode":"TextArea","Code":"Message","Name":"Ваше повідомлення","Position":3,"SerializedFieldOptions":null}]');
 CREATE TABLE "Roles" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Role" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
@@ -514,6 +514,7 @@ CREATE TABLE "Fields" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_Field" PRIMARY KEY AUTOINCREMENT,
 	"FormId" INTEGER NOT NULL,
 	"FieldTypeId" INTEGER NOT NULL,
+	"Code" TEXT NOT NULL,
 	"NameId" INTEGER NOT NULL,
 	"IsRequired" INTEGER NOT NULL,
 	"MaxLength" INTEGER,
@@ -522,9 +523,9 @@ CREATE TABLE "Fields" (
 	CONSTRAINT "FK_Field_FieldType_FieldTypeId" FOREIGN KEY ("FieldTypeId") REFERENCES "FieldTypes" ("Id"),
 	CONSTRAINT "FK_Field_Dictionary_NameId" FOREIGN KEY ("NameId") REFERENCES "Dictionaries" ("Id")
 );
-INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,IsRequired,MaxLength,Position) VALUES (1,1,1,7,1,128,1);
-INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,IsRequired,MaxLength,Position) VALUES (2,1,1,8,1,128,2);
-INSERT INTO `Fields` (Id,FormId,FieldTypeId,NameId,IsRequired,MaxLength,Position) VALUES (3,1,2,9,1,512,3);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,Code,NameId,IsRequired,MaxLength,Position) VALUES (1,1,1,'Name',7,1,128,1);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,Code,NameId,IsRequired,MaxLength,Position) VALUES (2,1,1,'Phone',8,1,128,2);
+INSERT INTO `Fields` (Id,FormId,FieldTypeId,Code,NameId,IsRequired,MaxLength,Position) VALUES (3,1,2,'Message',9,1,512,3);
 CREATE TABLE "FieldTypes" (
 	"Id" INTEGER NOT NULL CONSTRAINT "PK_FieldType" PRIMARY KEY AUTOINCREMENT,
 	"Code" TEXT NOT NULL,
